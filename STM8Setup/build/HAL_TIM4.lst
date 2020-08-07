@@ -1,0 +1,346 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module HAL_TIM4
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _TIM4_TimeBaseInit
+                                     12 	.globl _TIM4_Cmd
+                                     13 	.globl _TIM4_ITConfig
+                                     14 	.globl _TIM4_UpdateDisableConfig
+                                     15 	.globl _TIM4_UpdateRequestConfig
+                                     16 	.globl _TIM4_SelectOnePulseMode
+                                     17 	.globl _TIM4_PrescalerConfig
+                                     18 	.globl _TIM4_ARRPreloadConfig
+                                     19 	.globl _TIM4_GenerateEvent
+                                     20 	.globl _TIM4_SetCounter
+                                     21 	.globl _TIM4_SetAutoreload
+                                     22 	.globl _TIM4_GetCounter
+                                     23 	.globl _TIM4_GetPrescaler
+                                     24 	.globl _TIM4_GetFlagStatus
+                                     25 	.globl _TIM4_ClearFlag
+                                     26 	.globl _TIM4_GetITStatus
+                                     27 	.globl _TIM4_ClearITPendingBit
+                                     28 ;--------------------------------------------------------
+                                     29 ; ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area DATA
+                                     32 ;--------------------------------------------------------
+                                     33 ; ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area INITIALIZED
+                                     36 ;--------------------------------------------------------
+                                     37 ; absolute external ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area DABS (ABS)
+                                     40 
+                                     41 ; default segment ordering for linker
+                                     42 	.area HOME
+                                     43 	.area GSINIT
+                                     44 	.area GSFINAL
+                                     45 	.area CONST
+                                     46 	.area INITIALIZER
+                                     47 	.area CODE
+                                     48 
+                                     49 ;--------------------------------------------------------
+                                     50 ; global & static initialisations
+                                     51 ;--------------------------------------------------------
+                                     52 	.area HOME
+                                     53 	.area GSINIT
+                                     54 	.area GSFINAL
+                                     55 	.area GSINIT
+                                     56 ;--------------------------------------------------------
+                                     57 ; Home
+                                     58 ;--------------------------------------------------------
+                                     59 	.area HOME
+                                     60 	.area HOME
+                                     61 ;--------------------------------------------------------
+                                     62 ; code
+                                     63 ;--------------------------------------------------------
+                                     64 	.area CODE
+                                     65 ;	HAL_TIM4.c: 9: void TIM4_TimeBaseInit(TIM4_Prescaler_TypeDef TIM4_Prescaler, uint8_t TIM4_Period)
+                                     66 ;	-----------------------------------------
+                                     67 ;	 function TIM4_TimeBaseInit
+                                     68 ;	-----------------------------------------
+      000000                         69 _TIM4_TimeBaseInit:
+                                     70 ;	HAL_TIM4.c: 11: TIM4->PSCR = (uint8_t)(TIM4_Prescaler);
+      000000 AE 53 45         [ 2]   71 	ldw	x, #0x5345
+      000003 7B 03            [ 1]   72 	ld	a, (0x03, sp)
+      000005 F7               [ 1]   73 	ld	(x), a
+                                     74 ;	HAL_TIM4.c: 12: TIM4->ARR = (uint8_t)(TIM4_Period);
+      000006 AE 53 46         [ 2]   75 	ldw	x, #0x5346
+      000009 7B 04            [ 1]   76 	ld	a, (0x04, sp)
+      00000B F7               [ 1]   77 	ld	(x), a
+                                     78 ;	HAL_TIM4.c: 13: }
+      00000C 81               [ 4]   79 	ret
+                                     80 ;	HAL_TIM4.c: 15: void TIM4_Cmd(uint8_t NewState)
+                                     81 ;	-----------------------------------------
+                                     82 ;	 function TIM4_Cmd
+                                     83 ;	-----------------------------------------
+      00000D                         84 _TIM4_Cmd:
+                                     85 ;	HAL_TIM4.c: 19: TIM4->CR1 |= TIM4_CR1_CEN;
+      00000D C6 53 40         [ 1]   86 	ld	a, 0x5340
+                                     87 ;	HAL_TIM4.c: 17: if (NewState != 0)
+      000010 0D 03            [ 1]   88 	tnz	(0x03, sp)
+      000012 27 06            [ 1]   89 	jreq	00102$
+                                     90 ;	HAL_TIM4.c: 19: TIM4->CR1 |= TIM4_CR1_CEN;
+      000014 AA 01            [ 1]   91 	or	a, #0x01
+      000016 C7 53 40         [ 1]   92 	ld	0x5340, a
+      000019 81               [ 4]   93 	ret
+      00001A                         94 00102$:
+                                     95 ;	HAL_TIM4.c: 23: TIM4->CR1 &= (uint8_t)(~TIM4_CR1_CEN);
+      00001A A4 FE            [ 1]   96 	and	a, #0xfe
+      00001C C7 53 40         [ 1]   97 	ld	0x5340, a
+                                     98 ;	HAL_TIM4.c: 25: }
+      00001F 81               [ 4]   99 	ret
+                                    100 ;	HAL_TIM4.c: 27: void TIM4_ITConfig(TIM4_IT_TypeDef TIM4_IT, uint8_t NewState)
+                                    101 ;	-----------------------------------------
+                                    102 ;	 function TIM4_ITConfig
+                                    103 ;	-----------------------------------------
+      000020                        104 _TIM4_ITConfig:
+      000020 88               [ 1]  105 	push	a
+                                    106 ;	HAL_TIM4.c: 31: TIM4->IER |= (uint8_t)TIM4_IT;
+      000021 C6 53 41         [ 1]  107 	ld	a, 0x5341
+                                    108 ;	HAL_TIM4.c: 29: if (NewState != 0)
+      000024 0D 05            [ 1]  109 	tnz	(0x05, sp)
+      000026 27 07            [ 1]  110 	jreq	00102$
+                                    111 ;	HAL_TIM4.c: 31: TIM4->IER |= (uint8_t)TIM4_IT;
+      000028 1A 04            [ 1]  112 	or	a, (0x04, sp)
+      00002A C7 53 41         [ 1]  113 	ld	0x5341, a
+      00002D 20 0C            [ 2]  114 	jra	00104$
+      00002F                        115 00102$:
+                                    116 ;	HAL_TIM4.c: 35: TIM4->IER &= (uint8_t)(~TIM4_IT);
+      00002F 88               [ 1]  117 	push	a
+      000030 7B 05            [ 1]  118 	ld	a, (0x05, sp)
+      000032 43               [ 1]  119 	cpl	a
+      000033 6B 02            [ 1]  120 	ld	(0x02, sp), a
+      000035 84               [ 1]  121 	pop	a
+      000036 14 01            [ 1]  122 	and	a, (0x01, sp)
+      000038 C7 53 41         [ 1]  123 	ld	0x5341, a
+      00003B                        124 00104$:
+                                    125 ;	HAL_TIM4.c: 37: }
+      00003B 84               [ 1]  126 	pop	a
+      00003C 81               [ 4]  127 	ret
+                                    128 ;	HAL_TIM4.c: 39: void TIM4_UpdateDisableConfig(uint8_t NewState)
+                                    129 ;	-----------------------------------------
+                                    130 ;	 function TIM4_UpdateDisableConfig
+                                    131 ;	-----------------------------------------
+      00003D                        132 _TIM4_UpdateDisableConfig:
+                                    133 ;	HAL_TIM4.c: 43: TIM4->CR1 |= TIM4_CR1_UDIS;
+      00003D C6 53 40         [ 1]  134 	ld	a, 0x5340
+                                    135 ;	HAL_TIM4.c: 41: if (NewState != 0)
+      000040 0D 03            [ 1]  136 	tnz	(0x03, sp)
+      000042 27 06            [ 1]  137 	jreq	00102$
+                                    138 ;	HAL_TIM4.c: 43: TIM4->CR1 |= TIM4_CR1_UDIS;
+      000044 AA 02            [ 1]  139 	or	a, #0x02
+      000046 C7 53 40         [ 1]  140 	ld	0x5340, a
+      000049 81               [ 4]  141 	ret
+      00004A                        142 00102$:
+                                    143 ;	HAL_TIM4.c: 47: TIM4->CR1 &= (uint8_t)(~TIM4_CR1_UDIS);
+      00004A A4 FD            [ 1]  144 	and	a, #0xfd
+      00004C C7 53 40         [ 1]  145 	ld	0x5340, a
+                                    146 ;	HAL_TIM4.c: 49: }
+      00004F 81               [ 4]  147 	ret
+                                    148 ;	HAL_TIM4.c: 51: void TIM4_UpdateRequestConfig(TIM4_UpdateSource_TypeDef TIM4_UpdateSource)
+                                    149 ;	-----------------------------------------
+                                    150 ;	 function TIM4_UpdateRequestConfig
+                                    151 ;	-----------------------------------------
+      000050                        152 _TIM4_UpdateRequestConfig:
+                                    153 ;	HAL_TIM4.c: 55: TIM4->CR1 |= TIM4_CR1_URS;
+      000050 C6 53 40         [ 1]  154 	ld	a, 0x5340
+                                    155 ;	HAL_TIM4.c: 53: if (TIM4_UpdateSource != TIM4_UPDATESOURCE_GLOBAL)
+      000053 0D 03            [ 1]  156 	tnz	(0x03, sp)
+      000055 27 06            [ 1]  157 	jreq	00102$
+                                    158 ;	HAL_TIM4.c: 55: TIM4->CR1 |= TIM4_CR1_URS;
+      000057 AA 04            [ 1]  159 	or	a, #0x04
+      000059 C7 53 40         [ 1]  160 	ld	0x5340, a
+      00005C 81               [ 4]  161 	ret
+      00005D                        162 00102$:
+                                    163 ;	HAL_TIM4.c: 59: TIM4->CR1 &= (uint8_t)(~TIM4_CR1_URS);
+      00005D A4 FB            [ 1]  164 	and	a, #0xfb
+      00005F C7 53 40         [ 1]  165 	ld	0x5340, a
+                                    166 ;	HAL_TIM4.c: 61: }
+      000062 81               [ 4]  167 	ret
+                                    168 ;	HAL_TIM4.c: 63: void TIM4_SelectOnePulseMode(TIM4_OPMode_TypeDef TIM4_OPMode)
+                                    169 ;	-----------------------------------------
+                                    170 ;	 function TIM4_SelectOnePulseMode
+                                    171 ;	-----------------------------------------
+      000063                        172 _TIM4_SelectOnePulseMode:
+                                    173 ;	HAL_TIM4.c: 67: TIM4->CR1 |= TIM4_CR1_OPM;
+      000063 C6 53 40         [ 1]  174 	ld	a, 0x5340
+                                    175 ;	HAL_TIM4.c: 65: if (TIM4_OPMode != TIM4_OPMODE_REPETITIVE)
+      000066 0D 03            [ 1]  176 	tnz	(0x03, sp)
+      000068 27 06            [ 1]  177 	jreq	00102$
+                                    178 ;	HAL_TIM4.c: 67: TIM4->CR1 |= TIM4_CR1_OPM;
+      00006A AA 08            [ 1]  179 	or	a, #0x08
+      00006C C7 53 40         [ 1]  180 	ld	0x5340, a
+      00006F 81               [ 4]  181 	ret
+      000070                        182 00102$:
+                                    183 ;	HAL_TIM4.c: 71: TIM4->CR1 &= (uint8_t)(~TIM4_CR1_OPM);
+      000070 A4 F7            [ 1]  184 	and	a, #0xf7
+      000072 C7 53 40         [ 1]  185 	ld	0x5340, a
+                                    186 ;	HAL_TIM4.c: 73: }
+      000075 81               [ 4]  187 	ret
+                                    188 ;	HAL_TIM4.c: 75: void TIM4_PrescalerConfig(TIM4_Prescaler_TypeDef Prescaler, TIM4_PSCReloadMode_TypeDef TIM4_PSCReloadMode)
+                                    189 ;	-----------------------------------------
+                                    190 ;	 function TIM4_PrescalerConfig
+                                    191 ;	-----------------------------------------
+      000076                        192 _TIM4_PrescalerConfig:
+                                    193 ;	HAL_TIM4.c: 77: TIM4->PSCR = (uint8_t)Prescaler;
+      000076 AE 53 45         [ 2]  194 	ldw	x, #0x5345
+      000079 7B 03            [ 1]  195 	ld	a, (0x03, sp)
+      00007B F7               [ 1]  196 	ld	(x), a
+                                    197 ;	HAL_TIM4.c: 78: TIM4->EGR = (uint8_t)TIM4_PSCReloadMode;
+      00007C AE 53 43         [ 2]  198 	ldw	x, #0x5343
+      00007F 7B 04            [ 1]  199 	ld	a, (0x04, sp)
+      000081 F7               [ 1]  200 	ld	(x), a
+                                    201 ;	HAL_TIM4.c: 79: }
+      000082 81               [ 4]  202 	ret
+                                    203 ;	HAL_TIM4.c: 81: void TIM4_ARRPreloadConfig(uint8_t NewState)
+                                    204 ;	-----------------------------------------
+                                    205 ;	 function TIM4_ARRPreloadConfig
+                                    206 ;	-----------------------------------------
+      000083                        207 _TIM4_ARRPreloadConfig:
+                                    208 ;	HAL_TIM4.c: 85: TIM4->CR1 |= TIM4_CR1_ARPE;
+      000083 C6 53 40         [ 1]  209 	ld	a, 0x5340
+                                    210 ;	HAL_TIM4.c: 83: if (NewState != 0)
+      000086 0D 03            [ 1]  211 	tnz	(0x03, sp)
+      000088 27 06            [ 1]  212 	jreq	00102$
+                                    213 ;	HAL_TIM4.c: 85: TIM4->CR1 |= TIM4_CR1_ARPE;
+      00008A AA 80            [ 1]  214 	or	a, #0x80
+      00008C C7 53 40         [ 1]  215 	ld	0x5340, a
+      00008F 81               [ 4]  216 	ret
+      000090                        217 00102$:
+                                    218 ;	HAL_TIM4.c: 89: TIM4->CR1 &= (uint8_t)(~TIM4_CR1_ARPE);
+      000090 A4 7F            [ 1]  219 	and	a, #0x7f
+      000092 C7 53 40         [ 1]  220 	ld	0x5340, a
+                                    221 ;	HAL_TIM4.c: 91: }
+      000095 81               [ 4]  222 	ret
+                                    223 ;	HAL_TIM4.c: 93: void TIM4_GenerateEvent(TIM4_EventSource_TypeDef TIM4_EventSource)
+                                    224 ;	-----------------------------------------
+                                    225 ;	 function TIM4_GenerateEvent
+                                    226 ;	-----------------------------------------
+      000096                        227 _TIM4_GenerateEvent:
+                                    228 ;	HAL_TIM4.c: 95: TIM4->EGR = (uint8_t)(TIM4_EventSource);
+      000096 AE 53 43         [ 2]  229 	ldw	x, #0x5343
+      000099 7B 03            [ 1]  230 	ld	a, (0x03, sp)
+      00009B F7               [ 1]  231 	ld	(x), a
+                                    232 ;	HAL_TIM4.c: 96: }
+      00009C 81               [ 4]  233 	ret
+                                    234 ;	HAL_TIM4.c: 98: void TIM4_SetCounter(uint8_t Counter)
+                                    235 ;	-----------------------------------------
+                                    236 ;	 function TIM4_SetCounter
+                                    237 ;	-----------------------------------------
+      00009D                        238 _TIM4_SetCounter:
+                                    239 ;	HAL_TIM4.c: 100: TIM4->CNTR = (uint8_t)(Counter);
+      00009D AE 53 44         [ 2]  240 	ldw	x, #0x5344
+      0000A0 7B 03            [ 1]  241 	ld	a, (0x03, sp)
+      0000A2 F7               [ 1]  242 	ld	(x), a
+                                    243 ;	HAL_TIM4.c: 101: }
+      0000A3 81               [ 4]  244 	ret
+                                    245 ;	HAL_TIM4.c: 103: void TIM4_SetAutoreload(uint8_t Autoreload)
+                                    246 ;	-----------------------------------------
+                                    247 ;	 function TIM4_SetAutoreload
+                                    248 ;	-----------------------------------------
+      0000A4                        249 _TIM4_SetAutoreload:
+                                    250 ;	HAL_TIM4.c: 105: TIM4->ARR = (uint8_t)(Autoreload);
+      0000A4 AE 53 46         [ 2]  251 	ldw	x, #0x5346
+      0000A7 7B 03            [ 1]  252 	ld	a, (0x03, sp)
+      0000A9 F7               [ 1]  253 	ld	(x), a
+                                    254 ;	HAL_TIM4.c: 106: }
+      0000AA 81               [ 4]  255 	ret
+                                    256 ;	HAL_TIM4.c: 108: uint8_t TIM4_GetCounter(void)
+                                    257 ;	-----------------------------------------
+                                    258 ;	 function TIM4_GetCounter
+                                    259 ;	-----------------------------------------
+      0000AB                        260 _TIM4_GetCounter:
+                                    261 ;	HAL_TIM4.c: 110: return (uint8_t)(TIM4->CNTR);
+      0000AB C6 53 44         [ 1]  262 	ld	a, 0x5344
+                                    263 ;	HAL_TIM4.c: 111: }
+      0000AE 81               [ 4]  264 	ret
+                                    265 ;	HAL_TIM4.c: 113: TIM4_Prescaler_TypeDef TIM4_GetPrescaler(void)
+                                    266 ;	-----------------------------------------
+                                    267 ;	 function TIM4_GetPrescaler
+                                    268 ;	-----------------------------------------
+      0000AF                        269 _TIM4_GetPrescaler:
+                                    270 ;	HAL_TIM4.c: 115: return (TIM4_Prescaler_TypeDef)(TIM4->PSCR);
+      0000AF C6 53 45         [ 1]  271 	ld	a, 0x5345
+                                    272 ;	HAL_TIM4.c: 116: }
+      0000B2 81               [ 4]  273 	ret
+                                    274 ;	HAL_TIM4.c: 118: uint8_t TIM4_GetFlagStatus(TIM4_FLAG_TypeDef TIM4_FLAG)
+                                    275 ;	-----------------------------------------
+                                    276 ;	 function TIM4_GetFlagStatus
+                                    277 ;	-----------------------------------------
+      0000B3                        278 _TIM4_GetFlagStatus:
+                                    279 ;	HAL_TIM4.c: 121: if ((TIM4->SR1 & (uint8_t)TIM4_FLAG)  != 0)
+      0000B3 C6 53 42         [ 1]  280 	ld	a, 0x5342
+      0000B6 14 03            [ 1]  281 	and	a, (0x03, sp)
+      0000B8 27 03            [ 1]  282 	jreq	00102$
+                                    283 ;	HAL_TIM4.c: 123: bitstatus = 1;
+      0000BA A6 01            [ 1]  284 	ld	a, #0x01
+      0000BC 81               [ 4]  285 	ret
+      0000BD                        286 00102$:
+                                    287 ;	HAL_TIM4.c: 127: bitstatus = 0;
+      0000BD 4F               [ 1]  288 	clr	a
+                                    289 ;	HAL_TIM4.c: 129: return (bitstatus);
+                                    290 ;	HAL_TIM4.c: 130: }
+      0000BE 81               [ 4]  291 	ret
+                                    292 ;	HAL_TIM4.c: 132: void TIM4_ClearFlag(TIM4_FLAG_TypeDef TIM4_FLAG)
+                                    293 ;	-----------------------------------------
+                                    294 ;	 function TIM4_ClearFlag
+                                    295 ;	-----------------------------------------
+      0000BF                        296 _TIM4_ClearFlag:
+                                    297 ;	HAL_TIM4.c: 134: TIM4->SR1 = (uint8_t)(~TIM4_FLAG);
+      0000BF 7B 03            [ 1]  298 	ld	a, (0x03, sp)
+      0000C1 43               [ 1]  299 	cpl	a
+      0000C2 C7 53 42         [ 1]  300 	ld	0x5342, a
+                                    301 ;	HAL_TIM4.c: 135: }
+      0000C5 81               [ 4]  302 	ret
+                                    303 ;	HAL_TIM4.c: 137: uint8_t TIM4_GetITStatus(TIM4_IT_TypeDef TIM4_IT)
+                                    304 ;	-----------------------------------------
+                                    305 ;	 function TIM4_GetITStatus
+                                    306 ;	-----------------------------------------
+      0000C6                        307 _TIM4_GetITStatus:
+      0000C6 88               [ 1]  308 	push	a
+                                    309 ;	HAL_TIM4.c: 144: itstatus = (uint8_t)(TIM4->SR1 & (uint8_t)TIM4_IT);
+      0000C7 C6 53 42         [ 1]  310 	ld	a, 0x5342
+      0000CA 14 04            [ 1]  311 	and	a, (0x04, sp)
+      0000CC 6B 01            [ 1]  312 	ld	(0x01, sp), a
+                                    313 ;	HAL_TIM4.c: 146: itenable = (uint8_t)(TIM4->IER & (uint8_t)TIM4_IT);
+      0000CE C6 53 41         [ 1]  314 	ld	a, 0x5341
+      0000D1 14 04            [ 1]  315 	and	a, (0x04, sp)
+                                    316 ;	HAL_TIM4.c: 148: if ((itstatus != 0 ) && (itenable != 0))
+      0000D3 0D 01            [ 1]  317 	tnz	(0x01, sp)
+      0000D5 27 06            [ 1]  318 	jreq	00102$
+      0000D7 4D               [ 1]  319 	tnz	a
+      0000D8 27 03            [ 1]  320 	jreq	00102$
+                                    321 ;	HAL_TIM4.c: 150: bitstatus = 1;
+      0000DA A6 01            [ 1]  322 	ld	a, #0x01
+                                    323 ;	HAL_TIM4.c: 154: bitstatus = 0;
+      0000DC 21                     324 	.byte 0x21
+      0000DD                        325 00102$:
+      0000DD 4F               [ 1]  326 	clr	a
+      0000DE                        327 00103$:
+                                    328 ;	HAL_TIM4.c: 156: return (bitstatus);
+                                    329 ;	HAL_TIM4.c: 157: }
+      0000DE 5B 01            [ 2]  330 	addw	sp, #1
+      0000E0 81               [ 4]  331 	ret
+                                    332 ;	HAL_TIM4.c: 159: void TIM4_ClearITPendingBit(TIM4_IT_TypeDef TIM4_IT)
+                                    333 ;	-----------------------------------------
+                                    334 ;	 function TIM4_ClearITPendingBit
+                                    335 ;	-----------------------------------------
+      0000E1                        336 _TIM4_ClearITPendingBit:
+                                    337 ;	HAL_TIM4.c: 161: TIM4->SR1 = (uint8_t)(~TIM4_IT);
+      0000E1 7B 03            [ 1]  338 	ld	a, (0x03, sp)
+      0000E3 43               [ 1]  339 	cpl	a
+      0000E4 C7 53 42         [ 1]  340 	ld	0x5342, a
+                                    341 ;	HAL_TIM4.c: 162: }
+      0000E7 81               [ 4]  342 	ret
+                                    343 	.area CODE
+                                    344 	.area CONST
+                                    345 	.area INITIALIZER
+                                    346 	.area CABS (ABS)

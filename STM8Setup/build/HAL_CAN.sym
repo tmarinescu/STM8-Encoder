@@ -1,0 +1,70 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000001 L
+  9 _CAN_CancelTransmit                                            0006C1 GR
+  9 _CAN_ClearFlag                                                 000977 GR
+  9 _CAN_ClearITPendingBit                                         000BCD GR
+  9 _CAN_DeInit                                                    000000 GR
+  9 _CAN_FIFORelease                                               0006D9 GR
+  9 _CAN_FilterInit                                                0000EE GR
+  9 _CAN_GetFlagStatus                                             0009BF GR
+  9 _CAN_GetITStatus                                               000A59 GR
+  9 _CAN_GetLastErrorCode                                          000960 GR
+  9 _CAN_GetMessageTimeStamp                                       000886 GR
+  9 _CAN_GetReceivedDLC                                            000875 GR
+  9 _CAN_GetReceivedData                                           000879 GR
+  9 _CAN_GetReceivedFMI                                            000882 GR
+  9 _CAN_GetReceivedIDE                                            00086D GR
+  9 _CAN_GetReceivedId                                             000865 GR
+  9 _CAN_GetReceivedRTR                                            000871 GR
+  9 _CAN_GetSelectedPage                                           000C47 GR
+  9 _CAN_ITConfig                                                  000482 GR
+  9 _CAN_Init                                                      000075 GR
+  9 _CAN_MessagePending                                            0006DE GR
+  9 _CAN_OperatingModeRequest                                      0008DC GR
+  9 _CAN_Receive                                                   0006E4 GR
+  9 _CAN_ST7CompatibilityCmd                                       0004D7 GR
+  9 _CAN_SelectPage                                                000C4B GR
+  9 _CAN_Sleep                                                     0008B1 GR
+  9 _CAN_TTComModeCmd                                              0004E4 GR
+  9 _CAN_Transmit                                                  000542 GR
+  9 _CAN_TransmitStatus                                            00064C GR
+  9 _CAN_WakeUp                                                    0008C9 GR
+  9 _CheckITStatus                                                 000C52 R
+  2 __DLC                                                          000006 GR
+  2 __Data                                                         000007 GR
+  2 __FMI                                                          00000F GR
+  2 __IDE                                                          000004 GR
+  2 __Id                                                           000000 GR
+  2 __RTR                                                          000005 GR
+  8 __xinit___DLC                                                  000006 R
+  8 __xinit___Data                                                 000007 R
+  8 __xinit___FMI                                                  00000F R
+  8 __xinit___IDE                                                  000004 R
+  8 __xinit___Id                                                   000000 R
+  8 __xinit___RTR                                                  000005 R
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 DATA                                       size      0   flags    0
+   2 INITIALIZED                                size     10   flags    0
+   3 DABS                                       size      0   flags    8
+   4 HOME                                       size      0   flags    0
+   5 GSINIT                                     size      0   flags    0
+   6 GSFINAL                                    size      0   flags    0
+   7 CONST                                      size      0   flags    0
+   8 INITIALIZER                                size     10   flags    0
+   9 CODE                                       size    C5D   flags    0
+   A CABS                                       size      0   flags    8
+

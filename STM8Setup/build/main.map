@@ -1,0 +1,294 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     FFFFFFFF  s_SSEG                          
+     00000000  .__.ABS.                           
+     00000000  l_CABS                          
+     00000000  l_DABS                          
+     00000000  l_DATA                          
+     00000000  l__CODE                         
+     00000000  s_CABS                          
+     00000000  s_DABS                          
+     00000000  s__CODE                         
+     00000001  l_SSEG                          
+     00000001  s_DATA                          
+     00000001  s_INITIALIZED                   
+     00000003  l_GSFINAL                       
+     0000000C  l_CONST                         
+     00000014  l_INITIALIZED                   
+     00000014  l_INITIALIZER                   
+     0000001A  l_GSINIT                        
+     0000006B  l_HOME                          
+     00001A70  l_CODE                          
+     00008000  s_HOME                          
+     0000806B  s_GSINIT                        
+     00008085  s_GSFINAL                       
+     00008088  s_CONST                         
+     00008094  s_INITIALIZER                   
+     000080A8  s_CODE                          
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+INITIALIZED                         00000001    00000014 =          20. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000005  __Id                               HAL_CAN
+     00000009  __IDE                              HAL_CAN
+     0000000A  __RTR                              HAL_CAN
+     0000000B  __DLC                              HAL_CAN
+     0000000C  __Data                             HAL_CAN
+     00000014  __FMI                              HAL_CAN
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+SSEG                                FFFFFFFF    00000001 =           1. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+HOME                                00008000    0000006B =         107. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSINIT                              0000806B    0000001A =          26. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSFINAL                             00008085    00000003 =           3. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CONST                               00008088    0000000C =          12. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00008088  _HSIDivFactor                      HAL_CLK
+     0000808C  _CLKPrescTable                     HAL_CLK
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+INITIALIZER                         00008094    00000014 =          20. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CODE                                000080A8    00001A70 =        6768. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000080A8  _Delay                             main
+     000080BE  _main                              main
+     00008186  _GPIO_Init                         HAL_GPIO
+     000081FB  _GPIO_Write                        HAL_GPIO
+     00008201  _GPIO_WriteHigh                    HAL_GPIO
+     00008208  _GPIO_WriteLow                     HAL_GPIO
+     00008216  _GPIO_WriteReverse                 HAL_GPIO
+     0000821D  _GPIO_ReadOutputData               HAL_GPIO
+     00008221  _GPIO_ReadInputData                HAL_GPIO
+     00008226  _GPIO_ReadInputPin                 HAL_GPIO
+     00008234  _SetTimerTick                      interrupts
+     0000823F  _GetTimerTick                      interrupts
+     00008247  _TIM4_UPD_OVF_IRQHandler           interrupts
+     0000826F  _TIM4_TimeBaseInit                 HAL_TIM4
+     0000827C  _TIM4_Cmd                          HAL_TIM4
+     0000828F  _TIM4_ITConfig                     HAL_TIM4
+     000082AC  _TIM4_UpdateDisableConfig          HAL_TIM4
+     000082BF  _TIM4_UpdateRequestConfig          HAL_TIM4
+     000082D2  _TIM4_SelectOnePulseMode           HAL_TIM4
+     000082E5  _TIM4_PrescalerConfig              HAL_TIM4
+     000082F2  _TIM4_ARRPreloadConfig             HAL_TIM4
+     00008305  _TIM4_GenerateEvent                HAL_TIM4
+     0000830C  _TIM4_SetCounter                   HAL_TIM4
+     00008313  _TIM4_SetAutoreload                HAL_TIM4
+     0000831A  _TIM4_GetCounter                   HAL_TIM4
+     0000831E  _TIM4_GetPrescaler                 HAL_TIM4
+     00008322  _TIM4_GetFlagStatus                HAL_TIM4
+     0000832E  _TIM4_ClearFlag                    HAL_TIM4
+     00008335  _TIM4_GetITStatus                  HAL_TIM4
+     00008350  _TIM4_ClearITPendingBit            HAL_TIM4
+     00008357  _CLK_DeInit                        HAL_CLK
+     0000838E  _CLK_FastHaltWakeUpCmd             HAL_CLK
+     000083A1  _CLK_HSECmd                        HAL_CLK
+     000083B4  _CLK_HSICmd                        HAL_CLK
+     000083C7  _CLK_LSICmd                        HAL_CLK
+     000083DA  _CLK_CCOCmd                        HAL_CLK
+     000083ED  _CLK_ClockSwitchCmd                HAL_CLK
+     00008400  _CLK_SlowActiveHaltWakeUpCmd       HAL_CLK
+     00008413  _CLK_PeripheralClockConfig         HAL_CLK
+     0000845D  _CLK_ClockSwitchConfig             HAL_CLK
+     000084ED  _CLK_HSIPrescalerConfig            HAL_CLK
+     000084FE  _CLK_CCOConfig                     HAL_CLK
+     00008513  _CLK_ITConfig                      HAL_CLK
+     00008553  _CLK_SYSCLKConfig                  HAL_CLK
+     00008585  _CLK_SWIMConfig                    HAL_CLK
+     00008598  _CLK_ClockSecuritySystemEnable     HAL_CLK
+     0000859D  _CLK_GetSYSCLKSource               HAL_CLK
+     000085A1  _CLK_GetClockFreq                  HAL_CLK
+     000085F1  _CLK_AdjustHSICalibrationValue     HAL_CLK
+     000085FC  _CLK_SYSCLKEmergencyClear          HAL_CLK
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CODE                                000080A8    00001A70 =        6768. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00008601  _CLK_GetFlagStatus                 HAL_CLK
+     0000864B  _CLK_GetITStatus                   HAL_CLK
+     0000866B  _CLK_ClearITPendingBit             HAL_CLK
+     0000867B  _UART1_DeInit                      HAL_UART1
+     000086A6  _UART1_Init                        HAL_UART1
+     00008823  _UART1_Cmd                         HAL_UART1
+     00008836  _UART1_ITConfig                    HAL_UART1
+     000088B0  _UART1_HalfDuplexCmd               HAL_UART1
+     000088C3  _UART1_IrDAConfig                  HAL_UART1
+     000088D6  _UART1_IrDACmd                     HAL_UART1
+     000088E9  _UART1_LINBreakDetectionConfig     HAL_UART1
+     000088FC  _UART1_LINCmd                      HAL_UART1
+     0000890F  _UART1_SmartCardCmd                HAL_UART1
+     00008922  _UART1_SmartCardNACKCmd            HAL_UART1
+     00008935  _UART1_WakeUpConfig                HAL_UART1
+     00008942  _UART1_ReceiverWakeUpCmd           HAL_UART1
+     00008955  _UART1_ReceiveData8                HAL_UART1
+     00008959  _UART1_ReceiveData9                HAL_UART1
+     00008975  _UART1_SendData8                   HAL_UART1
+     0000897C  _UART1_SendData9                   HAL_UART1
+     00008999  _UART1_SendBreak                   HAL_UART1
+     0000899E  _UART1_SetAddress                  HAL_UART1
+     000089AF  _UART1_SetGuardTime                HAL_UART1
+     000089B6  _UART1_SetPrescaler                HAL_UART1
+     000089BD  _UART1_GetFlagStatus               HAL_UART1
+     000089FF  _UART1_ClearFlag                   HAL_UART1
+     00008A10  _UART1_GetITStatus                 HAL_UART1
+     00008A90  _UART1_ClearITPendingBit           HAL_UART1
+     00008AA1  _CAN_DeInit                        HAL_CAN
+     00008B16  _CAN_Init                          HAL_CAN
+     00008B8F  _CAN_FilterInit                    HAL_CAN
+     00008F23  _CAN_ITConfig                      HAL_CAN
+     00008F78  _CAN_ST7CompatibilityCmd           HAL_CAN
+     00008F85  _CAN_TTComModeCmd                  HAL_CAN
+     00008FE3  _CAN_Transmit                      HAL_CAN
+     000090ED  _CAN_TransmitStatus                HAL_CAN
+     00009162  _CAN_CancelTransmit                HAL_CAN
+     0000917A  _CAN_FIFORelease                   HAL_CAN
+     0000917F  _CAN_MessagePending                HAL_CAN
+     00009185  _CAN_Receive                       HAL_CAN
+     00009306  _CAN_GetReceivedId                 HAL_CAN
+     0000930E  _CAN_GetReceivedIDE                HAL_CAN
+     00009312  _CAN_GetReceivedRTR                HAL_CAN
+     00009316  _CAN_GetReceivedDLC                HAL_CAN
+     0000931A  _CAN_GetReceivedData               HAL_CAN
+     00009323  _CAN_GetReceivedFMI                HAL_CAN
+     00009327  _CAN_GetMessageTimeStamp           HAL_CAN
+     00009352  _CAN_Sleep                         HAL_CAN
+     0000936A  _CAN_WakeUp                        HAL_CAN
+     0000937D  _CAN_OperatingModeRequest          HAL_CAN
+     00009401  _CAN_GetLastErrorCode              HAL_CAN
+ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CODE                                000080A8    00001A70 =        6768. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00009418  _CAN_ClearFlag                     HAL_CAN
+     00009460  _CAN_GetFlagStatus                 HAL_CAN
+     000094FA  _CAN_GetITStatus                   HAL_CAN
+     0000966E  _CAN_ClearITPendingBit             HAL_CAN
+     000096E8  _CAN_GetSelectedPage               HAL_CAN
+     000096EC  _CAN_SelectPage                    HAL_CAN
+     000096FE  _I2C_DeInit                        HAL_I2C
+     00009723  _I2C_Init                          HAL_I2C
+     0000984B  _I2C_Cmd                           HAL_I2C
+     0000985E  _I2C_GeneralCallCmd                HAL_I2C
+     00009871  _I2C_GenerateSTART                 HAL_I2C
+     00009884  _I2C_GenerateSTOP                  HAL_I2C
+     00009897  _I2C_SoftwareResetCmd              HAL_I2C
+     000098AA  _I2C_StretchClockCmd               HAL_I2C
+     000098BD  _I2C_AcknowledgeConfig             HAL_I2C
+     000098E5  _I2C_ITConfig                      HAL_I2C
+     00009902  _I2C_FastModeDutyCycleConfig       HAL_I2C
+     00009919  _I2C_ReceiveData                   HAL_I2C
+     0000991D  _I2C_Send7bitAddress               HAL_I2C
+     00009929  _I2C_SendData                      HAL_I2C
+     00009930  _I2C_CheckEvent                    HAL_I2C
+     00009974  _I2C_GetLastEvent                  HAL_I2C
+     0000999F  _I2C_GetFlagStatus                 HAL_I2C
+     000099D4  _I2C_ClearFlag                     HAL_I2C
+     000099DE  _I2C_GetITStatus                   HAL_I2C
+     00009A24  _I2C_ClearITPendingBit             HAL_I2C
+     00009A2E  __divulong                         
+     00009A88  __mullong                          
+     00009B04  __divsint                          
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
+
+Files Linked                              [ module(s) ]
+
+build\main.rel                            [ main ]
+build/HAL_GPIO.rel                        [ HAL_GPIO ]
+build/interrupts.rel                      [ interrupts ]
+build/HAL_TIM4.rel                        [ HAL_TIM4 ]
+build/HAL_CLK.rel                         [ HAL_CLK ]
+build/HAL_UART1.rel                       [ HAL_UART1 ]
+build/HAL_CAN.rel                         [ HAL_CAN ]
+build/HAL_I2C.rel                         [ HAL_I2C ]
+
+
+Libraries Linked                          [ object file ]
+
+H:\SDCC\bin\..\lib\stm8/stm8.lib          [ _divulong.rel ]
+H:\SDCC\bin\..\lib\stm8/stm8.lib          [ _mullong.rel ]
+H:\SDCC\bin\..\lib\stm8/stm8.lib          [ _divsint.rel ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 13.
+
+User Base Address Definitions
+
+HOME = 0x8000
+DATA = 0x0001
+SSEG = 0xffffffff
+
+

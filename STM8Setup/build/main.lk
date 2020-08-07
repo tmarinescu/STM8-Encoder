@@ -1,0 +1,18 @@
+-muwx
+-i build\main.ihx
+-Y
+-b HOME = 0x8000
+-b DATA = 0x0001
+-b SSEG = 0xffffffff
+-k H:\SDCC\bin\..\lib\stm8
+-l stm8
+build\main.rel
+build/HAL_GPIO.rel
+build/interrupts.rel
+build/HAL_TIM4.rel
+build/HAL_CLK.rel
+build/HAL_UART1.rel
+build/HAL_CAN.rel
+build/HAL_I2C.rel
+
+-e

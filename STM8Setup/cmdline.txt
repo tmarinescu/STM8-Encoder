@@ -1,0 +1,1 @@
+STVP_CmdLine -BoardName=ST-LINK -Tool_ID=0 -Port=USB -ProgMode=SWIM -Device=STM8AF528 -verbose -progress -verif -FileProg=C:\Users\TM\Downloads\88ac5c6997c98f527414-eefdff832d58ccd182207725e00860a7c0813b5e\main.hex

@@ -1,0 +1,2476 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module HAL_CAN
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl __FMI
+                                     12 	.globl __Data
+                                     13 	.globl __DLC
+                                     14 	.globl __RTR
+                                     15 	.globl __IDE
+                                     16 	.globl __Id
+                                     17 	.globl _CAN_DeInit
+                                     18 	.globl _CAN_Init
+                                     19 	.globl _CAN_FilterInit
+                                     20 	.globl _CAN_ITConfig
+                                     21 	.globl _CAN_ST7CompatibilityCmd
+                                     22 	.globl _CAN_TTComModeCmd
+                                     23 	.globl _CAN_Transmit
+                                     24 	.globl _CAN_TransmitStatus
+                                     25 	.globl _CAN_CancelTransmit
+                                     26 	.globl _CAN_FIFORelease
+                                     27 	.globl _CAN_MessagePending
+                                     28 	.globl _CAN_Receive
+                                     29 	.globl _CAN_GetReceivedId
+                                     30 	.globl _CAN_GetReceivedIDE
+                                     31 	.globl _CAN_GetReceivedRTR
+                                     32 	.globl _CAN_GetReceivedDLC
+                                     33 	.globl _CAN_GetReceivedData
+                                     34 	.globl _CAN_GetReceivedFMI
+                                     35 	.globl _CAN_GetMessageTimeStamp
+                                     36 	.globl _CAN_Sleep
+                                     37 	.globl _CAN_WakeUp
+                                     38 	.globl _CAN_OperatingModeRequest
+                                     39 	.globl _CAN_GetLastErrorCode
+                                     40 	.globl _CAN_ClearFlag
+                                     41 	.globl _CAN_GetFlagStatus
+                                     42 	.globl _CAN_GetITStatus
+                                     43 	.globl _CAN_ClearITPendingBit
+                                     44 	.globl _CAN_GetSelectedPage
+                                     45 	.globl _CAN_SelectPage
+                                     46 ;--------------------------------------------------------
+                                     47 ; ram data
+                                     48 ;--------------------------------------------------------
+                                     49 	.area DATA
+                                     50 ;--------------------------------------------------------
+                                     51 ; ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area INITIALIZED
+      000000                         54 __Id::
+      000000                         55 	.ds 4
+      000004                         56 __IDE::
+      000004                         57 	.ds 1
+      000005                         58 __RTR::
+      000005                         59 	.ds 1
+      000006                         60 __DLC::
+      000006                         61 	.ds 1
+      000007                         62 __Data::
+      000007                         63 	.ds 8
+      00000F                         64 __FMI::
+      00000F                         65 	.ds 1
+                                     66 ;--------------------------------------------------------
+                                     67 ; absolute external ram data
+                                     68 ;--------------------------------------------------------
+                                     69 	.area DABS (ABS)
+                                     70 
+                                     71 ; default segment ordering for linker
+                                     72 	.area HOME
+                                     73 	.area GSINIT
+                                     74 	.area GSFINAL
+                                     75 	.area CONST
+                                     76 	.area INITIALIZER
+                                     77 	.area CODE
+                                     78 
+                                     79 ;--------------------------------------------------------
+                                     80 ; global & static initialisations
+                                     81 ;--------------------------------------------------------
+                                     82 	.area HOME
+                                     83 	.area GSINIT
+                                     84 	.area GSFINAL
+                                     85 	.area GSINIT
+                                     86 ;--------------------------------------------------------
+                                     87 ; Home
+                                     88 ;--------------------------------------------------------
+                                     89 	.area HOME
+                                     90 	.area HOME
+                                     91 ;--------------------------------------------------------
+                                     92 ; code
+                                     93 ;--------------------------------------------------------
+                                     94 	.area CODE
+                                     95 ;	HAL_CAN.c: 23: void CAN_DeInit(void)
+                                     96 ;	-----------------------------------------
+                                     97 ;	 function CAN_DeInit
+                                     98 ;	-----------------------------------------
+      000000                         99 _CAN_DeInit:
+                                    100 ;	HAL_CAN.c: 26: CAN->MCR = CAN_MCR_INRQ;
+      000000 35 01 54 20      [ 1]  101 	mov	0x5420+0, #0x01
+                                    102 ;	HAL_CAN.c: 27: CAN->PSR = CAN_Page_Config;
+      000004 35 06 54 27      [ 1]  103 	mov	0x5427+0, #0x06
+                                    104 ;	HAL_CAN.c: 28: CAN_OperatingModeRequest(CAN_OperatingMode_Initialization);
+      000008 4B 00            [ 1]  105 	push	#0x00
+      00000A CDr08rDC         [ 4]  106 	call	_CAN_OperatingModeRequest
+      00000D 84               [ 1]  107 	pop	a
+                                    108 ;	HAL_CAN.c: 29: CAN->Page.Config.ESR = CAN_ESR_RESET_VALUE;
+      00000E 35 00 54 28      [ 1]  109 	mov	0x5428+0, #0x00
+                                    110 ;	HAL_CAN.c: 30: CAN->Page.Config.EIER = CAN_EIER_RESET_VALUE;
+      000012 35 00 54 29      [ 1]  111 	mov	0x5429+0, #0x00
+                                    112 ;	HAL_CAN.c: 31: CAN->Page.Config.BTR1 = CAN_BTR1_RESET_VALUE;
+      000016 35 40 54 2C      [ 1]  113 	mov	0x542c+0, #0x40
+                                    114 ;	HAL_CAN.c: 32: CAN->Page.Config.BTR2 = CAN_BTR2_RESET_VALUE;
+      00001A 35 23 54 2D      [ 1]  115 	mov	0x542d+0, #0x23
+                                    116 ;	HAL_CAN.c: 33: CAN->Page.Config.FMR1 = CAN_FMR1_RESET_VALUE;
+      00001E 35 00 54 30      [ 1]  117 	mov	0x5430+0, #0x00
+                                    118 ;	HAL_CAN.c: 34: CAN->Page.Config.FMR2 = CAN_FMR2_RESET_VALUE;
+      000022 35 00 54 31      [ 1]  119 	mov	0x5431+0, #0x00
+                                    120 ;	HAL_CAN.c: 35: CAN->Page.Config.FCR1 = CAN_FCR_RESET_VALUE;
+      000026 35 00 54 32      [ 1]  121 	mov	0x5432+0, #0x00
+                                    122 ;	HAL_CAN.c: 36: CAN->Page.Config.FCR2 = CAN_FCR_RESET_VALUE;
+      00002A 35 00 54 33      [ 1]  123 	mov	0x5433+0, #0x00
+                                    124 ;	HAL_CAN.c: 37: CAN->Page.Config.FCR3 = CAN_FCR_RESET_VALUE;
+      00002E 35 00 54 34      [ 1]  125 	mov	0x5434+0, #0x00
+                                    126 ;	HAL_CAN.c: 38: CAN_OperatingModeRequest(CAN_OperatingMode_Normal);
+      000032 4B 01            [ 1]  127 	push	#0x01
+      000034 CDr08rDC         [ 4]  128 	call	_CAN_OperatingModeRequest
+      000037 84               [ 1]  129 	pop	a
+                                    130 ;	HAL_CAN.c: 39: CAN->PSR = CAN_Page_RxFifo;
+      000038 35 07 54 27      [ 1]  131 	mov	0x5427+0, #0x07
+                                    132 ;	HAL_CAN.c: 40: CAN->Page.RxFIFO.MDLCR = CAN_MDLC_RESET_VALUE;
+      00003C 35 00 54 29      [ 1]  133 	mov	0x5429+0, #0x00
+                                    134 ;	HAL_CAN.c: 41: CAN->PSR = CAN_Page_TxMailBox0;
+      000040 35 00 54 27      [ 1]  135 	mov	0x5427+0, #0x00
+                                    136 ;	HAL_CAN.c: 42: CAN->Page.TxMailbox.MDLCR = CAN_MDLC_RESET_VALUE;
+      000044 35 00 54 29      [ 1]  137 	mov	0x5429+0, #0x00
+                                    138 ;	HAL_CAN.c: 43: CAN->PSR = CAN_Page_TxMailBox1;
+      000048 35 01 54 27      [ 1]  139 	mov	0x5427+0, #0x01
+                                    140 ;	HAL_CAN.c: 44: CAN->Page.TxMailbox.MDLCR = CAN_MDLC_RESET_VALUE;
+      00004C 35 00 54 29      [ 1]  141 	mov	0x5429+0, #0x00
+                                    142 ;	HAL_CAN.c: 45: CAN->PSR = CAN_Page_TxMailBox2;
+      000050 35 05 54 27      [ 1]  143 	mov	0x5427+0, #0x05
+                                    144 ;	HAL_CAN.c: 46: CAN->Page.TxMailbox.MDLCR = CAN_MDLC_RESET_VALUE;
+      000054 35 00 54 29      [ 1]  145 	mov	0x5429+0, #0x00
+                                    146 ;	HAL_CAN.c: 48: CAN->MCR = CAN_MCR_RESET_VALUE;
+      000058 35 02 54 20      [ 1]  147 	mov	0x5420+0, #0x02
+                                    148 ;	HAL_CAN.c: 49: CAN->MSR = (uint8_t)(~CAN_MSR_RESET_VALUE);/* rc_w1 */
+      00005C 35 FD 54 21      [ 1]  149 	mov	0x5421+0, #0xfd
+                                    150 ;	HAL_CAN.c: 50: CAN->TSR = (uint8_t)(~CAN_TSR_RESET_VALUE);/* rc_w1 */
+      000060 35 FF 54 22      [ 1]  151 	mov	0x5422+0, #0xff
+                                    152 ;	HAL_CAN.c: 51: CAN->RFR = (uint8_t)(~CAN_RFR_RESET_VALUE);/* rc_w1 */
+      000064 35 FF 54 24      [ 1]  153 	mov	0x5424+0, #0xff
+                                    154 ;	HAL_CAN.c: 52: CAN->IER = CAN_IER_RESET_VALUE;
+      000068 35 00 54 25      [ 1]  155 	mov	0x5425+0, #0x00
+                                    156 ;	HAL_CAN.c: 53: CAN->DGR = CAN_DGR_RESET_VALUE;
+      00006C 35 0C 54 26      [ 1]  157 	mov	0x5426+0, #0x0c
+                                    158 ;	HAL_CAN.c: 54: CAN->PSR = CAN_PSR_RESET_VALUE;
+      000070 35 00 54 27      [ 1]  159 	mov	0x5427+0, #0x00
+                                    160 ;	HAL_CAN.c: 55: }
+      000074 81               [ 4]  161 	ret
+                                    162 ;	HAL_CAN.c: 57: CAN_InitStatus_TypeDef CAN_Init(CAN_MasterCtrl_TypeDef CAN_MasterCtrl,
+                                    163 ;	-----------------------------------------
+                                    164 ;	 function CAN_Init
+                                    165 ;	-----------------------------------------
+      000075                        166 _CAN_Init:
+      000075 88               [ 1]  167 	push	a
+                                    168 ;	HAL_CAN.c: 66: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      000076 CDr0Cr47         [ 4]  169 	call	_CAN_GetSelectedPage
+      000079 90 97            [ 1]  170 	ld	yl, a
+                                    171 ;	HAL_CAN.c: 69: CAN->MCR = CAN_MCR_INRQ;
+      00007B 35 01 54 20      [ 1]  172 	mov	0x5420+0, #0x01
+                                    173 ;	HAL_CAN.c: 71: while (((uint8_t)(CAN->MSR & CAN_MSR_INAK) != 0x01) && ((uint16_t)timeout != 0))
+      00007F 5F               [ 1]  174 	clrw	x
+      000080 5A               [ 2]  175 	decw	x
+      000081                        176 00102$:
+      000081 C6 54 21         [ 1]  177 	ld	a, 0x5421
+      000084 A4 01            [ 1]  178 	and	a, #0x01
+      000086 4A               [ 1]  179 	dec	a
+      000087 27 06            [ 1]  180 	jreq	00104$
+      000089 5D               [ 2]  181 	tnzw	x
+      00008A 27 03            [ 1]  182 	jreq	00104$
+                                    183 ;	HAL_CAN.c: 73: timeout--;
+      00008C 5A               [ 2]  184 	decw	x
+      00008D 20 F2            [ 2]  185 	jra	00102$
+      00008F                        186 00104$:
+                                    187 ;	HAL_CAN.c: 77: if ((CAN->MSR & CAN_MSR_INAK) != CAN_MSR_INAK)
+      00008F C6 54 21         [ 1]  188 	ld	a, 0x5421
+      000092 A4 01            [ 1]  189 	and	a, #0x01
+      000094 4A               [ 1]  190 	dec	a
+      000095 27 04            [ 1]  191 	jreq	00113$
+                                    192 ;	HAL_CAN.c: 80: InitStatus = CAN_InitStatus_Failed;
+      000097 0F 01            [ 1]  193 	clr	(0x01, sp)
+      000099 20 47            [ 2]  194 	jra	00114$
+      00009B                        195 00113$:
+                                    196 ;	HAL_CAN.c: 87: CAN->MCR |= (uint8_t)CAN_MasterCtrl;
+      00009B C6 54 20         [ 1]  197 	ld	a, 0x5420
+      00009E 1A 04            [ 1]  198 	or	a, (0x04, sp)
+      0000A0 C7 54 20         [ 1]  199 	ld	0x5420, a
+                                    200 ;	HAL_CAN.c: 90: CAN->DGR |= (uint8_t)CAN_Mode;
+      0000A3 C6 54 26         [ 1]  201 	ld	a, 0x5426
+      0000A6 1A 05            [ 1]  202 	or	a, (0x05, sp)
+      0000A8 C7 54 26         [ 1]  203 	ld	0x5426, a
+                                    204 ;	HAL_CAN.c: 91: CAN->PSR = CAN_Page_Config;
+      0000AB 35 06 54 27      [ 1]  205 	mov	0x5427+0, #0x06
+                                    206 ;	HAL_CAN.c: 92: CAN->Page.Config.BTR1 = (uint8_t)((uint8_t)(CAN_Prescaler - (uint8_t)1) | CAN_SynJumpWidth);
+      0000AF 7B 09            [ 1]  207 	ld	a, (0x09, sp)
+      0000B1 4A               [ 1]  208 	dec	a
+      0000B2 1A 06            [ 1]  209 	or	a, (0x06, sp)
+      0000B4 C7 54 2C         [ 1]  210 	ld	0x542c, a
+                                    211 ;	HAL_CAN.c: 93: CAN->Page.Config.BTR2 = (uint8_t)(CAN_BitSeg1 | (uint8_t)CAN_BitSeg2);
+      0000B7 7B 07            [ 1]  212 	ld	a, (0x07, sp)
+      0000B9 1A 08            [ 1]  213 	or	a, (0x08, sp)
+      0000BB C7 54 2D         [ 1]  214 	ld	0x542d, a
+                                    215 ;	HAL_CAN.c: 96: CAN->MCR &= (uint8_t)(~CAN_MCR_INRQ);
+      0000BE 72 11 54 20      [ 1]  216 	bres	21536, #0
+                                    217 ;	HAL_CAN.c: 99: while ((((uint8_t)(CAN->MSR & CAN_MSR_INAK) == 0x01)) && (timeout != 0))
+      0000C2 5F               [ 1]  218 	clrw	x
+      0000C3 5A               [ 2]  219 	decw	x
+      0000C4                        220 00106$:
+      0000C4 C6 54 21         [ 1]  221 	ld	a, 0x5421
+      0000C7 A4 01            [ 1]  222 	and	a, #0x01
+      0000C9 4A               [ 1]  223 	dec	a
+      0000CA 26 06            [ 1]  224 	jrne	00108$
+      0000CC 5D               [ 2]  225 	tnzw	x
+      0000CD 27 03            [ 1]  226 	jreq	00108$
+                                    227 ;	HAL_CAN.c: 101: timeout--;
+      0000CF 5A               [ 2]  228 	decw	x
+      0000D0 20 F2            [ 2]  229 	jra	00106$
+      0000D2                        230 00108$:
+                                    231 ;	HAL_CAN.c: 104: if ((CAN->MSR & CAN_MSR_INAK) == CAN_MSR_INAK)
+      0000D2 C6 54 21         [ 1]  232 	ld	a, 0x5421
+      0000D5 A4 01            [ 1]  233 	and	a, #0x01
+      0000D7 4A               [ 1]  234 	dec	a
+      0000D8 26 04            [ 1]  235 	jrne	00110$
+                                    236 ;	HAL_CAN.c: 106: InitStatus = CAN_InitStatus_Failed;
+      0000DA 0F 01            [ 1]  237 	clr	(0x01, sp)
+      0000DC 20 04            [ 2]  238 	jra	00114$
+      0000DE                        239 00110$:
+                                    240 ;	HAL_CAN.c: 110: InitStatus = CAN_InitStatus_Success;
+      0000DE A6 01            [ 1]  241 	ld	a, #0x01
+      0000E0 6B 01            [ 1]  242 	ld	(0x01, sp), a
+      0000E2                        243 00114$:
+                                    244 ;	HAL_CAN.c: 114: CAN_SelectPage(can_page);
+      0000E2 90 9F            [ 1]  245 	ld	a, yl
+      0000E4 88               [ 1]  246 	push	a
+      0000E5 CDr0Cr4B         [ 4]  247 	call	_CAN_SelectPage
+      0000E8 84               [ 1]  248 	pop	a
+                                    249 ;	HAL_CAN.c: 117: return (CAN_InitStatus_TypeDef)InitStatus;
+      0000E9 7B 01            [ 1]  250 	ld	a, (0x01, sp)
+                                    251 ;	HAL_CAN.c: 118: }
+      0000EB 5B 01            [ 2]  252 	addw	sp, #1
+      0000ED 81               [ 4]  253 	ret
+                                    254 ;	HAL_CAN.c: 120: void CAN_FilterInit(CAN_FilterNumber_TypeDef CAN_FilterNumber,
+                                    255 ;	-----------------------------------------
+                                    256 ;	 function CAN_FilterInit
+                                    257 ;	-----------------------------------------
+      0000EE                        258 _CAN_FilterInit:
+      0000EE 52 09            [ 2]  259 	sub	sp, #9
+                                    260 ;	HAL_CAN.c: 138: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      0000F0 CDr0Cr47         [ 4]  261 	call	_CAN_GetSelectedPage
+      0000F3 6B 01            [ 1]  262 	ld	(0x01, sp), a
+                                    263 ;	HAL_CAN.c: 140: if (CAN_FilterNumber == CAN_FilterNumber_0)
+      0000F5 0D 0C            [ 1]  264 	tnz	(0x0c, sp)
+      0000F7 26 0E            [ 1]  265 	jrne	00114$
+                                    266 ;	HAL_CAN.c: 142: fact = 0x01;
+      0000F9 A6 01            [ 1]  267 	ld	a, #0x01
+      0000FB 6B 02            [ 1]  268 	ld	(0x02, sp), a
+                                    269 ;	HAL_CAN.c: 143: fsc = 0x00;
+      0000FD 0F 03            [ 1]  270 	clr	(0x03, sp)
+                                    271 ;	HAL_CAN.c: 144: fmhl = 0x03;
+      0000FF A6 03            [ 1]  272 	ld	a, #0x03
+      000101 97               [ 1]  273 	ld	xl, a
+                                    274 ;	HAL_CAN.c: 146: can_page_filter = CAN_Page_Filter01;
+      000102 A6 02            [ 1]  275 	ld	a, #0x02
+      000104 95               [ 1]  276 	ld	xh, a
+      000105 20 5F            [ 2]  277 	jra	00115$
+      000107                        278 00114$:
+                                    279 ;	HAL_CAN.c: 148: else if (CAN_FilterNumber == CAN_FilterNumber_1)
+      000107 7B 0C            [ 1]  280 	ld	a, (0x0c, sp)
+      000109 4A               [ 1]  281 	dec	a
+      00010A 26 10            [ 1]  282 	jrne	00111$
+                                    283 ;	HAL_CAN.c: 150: fact = 0x10;
+      00010C A6 10            [ 1]  284 	ld	a, #0x10
+      00010E 6B 02            [ 1]  285 	ld	(0x02, sp), a
+                                    286 ;	HAL_CAN.c: 151: fsc = 0x04;
+      000110 A6 04            [ 1]  287 	ld	a, #0x04
+      000112 6B 03            [ 1]  288 	ld	(0x03, sp), a
+                                    289 ;	HAL_CAN.c: 152: fmhl = 0x0C;
+      000114 A6 0C            [ 1]  290 	ld	a, #0x0c
+      000116 97               [ 1]  291 	ld	xl, a
+                                    292 ;	HAL_CAN.c: 154: can_page_filter = CAN_Page_Filter01;
+      000117 A6 02            [ 1]  293 	ld	a, #0x02
+      000119 95               [ 1]  294 	ld	xh, a
+      00011A 20 4A            [ 2]  295 	jra	00115$
+      00011C                        296 00111$:
+                                    297 ;	HAL_CAN.c: 156: else if (CAN_FilterNumber == CAN_FilterNumber_2)
+      00011C 7B 0C            [ 1]  298 	ld	a, (0x0c, sp)
+                                    299 ;	HAL_CAN.c: 158: fact = 0x01;
+      00011E A0 02            [ 1]  300 	sub	a, #0x02
+      000120 26 0D            [ 1]  301 	jrne	00108$
+      000122 4C               [ 1]  302 	inc	a
+      000123 6B 02            [ 1]  303 	ld	(0x02, sp), a
+                                    304 ;	HAL_CAN.c: 159: fsc = 0x00;
+      000125 0F 03            [ 1]  305 	clr	(0x03, sp)
+                                    306 ;	HAL_CAN.c: 160: fmhl = 0x30;
+      000127 A6 30            [ 1]  307 	ld	a, #0x30
+      000129 97               [ 1]  308 	ld	xl, a
+                                    309 ;	HAL_CAN.c: 162: can_page_filter = CAN_Page_Filter23;
+      00012A A6 03            [ 1]  310 	ld	a, #0x03
+      00012C 95               [ 1]  311 	ld	xh, a
+      00012D 20 37            [ 2]  312 	jra	00115$
+      00012F                        313 00108$:
+                                    314 ;	HAL_CAN.c: 164: else if (CAN_FilterNumber == CAN_FilterNumber_3)
+      00012F 7B 0C            [ 1]  315 	ld	a, (0x0c, sp)
+      000131 A1 03            [ 1]  316 	cp	a, #0x03
+      000133 26 10            [ 1]  317 	jrne	00105$
+                                    318 ;	HAL_CAN.c: 166: fact = 0x10;
+      000135 A6 10            [ 1]  319 	ld	a, #0x10
+      000137 6B 02            [ 1]  320 	ld	(0x02, sp), a
+                                    321 ;	HAL_CAN.c: 167: fsc = 0x04;
+      000139 A6 04            [ 1]  322 	ld	a, #0x04
+      00013B 6B 03            [ 1]  323 	ld	(0x03, sp), a
+                                    324 ;	HAL_CAN.c: 168: fmhl = 0xC0;
+      00013D A6 C0            [ 1]  325 	ld	a, #0xc0
+      00013F 97               [ 1]  326 	ld	xl, a
+                                    327 ;	HAL_CAN.c: 170: can_page_filter = CAN_Page_Filter23;
+      000140 A6 03            [ 1]  328 	ld	a, #0x03
+      000142 95               [ 1]  329 	ld	xh, a
+      000143 20 21            [ 2]  330 	jra	00115$
+      000145                        331 00105$:
+                                    332 ;	HAL_CAN.c: 172: else if (CAN_FilterNumber == CAN_FilterNumber_4)
+      000145 7B 0C            [ 1]  333 	ld	a, (0x0c, sp)
+                                    334 ;	HAL_CAN.c: 174: fact = 0x01;
+      000147 A0 04            [ 1]  335 	sub	a, #0x04
+      000149 26 0D            [ 1]  336 	jrne	00102$
+      00014B 4C               [ 1]  337 	inc	a
+      00014C 6B 02            [ 1]  338 	ld	(0x02, sp), a
+                                    339 ;	HAL_CAN.c: 175: fsc = 0x00;
+      00014E 0F 03            [ 1]  340 	clr	(0x03, sp)
+                                    341 ;	HAL_CAN.c: 176: fmhl = 0x03;
+      000150 A6 03            [ 1]  342 	ld	a, #0x03
+      000152 97               [ 1]  343 	ld	xl, a
+                                    344 ;	HAL_CAN.c: 178: can_page_filter = CAN_Page_Filter45;
+      000153 A6 04            [ 1]  345 	ld	a, #0x04
+      000155 95               [ 1]  346 	ld	xh, a
+      000156 20 0E            [ 2]  347 	jra	00115$
+      000158                        348 00102$:
+                                    349 ;	HAL_CAN.c: 182: fact = 0x10;
+      000158 A6 10            [ 1]  350 	ld	a, #0x10
+      00015A 6B 02            [ 1]  351 	ld	(0x02, sp), a
+                                    352 ;	HAL_CAN.c: 183: fsc = 0x04;
+      00015C A6 04            [ 1]  353 	ld	a, #0x04
+      00015E 6B 03            [ 1]  354 	ld	(0x03, sp), a
+                                    355 ;	HAL_CAN.c: 184: fmhl = 0x0C;
+      000160 A6 0C            [ 1]  356 	ld	a, #0x0c
+      000162 97               [ 1]  357 	ld	xl, a
+                                    358 ;	HAL_CAN.c: 186: can_page_filter = CAN_Page_Filter45;
+      000163 A6 04            [ 1]  359 	ld	a, #0x04
+      000165 95               [ 1]  360 	ld	xh, a
+      000166                        361 00115$:
+                                    362 ;	HAL_CAN.c: 190: CAN_OperatingModeRequest(CAN_OperatingMode_Initialization);
+      000166 89               [ 2]  363 	pushw	x
+      000167 4B 00            [ 1]  364 	push	#0x00
+      000169 CDr08rDC         [ 4]  365 	call	_CAN_OperatingModeRequest
+      00016C 84               [ 1]  366 	pop	a
+      00016D 85               [ 2]  367 	popw	x
+                                    368 ;	HAL_CAN.c: 192: CAN->PSR = CAN_Page_Config;
+      00016E 35 06 54 27      [ 1]  369 	mov	0x5427+0, #0x06
+                                    370 ;	HAL_CAN.c: 200: CAN->Page.Config.FCR1 &= (uint8_t)(~(uint8_t)(fact | (uint8_t)((uint8_t)(CAN_FCR1_FSC00 | CAN_FCR1_FSC01) << fsc)));
+      000172 A6 06            [ 1]  371 	ld	a, #0x06
+      000174 88               [ 1]  372 	push	a
+      000175 7B 04            [ 1]  373 	ld	a, (0x04, sp)
+      000177 27 05            [ 1]  374 	jreq	00322$
+      000179                        375 00321$:
+      000179 08 01            [ 1]  376 	sll	(1, sp)
+      00017B 4A               [ 1]  377 	dec	a
+      00017C 26 FB            [ 1]  378 	jrne	00321$
+      00017E                        379 00322$:
+      00017E 7B 10            [ 1]  380 	ld	a, (0x10, sp)
+      000180 6B 09            [ 1]  381 	ld	(0x09, sp), a
+      000182 7B 04            [ 1]  382 	ld	a, (0x04, sp)
+      000184 27 05            [ 1]  383 	jreq	00324$
+      000186                        384 00323$:
+      000186 08 09            [ 1]  385 	sll	(0x09, sp)
+      000188 4A               [ 1]  386 	dec	a
+      000189 26 FB            [ 1]  387 	jrne	00323$
+      00018B                        388 00324$:
+      00018B 84               [ 1]  389 	pop	a
+                                    390 ;	HAL_CAN.c: 200: CAN->Page.Config.FCR1 &= (uint8_t)(~(uint8_t)(fact | (uint8_t)((uint8_t)(CAN_FCR1_FSC00 | CAN_FCR1_FSC01) << fsc)));
+      00018C 1A 02            [ 1]  391 	or	a, (0x02, sp)
+      00018E 43               [ 1]  392 	cpl	a
+      00018F 6B 09            [ 1]  393 	ld	(0x09, sp), a
+                                    394 ;	HAL_CAN.c: 197: if (can_page_filter == CAN_Page_Filter01) /* FCR1 */
+      000191 9E               [ 1]  395 	ld	a, xh
+      000192 A1 02            [ 1]  396 	cp	a, #0x02
+      000194 26 12            [ 1]  397 	jrne	00120$
+                                    398 ;	HAL_CAN.c: 200: CAN->Page.Config.FCR1 &= (uint8_t)(~(uint8_t)(fact | (uint8_t)((uint8_t)(CAN_FCR1_FSC00 | CAN_FCR1_FSC01) << fsc)));
+      000196 C6 54 32         [ 1]  399 	ld	a, 0x5432
+      000199 14 09            [ 1]  400 	and	a, (0x09, sp)
+      00019B C7 54 32         [ 1]  401 	ld	0x5432, a
+                                    402 ;	HAL_CAN.c: 202: CAN->Page.Config.FCR1 |= (uint8_t)(CAN_FilterScale << fsc);
+      00019E C6 54 32         [ 1]  403 	ld	a, 0x5432
+      0001A1 1A 08            [ 1]  404 	or	a, (0x08, sp)
+      0001A3 C7 54 32         [ 1]  405 	ld	0x5432, a
+      0001A6 20 27            [ 2]  406 	jra	00121$
+      0001A8                        407 00120$:
+                                    408 ;	HAL_CAN.c: 204: else if (can_page_filter == CAN_Page_Filter23) /* FCR2*/
+      0001A8 9E               [ 1]  409 	ld	a, xh
+      0001A9 A1 03            [ 1]  410 	cp	a, #0x03
+      0001AB 26 12            [ 1]  411 	jrne	00117$
+                                    412 ;	HAL_CAN.c: 207: CAN->Page.Config.FCR2 &= (uint8_t)~(uint8_t)(fact | (uint8_t)((uint8_t)(CAN_FCR1_FSC00 | CAN_FCR1_FSC01) << fsc));
+      0001AD C6 54 33         [ 1]  413 	ld	a, 0x5433
+      0001B0 14 09            [ 1]  414 	and	a, (0x09, sp)
+      0001B2 C7 54 33         [ 1]  415 	ld	0x5433, a
+                                    416 ;	HAL_CAN.c: 210: CAN->Page.Config.FCR2 |= (uint8_t)(CAN_FilterScale << fsc);
+      0001B5 C6 54 33         [ 1]  417 	ld	a, 0x5433
+      0001B8 1A 08            [ 1]  418 	or	a, (0x08, sp)
+      0001BA C7 54 33         [ 1]  419 	ld	0x5433, a
+      0001BD 20 10            [ 2]  420 	jra	00121$
+      0001BF                        421 00117$:
+                                    422 ;	HAL_CAN.c: 216: CAN->Page.Config.FCR3 &= (uint8_t)~(uint8_t)(fact | (uint8_t)((uint8_t)(CAN_FCR1_FSC00 | CAN_FCR1_FSC01) << fsc));
+      0001BF C6 54 34         [ 1]  423 	ld	a, 0x5434
+      0001C2 14 09            [ 1]  424 	and	a, (0x09, sp)
+      0001C4 C7 54 34         [ 1]  425 	ld	0x5434, a
+                                    426 ;	HAL_CAN.c: 219: CAN->Page.Config.FCR3 |= (uint8_t)(CAN_FilterScale << fsc);
+      0001C7 C6 54 34         [ 1]  427 	ld	a, 0x5434
+      0001CA 1A 08            [ 1]  428 	or	a, (0x08, sp)
+      0001CC C7 54 34         [ 1]  429 	ld	0x5434, a
+      0001CF                        430 00121$:
+                                    431 ;	HAL_CAN.c: 231: CAN->Page.Config.FMR1 &= (uint8_t)~(fmhl);
+      0001CF 9F               [ 1]  432 	ld	a, xl
+      0001D0 43               [ 1]  433 	cpl	a
+      0001D1 6B 04            [ 1]  434 	ld	(0x04, sp), a
+                                    435 ;	HAL_CAN.c: 233: else if (CAN_FilterMode == CAN_FilterMode_IdList)
+      0001D3 7B 0E            [ 1]  436 	ld	a, (0x0e, sp)
+      0001D5 4A               [ 1]  437 	dec	a
+      0001D6 26 05            [ 1]  438 	jrne	00332$
+      0001D8 A6 01            [ 1]  439 	ld	a, #0x01
+      0001DA 6B 05            [ 1]  440 	ld	(0x05, sp), a
+      0001DC C5                     441 	.byte 0xc5
+      0001DD                        442 00332$:
+      0001DD 0F 05            [ 1]  443 	clr	(0x05, sp)
+      0001DF                        444 00333$:
+                                    445 ;	HAL_CAN.c: 238: else if (CAN_FilterMode == CAN_FilterMode_IdList_IdMask)
+      0001DF 7B 0E            [ 1]  446 	ld	a, (0x0e, sp)
+      0001E1 A0 11            [ 1]  447 	sub	a, #0x11
+      0001E3 26 04            [ 1]  448 	jrne	00335$
+      0001E5 4C               [ 1]  449 	inc	a
+      0001E6 6B 06            [ 1]  450 	ld	(0x06, sp), a
+      0001E8 C5                     451 	.byte 0xc5
+      0001E9                        452 00335$:
+      0001E9 0F 06            [ 1]  453 	clr	(0x06, sp)
+      0001EB                        454 00336$:
+                                    455 ;	HAL_CAN.c: 241: CAN->Page.Config.FMR1 |= (uint8_t)(fmhl & CAN_IDLIST_IDMASK_MASK);
+      0001EB 9F               [ 1]  456 	ld	a, xl
+      0001EC A4 55            [ 1]  457 	and	a, #0x55
+      0001EE 6B 07            [ 1]  458 	ld	(0x07, sp), a
+                                    459 ;	HAL_CAN.c: 246: CAN->Page.Config.FMR1 |= (uint8_t)(fmhl & CAN_IDMASK_IDLIST_MASK);
+      0001F0 9F               [ 1]  460 	ld	a, xl
+      0001F1 A4 AA            [ 1]  461 	and	a, #0xaa
+      0001F3 6B 08            [ 1]  462 	ld	(0x08, sp), a
+                                    463 ;	HAL_CAN.c: 225: if (can_page_filter != CAN_Page_Filter45) /* FMR1*/
+      0001F5 9E               [ 1]  464 	ld	a, xh
+      0001F6 A1 04            [ 1]  465 	cp	a, #0x04
+      0001F8 27 2D            [ 1]  466 	jreq	00141$
+                                    467 ;	HAL_CAN.c: 231: CAN->Page.Config.FMR1 &= (uint8_t)~(fmhl);
+      0001FA C6 54 30         [ 1]  468 	ld	a, 0x5430
+                                    469 ;	HAL_CAN.c: 228: if (CAN_FilterMode == CAN_FilterMode_IdMask)
+      0001FD 0D 0E            [ 1]  470 	tnz	(0x0e, sp)
+      0001FF 26 07            [ 1]  471 	jrne	00129$
+                                    472 ;	HAL_CAN.c: 231: CAN->Page.Config.FMR1 &= (uint8_t)~(fmhl);
+      000201 14 04            [ 1]  473 	and	a, (0x04, sp)
+      000203 C7 54 30         [ 1]  474 	ld	0x5430, a
+      000206 20 54            [ 2]  475 	jra	00142$
+      000208                        476 00129$:
+                                    477 ;	HAL_CAN.c: 233: else if (CAN_FilterMode == CAN_FilterMode_IdList)
+      000208 0D 05            [ 1]  478 	tnz	(0x05, sp)
+      00020A 27 09            [ 1]  479 	jreq	00126$
+                                    480 ;	HAL_CAN.c: 236: CAN->Page.Config.FMR1 |= (uint8_t)(fmhl);
+      00020C 89               [ 2]  481 	pushw	x
+      00020D 1A 02            [ 1]  482 	or	a, (2, sp)
+      00020F 85               [ 2]  483 	popw	x
+      000210 C7 54 30         [ 1]  484 	ld	0x5430, a
+      000213 20 47            [ 2]  485 	jra	00142$
+      000215                        486 00126$:
+                                    487 ;	HAL_CAN.c: 238: else if (CAN_FilterMode == CAN_FilterMode_IdList_IdMask)
+      000215 0D 06            [ 1]  488 	tnz	(0x06, sp)
+      000217 27 07            [ 1]  489 	jreq	00123$
+                                    490 ;	HAL_CAN.c: 241: CAN->Page.Config.FMR1 |= (uint8_t)(fmhl & CAN_IDLIST_IDMASK_MASK);
+      000219 1A 07            [ 1]  491 	or	a, (0x07, sp)
+      00021B C7 54 30         [ 1]  492 	ld	0x5430, a
+      00021E 20 3C            [ 2]  493 	jra	00142$
+      000220                        494 00123$:
+                                    495 ;	HAL_CAN.c: 246: CAN->Page.Config.FMR1 |= (uint8_t)(fmhl & CAN_IDMASK_IDLIST_MASK);
+      000220 1A 08            [ 1]  496 	or	a, (0x08, sp)
+      000222 C7 54 30         [ 1]  497 	ld	0x5430, a
+      000225 20 35            [ 2]  498 	jra	00142$
+      000227                        499 00141$:
+                                    500 ;	HAL_CAN.c: 258: CAN->Page.Config.FMR2 &= (uint8_t)~(fmhl);
+      000227 C6 54 31         [ 1]  501 	ld	a, 0x5431
+      00022A 6B 09            [ 1]  502 	ld	(0x09, sp), a
+                                    503 ;	HAL_CAN.c: 255: if (CAN_FilterMode == CAN_FilterMode_IdMask)
+      00022C 0D 0E            [ 1]  504 	tnz	(0x0e, sp)
+      00022E 26 09            [ 1]  505 	jrne	00138$
+                                    506 ;	HAL_CAN.c: 258: CAN->Page.Config.FMR2 &= (uint8_t)~(fmhl);
+      000230 7B 09            [ 1]  507 	ld	a, (0x09, sp)
+      000232 14 04            [ 1]  508 	and	a, (0x04, sp)
+      000234 C7 54 31         [ 1]  509 	ld	0x5431, a
+      000237 20 23            [ 2]  510 	jra	00142$
+      000239                        511 00138$:
+                                    512 ;	HAL_CAN.c: 260: else if (CAN_FilterMode == CAN_FilterMode_IdList)
+      000239 0D 05            [ 1]  513 	tnz	(0x05, sp)
+      00023B 27 0B            [ 1]  514 	jreq	00135$
+                                    515 ;	HAL_CAN.c: 263: CAN->Page.Config.FMR2 |= (uint8_t)(fmhl);
+      00023D 89               [ 2]  516 	pushw	x
+      00023E 7B 0B            [ 1]  517 	ld	a, (0x0b, sp)
+      000240 1A 02            [ 1]  518 	or	a, (2, sp)
+      000242 85               [ 2]  519 	popw	x
+      000243 C7 54 31         [ 1]  520 	ld	0x5431, a
+      000246 20 14            [ 2]  521 	jra	00142$
+      000248                        522 00135$:
+                                    523 ;	HAL_CAN.c: 265: else if (CAN_FilterMode == CAN_FilterMode_IdList_IdMask)
+      000248 0D 06            [ 1]  524 	tnz	(0x06, sp)
+      00024A 27 09            [ 1]  525 	jreq	00132$
+                                    526 ;	HAL_CAN.c: 268: CAN->Page.Config.FMR2 |= (uint8_t)(fmhl & CAN_IDLIST_IDMASK_MASK);
+      00024C 7B 09            [ 1]  527 	ld	a, (0x09, sp)
+      00024E 1A 07            [ 1]  528 	or	a, (0x07, sp)
+      000250 C7 54 31         [ 1]  529 	ld	0x5431, a
+      000253 20 07            [ 2]  530 	jra	00142$
+      000255                        531 00132$:
+                                    532 ;	HAL_CAN.c: 273: CAN->Page.Config.FMR2 |= (uint8_t)(fmhl & CAN_IDMASK_IDLIST_MASK);
+      000255 7B 09            [ 1]  533 	ld	a, (0x09, sp)
+      000257 1A 08            [ 1]  534 	or	a, (0x08, sp)
+      000259 C7 54 31         [ 1]  535 	ld	0x5431, a
+      00025C                        536 00142$:
+                                    537 ;	HAL_CAN.c: 279: CAN->PSR = (uint8_t)can_page_filter;
+      00025C 90 AE 54 27      [ 2]  538 	ldw	y, #0x5427
+      000260 9E               [ 1]  539 	ld	a, xh
+      000261 90 F7            [ 1]  540 	ld	(y), a
+                                    541 ;	HAL_CAN.c: 294: else if (CAN_FilterScale == CAN_FilterScale_16_8Bit)
+      000263 7B 0F            [ 1]  542 	ld	a, (0x0f, sp)
+      000265 A0 02            [ 1]  543 	sub	a, #0x02
+      000267 26 04            [ 1]  544 	jrne	00347$
+      000269 4C               [ 1]  545 	inc	a
+      00026A 6B 08            [ 1]  546 	ld	(0x08, sp), a
+      00026C C5                     547 	.byte 0xc5
+      00026D                        548 00347$:
+      00026D 0F 08            [ 1]  549 	clr	(0x08, sp)
+      00026F                        550 00348$:
+                                    551 ;	HAL_CAN.c: 305: else if (CAN_FilterScale == CAN_FilterScale_16Bit)
+      00026F 7B 0F            [ 1]  552 	ld	a, (0x0f, sp)
+      000271 A0 04            [ 1]  553 	sub	a, #0x04
+      000273 26 04            [ 1]  554 	jrne	00350$
+      000275 4C               [ 1]  555 	inc	a
+      000276 6B 09            [ 1]  556 	ld	(0x09, sp), a
+      000278 C5                     557 	.byte 0xc5
+      000279                        558 00350$:
+      000279 0F 09            [ 1]  559 	clr	(0x09, sp)
+      00027B                        560 00351$:
+                                    561 ;	HAL_CAN.c: 316: else if (CAN_FilterScale == CAN_FilterScale_32Bit)
+      00027B 7B 0F            [ 1]  562 	ld	a, (0x0f, sp)
+      00027D A0 06            [ 1]  563 	sub	a, #0x06
+      00027F 26 02            [ 1]  564 	jrne	00353$
+      000281 4C               [ 1]  565 	inc	a
+      000282 21                     566 	.byte 0x21
+      000283                        567 00353$:
+      000283 4F               [ 1]  568 	clr	a
+      000284                        569 00354$:
+                                    570 ;	HAL_CAN.c: 280: if (fsc != 0)
+      000284 0D 03            [ 1]  571 	tnz	(0x03, sp)
+      000286 26 03            [ 1]  572 	jrne	00355$
+      000288 CCr03r69         [ 2]  573 	jp	00166$
+      00028B                        574 00355$:
+                                    575 ;	HAL_CAN.c: 283: if (CAN_FilterScale == CAN_FilterScale_8Bit)
+      00028B 0D 0F            [ 1]  576 	tnz	(0x0f, sp)
+      00028D 26 33            [ 1]  577 	jrne	00152$
+                                    578 ;	HAL_CAN.c: 285: CAN->Page.Filter.FR09 = CAN_FilterID1;
+      00028F AE 54 30         [ 2]  579 	ldw	x, #0x5430
+      000292 7B 10            [ 1]  580 	ld	a, (0x10, sp)
+      000294 F7               [ 1]  581 	ld	(x), a
+                                    582 ;	HAL_CAN.c: 286: CAN->Page.Filter.FR10 = CAN_FilterIDMask1;
+      000295 AE 54 31         [ 2]  583 	ldw	x, #0x5431
+      000298 7B 14            [ 1]  584 	ld	a, (0x14, sp)
+      00029A F7               [ 1]  585 	ld	(x), a
+                                    586 ;	HAL_CAN.c: 287: CAN->Page.Filter.FR11 = CAN_FilterID2;
+      00029B AE 54 32         [ 2]  587 	ldw	x, #0x5432
+      00029E 7B 11            [ 1]  588 	ld	a, (0x11, sp)
+      0002A0 F7               [ 1]  589 	ld	(x), a
+                                    590 ;	HAL_CAN.c: 288: CAN->Page.Filter.FR12 = CAN_FilterIDMask2;
+      0002A1 AE 54 33         [ 2]  591 	ldw	x, #0x5433
+      0002A4 7B 15            [ 1]  592 	ld	a, (0x15, sp)
+      0002A6 F7               [ 1]  593 	ld	(x), a
+                                    594 ;	HAL_CAN.c: 289: CAN->Page.Filter.FR13 = CAN_FilterID3;
+      0002A7 AE 54 34         [ 2]  595 	ldw	x, #0x5434
+      0002AA 7B 12            [ 1]  596 	ld	a, (0x12, sp)
+      0002AC F7               [ 1]  597 	ld	(x), a
+                                    598 ;	HAL_CAN.c: 290: CAN->Page.Filter.FR14 = CAN_FilterIDMask3;
+      0002AD AE 54 35         [ 2]  599 	ldw	x, #0x5435
+      0002B0 7B 16            [ 1]  600 	ld	a, (0x16, sp)
+      0002B2 F7               [ 1]  601 	ld	(x), a
+                                    602 ;	HAL_CAN.c: 291: CAN->Page.Filter.FR15 = CAN_FilterID4;
+      0002B3 AE 54 36         [ 2]  603 	ldw	x, #0x5436
+      0002B6 7B 13            [ 1]  604 	ld	a, (0x13, sp)
+      0002B8 F7               [ 1]  605 	ld	(x), a
+                                    606 ;	HAL_CAN.c: 292: CAN->Page.Filter.FR16 = CAN_FilterIDMask4;
+      0002B9 AE 54 37         [ 2]  607 	ldw	x, #0x5437
+      0002BC 7B 17            [ 1]  608 	ld	a, (0x17, sp)
+      0002BE F7               [ 1]  609 	ld	(x), a
+      0002BF CCr04r3F         [ 2]  610 	jp	00167$
+      0002C2                        611 00152$:
+                                    612 ;	HAL_CAN.c: 294: else if (CAN_FilterScale == CAN_FilterScale_16_8Bit)
+      0002C2 0D 08            [ 1]  613 	tnz	(0x08, sp)
+      0002C4 27 33            [ 1]  614 	jreq	00149$
+                                    615 ;	HAL_CAN.c: 296: CAN->Page.Filter.FR09 = CAN_FilterID1;
+      0002C6 AE 54 30         [ 2]  616 	ldw	x, #0x5430
+      0002C9 7B 10            [ 1]  617 	ld	a, (0x10, sp)
+      0002CB F7               [ 1]  618 	ld	(x), a
+                                    619 ;	HAL_CAN.c: 297: CAN->Page.Filter.FR10 = CAN_FilterID2;
+      0002CC AE 54 31         [ 2]  620 	ldw	x, #0x5431
+      0002CF 7B 11            [ 1]  621 	ld	a, (0x11, sp)
+      0002D1 F7               [ 1]  622 	ld	(x), a
+                                    623 ;	HAL_CAN.c: 298: CAN->Page.Filter.FR11 = CAN_FilterIDMask1;
+      0002D2 AE 54 32         [ 2]  624 	ldw	x, #0x5432
+      0002D5 7B 14            [ 1]  625 	ld	a, (0x14, sp)
+      0002D7 F7               [ 1]  626 	ld	(x), a
+                                    627 ;	HAL_CAN.c: 299: CAN->Page.Filter.FR12 = CAN_FilterIDMask2;
+      0002D8 AE 54 33         [ 2]  628 	ldw	x, #0x5433
+      0002DB 7B 15            [ 1]  629 	ld	a, (0x15, sp)
+      0002DD F7               [ 1]  630 	ld	(x), a
+                                    631 ;	HAL_CAN.c: 300: CAN->Page.Filter.FR13 = CAN_FilterID3;
+      0002DE AE 54 34         [ 2]  632 	ldw	x, #0x5434
+      0002E1 7B 12            [ 1]  633 	ld	a, (0x12, sp)
+      0002E3 F7               [ 1]  634 	ld	(x), a
+                                    635 ;	HAL_CAN.c: 301: CAN->Page.Filter.FR14 = CAN_FilterIDMask3;
+      0002E4 AE 54 35         [ 2]  636 	ldw	x, #0x5435
+      0002E7 7B 16            [ 1]  637 	ld	a, (0x16, sp)
+      0002E9 F7               [ 1]  638 	ld	(x), a
+                                    639 ;	HAL_CAN.c: 302: CAN->Page.Filter.FR15 = CAN_FilterID4;
+      0002EA AE 54 36         [ 2]  640 	ldw	x, #0x5436
+      0002ED 7B 13            [ 1]  641 	ld	a, (0x13, sp)
+      0002EF F7               [ 1]  642 	ld	(x), a
+                                    643 ;	HAL_CAN.c: 303: CAN->Page.Filter.FR16 = CAN_FilterIDMask4;
+      0002F0 AE 54 37         [ 2]  644 	ldw	x, #0x5437
+      0002F3 7B 17            [ 1]  645 	ld	a, (0x17, sp)
+      0002F5 F7               [ 1]  646 	ld	(x), a
+      0002F6 CCr04r3F         [ 2]  647 	jp	00167$
+      0002F9                        648 00149$:
+                                    649 ;	HAL_CAN.c: 305: else if (CAN_FilterScale == CAN_FilterScale_16Bit)
+      0002F9 0D 09            [ 1]  650 	tnz	(0x09, sp)
+      0002FB 27 33            [ 1]  651 	jreq	00146$
+                                    652 ;	HAL_CAN.c: 307: CAN->Page.Filter.FR09 = CAN_FilterID1;
+      0002FD AE 54 30         [ 2]  653 	ldw	x, #0x5430
+      000300 7B 10            [ 1]  654 	ld	a, (0x10, sp)
+      000302 F7               [ 1]  655 	ld	(x), a
+                                    656 ;	HAL_CAN.c: 308: CAN->Page.Filter.FR10 = CAN_FilterID2;
+      000303 AE 54 31         [ 2]  657 	ldw	x, #0x5431
+      000306 7B 11            [ 1]  658 	ld	a, (0x11, sp)
+      000308 F7               [ 1]  659 	ld	(x), a
+                                    660 ;	HAL_CAN.c: 309: CAN->Page.Filter.FR11 = CAN_FilterIDMask1;
+      000309 AE 54 32         [ 2]  661 	ldw	x, #0x5432
+      00030C 7B 14            [ 1]  662 	ld	a, (0x14, sp)
+      00030E F7               [ 1]  663 	ld	(x), a
+                                    664 ;	HAL_CAN.c: 310: CAN->Page.Filter.FR12 = CAN_FilterIDMask2;
+      00030F AE 54 33         [ 2]  665 	ldw	x, #0x5433
+      000312 7B 15            [ 1]  666 	ld	a, (0x15, sp)
+      000314 F7               [ 1]  667 	ld	(x), a
+                                    668 ;	HAL_CAN.c: 311: CAN->Page.Filter.FR13 = CAN_FilterID3;
+      000315 AE 54 34         [ 2]  669 	ldw	x, #0x5434
+      000318 7B 12            [ 1]  670 	ld	a, (0x12, sp)
+      00031A F7               [ 1]  671 	ld	(x), a
+                                    672 ;	HAL_CAN.c: 312: CAN->Page.Filter.FR14 = CAN_FilterID4;
+      00031B AE 54 35         [ 2]  673 	ldw	x, #0x5435
+      00031E 7B 13            [ 1]  674 	ld	a, (0x13, sp)
+      000320 F7               [ 1]  675 	ld	(x), a
+                                    676 ;	HAL_CAN.c: 313: CAN->Page.Filter.FR15 = CAN_FilterIDMask3;
+      000321 AE 54 36         [ 2]  677 	ldw	x, #0x5436
+      000324 7B 16            [ 1]  678 	ld	a, (0x16, sp)
+      000326 F7               [ 1]  679 	ld	(x), a
+                                    680 ;	HAL_CAN.c: 314: CAN->Page.Filter.FR16 = CAN_FilterIDMask4;
+      000327 AE 54 37         [ 2]  681 	ldw	x, #0x5437
+      00032A 7B 17            [ 1]  682 	ld	a, (0x17, sp)
+      00032C F7               [ 1]  683 	ld	(x), a
+      00032D CCr04r3F         [ 2]  684 	jp	00167$
+      000330                        685 00146$:
+                                    686 ;	HAL_CAN.c: 316: else if (CAN_FilterScale == CAN_FilterScale_32Bit)
+      000330 4D               [ 1]  687 	tnz	a
+      000331 26 03            [ 1]  688 	jrne	00359$
+      000333 CCr04r3F         [ 2]  689 	jp	00167$
+      000336                        690 00359$:
+                                    691 ;	HAL_CAN.c: 318: CAN->Page.Filter.FR09 = CAN_FilterID1;
+      000336 AE 54 30         [ 2]  692 	ldw	x, #0x5430
+      000339 7B 10            [ 1]  693 	ld	a, (0x10, sp)
+      00033B F7               [ 1]  694 	ld	(x), a
+                                    695 ;	HAL_CAN.c: 319: CAN->Page.Filter.FR10 = CAN_FilterID2;
+      00033C AE 54 31         [ 2]  696 	ldw	x, #0x5431
+      00033F 7B 11            [ 1]  697 	ld	a, (0x11, sp)
+      000341 F7               [ 1]  698 	ld	(x), a
+                                    699 ;	HAL_CAN.c: 320: CAN->Page.Filter.FR11 = CAN_FilterID3;
+      000342 AE 54 32         [ 2]  700 	ldw	x, #0x5432
+      000345 7B 12            [ 1]  701 	ld	a, (0x12, sp)
+      000347 F7               [ 1]  702 	ld	(x), a
+                                    703 ;	HAL_CAN.c: 321: CAN->Page.Filter.FR12 = CAN_FilterID4;
+      000348 AE 54 33         [ 2]  704 	ldw	x, #0x5433
+      00034B 7B 13            [ 1]  705 	ld	a, (0x13, sp)
+      00034D F7               [ 1]  706 	ld	(x), a
+                                    707 ;	HAL_CAN.c: 322: CAN->Page.Filter.FR13 = CAN_FilterIDMask1;
+      00034E AE 54 34         [ 2]  708 	ldw	x, #0x5434
+      000351 7B 14            [ 1]  709 	ld	a, (0x14, sp)
+      000353 F7               [ 1]  710 	ld	(x), a
+                                    711 ;	HAL_CAN.c: 323: CAN->Page.Filter.FR14 = CAN_FilterIDMask2;
+      000354 AE 54 35         [ 2]  712 	ldw	x, #0x5435
+      000357 7B 15            [ 1]  713 	ld	a, (0x15, sp)
+      000359 F7               [ 1]  714 	ld	(x), a
+                                    715 ;	HAL_CAN.c: 324: CAN->Page.Filter.FR15 = CAN_FilterIDMask3;
+      00035A AE 54 36         [ 2]  716 	ldw	x, #0x5436
+      00035D 7B 16            [ 1]  717 	ld	a, (0x16, sp)
+      00035F F7               [ 1]  718 	ld	(x), a
+                                    719 ;	HAL_CAN.c: 325: CAN->Page.Filter.FR16 = CAN_FilterIDMask4;
+      000360 AE 54 37         [ 2]  720 	ldw	x, #0x5437
+      000363 7B 17            [ 1]  721 	ld	a, (0x17, sp)
+      000365 F7               [ 1]  722 	ld	(x), a
+      000366 CCr04r3F         [ 2]  723 	jp	00167$
+      000369                        724 00166$:
+                                    725 ;	HAL_CAN.c: 331: if (CAN_FilterScale == CAN_FilterScale_8Bit)
+      000369 0D 0F            [ 1]  726 	tnz	(0x0f, sp)
+      00036B 26 33            [ 1]  727 	jrne	00163$
+                                    728 ;	HAL_CAN.c: 333: CAN->Page.Filter.FR01 = CAN_FilterID1;
+      00036D AE 54 28         [ 2]  729 	ldw	x, #0x5428
+      000370 7B 10            [ 1]  730 	ld	a, (0x10, sp)
+      000372 F7               [ 1]  731 	ld	(x), a
+                                    732 ;	HAL_CAN.c: 334: CAN->Page.Filter.FR02 = CAN_FilterIDMask1;
+      000373 AE 54 29         [ 2]  733 	ldw	x, #0x5429
+      000376 7B 14            [ 1]  734 	ld	a, (0x14, sp)
+      000378 F7               [ 1]  735 	ld	(x), a
+                                    736 ;	HAL_CAN.c: 335: CAN->Page.Filter.FR03 = CAN_FilterID2;
+      000379 AE 54 2A         [ 2]  737 	ldw	x, #0x542a
+      00037C 7B 11            [ 1]  738 	ld	a, (0x11, sp)
+      00037E F7               [ 1]  739 	ld	(x), a
+                                    740 ;	HAL_CAN.c: 336: CAN->Page.Filter.FR04 = CAN_FilterIDMask2;
+      00037F AE 54 2B         [ 2]  741 	ldw	x, #0x542b
+      000382 7B 15            [ 1]  742 	ld	a, (0x15, sp)
+      000384 F7               [ 1]  743 	ld	(x), a
+                                    744 ;	HAL_CAN.c: 337: CAN->Page.Filter.FR05 = CAN_FilterID3;
+      000385 AE 54 2C         [ 2]  745 	ldw	x, #0x542c
+      000388 7B 12            [ 1]  746 	ld	a, (0x12, sp)
+      00038A F7               [ 1]  747 	ld	(x), a
+                                    748 ;	HAL_CAN.c: 338: CAN->Page.Filter.FR06 = CAN_FilterIDMask3;
+      00038B AE 54 2D         [ 2]  749 	ldw	x, #0x542d
+      00038E 7B 16            [ 1]  750 	ld	a, (0x16, sp)
+      000390 F7               [ 1]  751 	ld	(x), a
+                                    752 ;	HAL_CAN.c: 339: CAN->Page.Filter.FR07 = CAN_FilterID4;
+      000391 AE 54 2E         [ 2]  753 	ldw	x, #0x542e
+      000394 7B 13            [ 1]  754 	ld	a, (0x13, sp)
+      000396 F7               [ 1]  755 	ld	(x), a
+                                    756 ;	HAL_CAN.c: 340: CAN->Page.Filter.FR08 = CAN_FilterIDMask4;
+      000397 AE 54 2F         [ 2]  757 	ldw	x, #0x542f
+      00039A 7B 17            [ 1]  758 	ld	a, (0x17, sp)
+      00039C F7               [ 1]  759 	ld	(x), a
+      00039D CCr04r3F         [ 2]  760 	jp	00167$
+      0003A0                        761 00163$:
+                                    762 ;	HAL_CAN.c: 342: else if (CAN_FilterScale == CAN_FilterScale_16_8Bit)
+      0003A0 0D 08            [ 1]  763 	tnz	(0x08, sp)
+      0003A2 27 32            [ 1]  764 	jreq	00160$
+                                    765 ;	HAL_CAN.c: 344: CAN->Page.Filter.FR01 = CAN_FilterID1;
+      0003A4 AE 54 28         [ 2]  766 	ldw	x, #0x5428
+      0003A7 7B 10            [ 1]  767 	ld	a, (0x10, sp)
+      0003A9 F7               [ 1]  768 	ld	(x), a
+                                    769 ;	HAL_CAN.c: 345: CAN->Page.Filter.FR02 = CAN_FilterID2;
+      0003AA AE 54 29         [ 2]  770 	ldw	x, #0x5429
+      0003AD 7B 11            [ 1]  771 	ld	a, (0x11, sp)
+      0003AF F7               [ 1]  772 	ld	(x), a
+                                    773 ;	HAL_CAN.c: 346: CAN->Page.Filter.FR03 = CAN_FilterIDMask1;
+      0003B0 AE 54 2A         [ 2]  774 	ldw	x, #0x542a
+      0003B3 7B 14            [ 1]  775 	ld	a, (0x14, sp)
+      0003B5 F7               [ 1]  776 	ld	(x), a
+                                    777 ;	HAL_CAN.c: 347: CAN->Page.Filter.FR04 = CAN_FilterIDMask2;
+      0003B6 AE 54 2B         [ 2]  778 	ldw	x, #0x542b
+      0003B9 7B 15            [ 1]  779 	ld	a, (0x15, sp)
+      0003BB F7               [ 1]  780 	ld	(x), a
+                                    781 ;	HAL_CAN.c: 348: CAN->Page.Filter.FR05 = CAN_FilterID3;
+      0003BC AE 54 2C         [ 2]  782 	ldw	x, #0x542c
+      0003BF 7B 12            [ 1]  783 	ld	a, (0x12, sp)
+      0003C1 F7               [ 1]  784 	ld	(x), a
+                                    785 ;	HAL_CAN.c: 349: CAN->Page.Filter.FR06 = CAN_FilterIDMask3;
+      0003C2 AE 54 2D         [ 2]  786 	ldw	x, #0x542d
+      0003C5 7B 16            [ 1]  787 	ld	a, (0x16, sp)
+      0003C7 F7               [ 1]  788 	ld	(x), a
+                                    789 ;	HAL_CAN.c: 350: CAN->Page.Filter.FR07 = CAN_FilterID4;
+      0003C8 AE 54 2E         [ 2]  790 	ldw	x, #0x542e
+      0003CB 7B 13            [ 1]  791 	ld	a, (0x13, sp)
+      0003CD F7               [ 1]  792 	ld	(x), a
+                                    793 ;	HAL_CAN.c: 351: CAN->Page.Filter.FR08 = CAN_FilterIDMask4;
+      0003CE AE 54 2F         [ 2]  794 	ldw	x, #0x542f
+      0003D1 7B 17            [ 1]  795 	ld	a, (0x17, sp)
+      0003D3 F7               [ 1]  796 	ld	(x), a
+      0003D4 20 69            [ 2]  797 	jra	00167$
+      0003D6                        798 00160$:
+                                    799 ;	HAL_CAN.c: 353: else if (CAN_FilterScale == CAN_FilterScale_16Bit)
+      0003D6 0D 09            [ 1]  800 	tnz	(0x09, sp)
+      0003D8 27 32            [ 1]  801 	jreq	00157$
+                                    802 ;	HAL_CAN.c: 355: CAN->Page.Filter.FR01 = CAN_FilterID1;
+      0003DA AE 54 28         [ 2]  803 	ldw	x, #0x5428
+      0003DD 7B 10            [ 1]  804 	ld	a, (0x10, sp)
+      0003DF F7               [ 1]  805 	ld	(x), a
+                                    806 ;	HAL_CAN.c: 356: CAN->Page.Filter.FR02 = CAN_FilterID2;
+      0003E0 AE 54 29         [ 2]  807 	ldw	x, #0x5429
+      0003E3 7B 11            [ 1]  808 	ld	a, (0x11, sp)
+      0003E5 F7               [ 1]  809 	ld	(x), a
+                                    810 ;	HAL_CAN.c: 357: CAN->Page.Filter.FR03 = CAN_FilterIDMask1;
+      0003E6 AE 54 2A         [ 2]  811 	ldw	x, #0x542a
+      0003E9 7B 14            [ 1]  812 	ld	a, (0x14, sp)
+      0003EB F7               [ 1]  813 	ld	(x), a
+                                    814 ;	HAL_CAN.c: 358: CAN->Page.Filter.FR04 = CAN_FilterIDMask2;
+      0003EC AE 54 2B         [ 2]  815 	ldw	x, #0x542b
+      0003EF 7B 15            [ 1]  816 	ld	a, (0x15, sp)
+      0003F1 F7               [ 1]  817 	ld	(x), a
+                                    818 ;	HAL_CAN.c: 359: CAN->Page.Filter.FR05 = CAN_FilterID3;
+      0003F2 AE 54 2C         [ 2]  819 	ldw	x, #0x542c
+      0003F5 7B 12            [ 1]  820 	ld	a, (0x12, sp)
+      0003F7 F7               [ 1]  821 	ld	(x), a
+                                    822 ;	HAL_CAN.c: 360: CAN->Page.Filter.FR06 = CAN_FilterID4;
+      0003F8 AE 54 2D         [ 2]  823 	ldw	x, #0x542d
+      0003FB 7B 13            [ 1]  824 	ld	a, (0x13, sp)
+      0003FD F7               [ 1]  825 	ld	(x), a
+                                    826 ;	HAL_CAN.c: 361: CAN->Page.Filter.FR07 = CAN_FilterIDMask3;
+      0003FE AE 54 2E         [ 2]  827 	ldw	x, #0x542e
+      000401 7B 16            [ 1]  828 	ld	a, (0x16, sp)
+      000403 F7               [ 1]  829 	ld	(x), a
+                                    830 ;	HAL_CAN.c: 362: CAN->Page.Filter.FR08 = CAN_FilterIDMask4;
+      000404 AE 54 2F         [ 2]  831 	ldw	x, #0x542f
+      000407 7B 17            [ 1]  832 	ld	a, (0x17, sp)
+      000409 F7               [ 1]  833 	ld	(x), a
+      00040A 20 33            [ 2]  834 	jra	00167$
+      00040C                        835 00157$:
+                                    836 ;	HAL_CAN.c: 364: else if (CAN_FilterScale == CAN_FilterScale_32Bit)
+      00040C 4D               [ 1]  837 	tnz	a
+      00040D 27 30            [ 1]  838 	jreq	00167$
+                                    839 ;	HAL_CAN.c: 366: CAN->Page.Filter.FR01 = CAN_FilterID1;
+      00040F AE 54 28         [ 2]  840 	ldw	x, #0x5428
+      000412 7B 10            [ 1]  841 	ld	a, (0x10, sp)
+      000414 F7               [ 1]  842 	ld	(x), a
+                                    843 ;	HAL_CAN.c: 367: CAN->Page.Filter.FR02 = CAN_FilterID2;
+      000415 AE 54 29         [ 2]  844 	ldw	x, #0x5429
+      000418 7B 11            [ 1]  845 	ld	a, (0x11, sp)
+      00041A F7               [ 1]  846 	ld	(x), a
+                                    847 ;	HAL_CAN.c: 368: CAN->Page.Filter.FR03 = CAN_FilterID3;
+      00041B AE 54 2A         [ 2]  848 	ldw	x, #0x542a
+      00041E 7B 12            [ 1]  849 	ld	a, (0x12, sp)
+      000420 F7               [ 1]  850 	ld	(x), a
+                                    851 ;	HAL_CAN.c: 369: CAN->Page.Filter.FR04 = CAN_FilterID4;
+      000421 AE 54 2B         [ 2]  852 	ldw	x, #0x542b
+      000424 7B 13            [ 1]  853 	ld	a, (0x13, sp)
+      000426 F7               [ 1]  854 	ld	(x), a
+                                    855 ;	HAL_CAN.c: 370: CAN->Page.Filter.FR05 = CAN_FilterIDMask1;
+      000427 AE 54 2C         [ 2]  856 	ldw	x, #0x542c
+      00042A 7B 14            [ 1]  857 	ld	a, (0x14, sp)
+      00042C F7               [ 1]  858 	ld	(x), a
+                                    859 ;	HAL_CAN.c: 371: CAN->Page.Filter.FR06 = CAN_FilterIDMask2;
+      00042D AE 54 2D         [ 2]  860 	ldw	x, #0x542d
+      000430 7B 15            [ 1]  861 	ld	a, (0x15, sp)
+      000432 F7               [ 1]  862 	ld	(x), a
+                                    863 ;	HAL_CAN.c: 372: CAN->Page.Filter.FR07 = CAN_FilterIDMask3;
+      000433 AE 54 2E         [ 2]  864 	ldw	x, #0x542e
+      000436 7B 16            [ 1]  865 	ld	a, (0x16, sp)
+      000438 F7               [ 1]  866 	ld	(x), a
+                                    867 ;	HAL_CAN.c: 373: CAN->Page.Filter.FR08 = CAN_FilterIDMask4;
+      000439 AE 54 2F         [ 2]  868 	ldw	x, #0x542f
+      00043C 7B 17            [ 1]  869 	ld	a, (0x17, sp)
+      00043E F7               [ 1]  870 	ld	(x), a
+      00043F                        871 00167$:
+                                    872 ;	HAL_CAN.c: 382: CAN->PSR = CAN_Page_Config;
+      00043F 35 06 54 27      [ 1]  873 	mov	0x5427+0, #0x06
+                                    874 ;	HAL_CAN.c: 383: if (CAN_FilterActivation != 0)
+      000443 0D 0D            [ 1]  875 	tnz	(0x0d, sp)
+      000445 27 2C            [ 1]  876 	jreq	00175$
+                                    877 ;	HAL_CAN.c: 385: if ((CAN_FilterNumber & 0x06) == 0x00) /* FCR1*/
+      000447 7B 0C            [ 1]  878 	ld	a, (0x0c, sp)
+      000449 A5 06            [ 1]  879 	bcp	a, #0x06
+      00044B 26 0A            [ 1]  880 	jrne	00172$
+                                    881 ;	HAL_CAN.c: 387: CAN->Page.Config.FCR1 |= (uint8_t)fact;
+      00044D C6 54 32         [ 1]  882 	ld	a, 0x5432
+      000450 1A 02            [ 1]  883 	or	a, (0x02, sp)
+      000452 C7 54 32         [ 1]  884 	ld	0x5432, a
+      000455 20 1C            [ 2]  885 	jra	00175$
+      000457                        886 00172$:
+                                    887 ;	HAL_CAN.c: 389: else if ((CAN_FilterNumber & 0x06) == 0x02) /*FCR2*/
+      000457 A4 06            [ 1]  888 	and	a, #0x06
+      000459 97               [ 1]  889 	ld	xl, a
+      00045A 4F               [ 1]  890 	clr	a
+      00045B 95               [ 1]  891 	ld	xh, a
+      00045C A3 00 02         [ 2]  892 	cpw	x, #0x0002
+      00045F 26 0A            [ 1]  893 	jrne	00169$
+                                    894 ;	HAL_CAN.c: 391: CAN->Page.Config.FCR2 |= (uint8_t)fact;
+      000461 C6 54 33         [ 1]  895 	ld	a, 0x5433
+      000464 1A 02            [ 1]  896 	or	a, (0x02, sp)
+      000466 C7 54 33         [ 1]  897 	ld	0x5433, a
+      000469 20 08            [ 2]  898 	jra	00175$
+      00046B                        899 00169$:
+                                    900 ;	HAL_CAN.c: 395: CAN->Page.Config.FCR3 |= (uint8_t)fact;
+      00046B C6 54 34         [ 1]  901 	ld	a, 0x5434
+      00046E 1A 02            [ 1]  902 	or	a, (0x02, sp)
+      000470 C7 54 34         [ 1]  903 	ld	0x5434, a
+      000473                        904 00175$:
+                                    905 ;	HAL_CAN.c: 398: CAN_OperatingModeRequest(CAN_OperatingMode_Normal);
+      000473 4B 01            [ 1]  906 	push	#0x01
+      000475 CDr08rDC         [ 4]  907 	call	_CAN_OperatingModeRequest
+      000478 84               [ 1]  908 	pop	a
+                                    909 ;	HAL_CAN.c: 400: CAN_SelectPage(can_page);
+      000479 7B 01            [ 1]  910 	ld	a, (0x01, sp)
+      00047B 88               [ 1]  911 	push	a
+      00047C CDr0Cr4B         [ 4]  912 	call	_CAN_SelectPage
+                                    913 ;	HAL_CAN.c: 401: }
+      00047F 5B 0A            [ 2]  914 	addw	sp, #10
+      000481 81               [ 4]  915 	ret
+                                    916 ;	HAL_CAN.c: 403: void CAN_ITConfig(CAN_IT_TypeDef CAN_IT, uint8_t NewState)
+                                    917 ;	-----------------------------------------
+                                    918 ;	 function CAN_ITConfig
+                                    919 ;	-----------------------------------------
+      000482                        920 _CAN_ITConfig:
+      000482 52 02            [ 2]  921 	sub	sp, #2
+                                    922 ;	HAL_CAN.c: 406: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      000484 CDr0Cr47         [ 4]  923 	call	_CAN_GetSelectedPage
+      000487 90 97            [ 1]  924 	ld	yl, a
+                                    925 ;	HAL_CAN.c: 408: tmperrorinterrupt = (uint8_t)(((uint16_t)CAN_IT) >> 7);
+      000489 1E 05            [ 2]  926 	ldw	x, (0x05, sp)
+      00048B A6 80            [ 1]  927 	ld	a, #0x80
+      00048D 62               [ 2]  928 	div	x, a
+                                    929 ;	HAL_CAN.c: 409: tmperrorinterrupt = (uint8_t)((uint8_t)((uint16_t)tmperrorinterrupt & 0xF0) |
+      00048E 9F               [ 1]  930 	ld	a, xl
+      00048F A4 F0            [ 1]  931 	and	a, #0xf0
+      000491 6B 02            [ 1]  932 	ld	(0x02, sp), a
+                                    933 ;	HAL_CAN.c: 410: (uint8_t)((uint8_t)((uint16_t)tmperrorinterrupt & 0x0F) >> 1));
+      000493 9F               [ 1]  934 	ld	a, xl
+      000494 A4 0F            [ 1]  935 	and	a, #0x0f
+      000496 44               [ 1]  936 	srl	a
+      000497 1A 02            [ 1]  937 	or	a, (0x02, sp)
+      000499 6B 01            [ 1]  938 	ld	(0x01, sp), a
+                                    939 ;	HAL_CAN.c: 412: CAN->PSR = CAN_Page_Config;
+      00049B 35 06 54 27      [ 1]  940 	mov	0x5427+0, #0x06
+                                    941 ;	HAL_CAN.c: 416: CAN->IER |= (uint8_t)(CAN_IT);
+      00049F C6 54 25         [ 1]  942 	ld	a, 0x5425
+      0004A2 6B 02            [ 1]  943 	ld	(0x02, sp), a
+                                    944 ;	HAL_CAN.c: 413: if (NewState != 0)
+      0004A4 0D 07            [ 1]  945 	tnz	(0x07, sp)
+      0004A6 27 11            [ 1]  946 	jreq	00102$
+                                    947 ;	HAL_CAN.c: 416: CAN->IER |= (uint8_t)(CAN_IT);
+      0004A8 7B 06            [ 1]  948 	ld	a, (0x06, sp)
+      0004AA 1A 02            [ 1]  949 	or	a, (0x02, sp)
+      0004AC C7 54 25         [ 1]  950 	ld	0x5425, a
+                                    951 ;	HAL_CAN.c: 417: CAN->Page.Config.EIER |= (uint8_t)(tmperrorinterrupt);
+      0004AF C6 54 29         [ 1]  952 	ld	a, 0x5429
+      0004B2 1A 01            [ 1]  953 	or	a, (0x01, sp)
+      0004B4 C7 54 29         [ 1]  954 	ld	0x5429, a
+      0004B7 20 15            [ 2]  955 	jra	00103$
+      0004B9                        956 00102$:
+                                    957 ;	HAL_CAN.c: 422: CAN->IER &= (uint8_t)~(uint8_t)((uint16_t)CAN_IT);
+      0004B9 7B 06            [ 1]  958 	ld	a, (0x06, sp)
+      0004BB 43               [ 1]  959 	cpl	a
+      0004BC 14 02            [ 1]  960 	and	a, (0x02, sp)
+      0004BE C7 54 25         [ 1]  961 	ld	0x5425, a
+                                    962 ;	HAL_CAN.c: 423: CAN->Page.Config.EIER &= (uint8_t)~(tmperrorinterrupt);
+      0004C1 C6 54 29         [ 1]  963 	ld	a, 0x5429
+      0004C4 6B 02            [ 1]  964 	ld	(0x02, sp), a
+      0004C6 7B 01            [ 1]  965 	ld	a, (0x01, sp)
+      0004C8 43               [ 1]  966 	cpl	a
+      0004C9 14 02            [ 1]  967 	and	a, (0x02, sp)
+      0004CB C7 54 29         [ 1]  968 	ld	0x5429, a
+      0004CE                        969 00103$:
+                                    970 ;	HAL_CAN.c: 426: CAN_SelectPage(can_page);
+      0004CE 90 9F            [ 1]  971 	ld	a, yl
+      0004D0 88               [ 1]  972 	push	a
+      0004D1 CDr0Cr4B         [ 4]  973 	call	_CAN_SelectPage
+                                    974 ;	HAL_CAN.c: 427: }
+      0004D4 5B 03            [ 2]  975 	addw	sp, #3
+      0004D6 81               [ 4]  976 	ret
+                                    977 ;	HAL_CAN.c: 429: void CAN_ST7CompatibilityCmd(CAN_ST7Compatibility_TypeDef CAN_ST7Compatibility)
+                                    978 ;	-----------------------------------------
+                                    979 ;	 function CAN_ST7CompatibilityCmd
+                                    980 ;	-----------------------------------------
+      0004D7                        981 _CAN_ST7CompatibilityCmd:
+                                    982 ;	HAL_CAN.c: 432: CAN->DGR &= (uint8_t)(~CAN_DGR_TXM2E);
+      0004D7 72 19 54 26      [ 1]  983 	bres	21542, #4
+                                    984 ;	HAL_CAN.c: 435: CAN->DGR |= (uint8_t)CAN_ST7Compatibility;
+      0004DB C6 54 26         [ 1]  985 	ld	a, 0x5426
+      0004DE 1A 03            [ 1]  986 	or	a, (0x03, sp)
+      0004E0 C7 54 26         [ 1]  987 	ld	0x5426, a
+                                    988 ;	HAL_CAN.c: 436: }
+      0004E3 81               [ 4]  989 	ret
+                                    990 ;	HAL_CAN.c: 438: void CAN_TTComModeCmd(uint8_t NewState)
+                                    991 ;	-----------------------------------------
+                                    992 ;	 function CAN_TTComModeCmd
+                                    993 ;	-----------------------------------------
+      0004E4                        994 _CAN_TTComModeCmd:
+                                    995 ;	HAL_CAN.c: 440: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      0004E4 CDr0Cr47         [ 4]  996 	call	_CAN_GetSelectedPage
+      0004E7 97               [ 1]  997 	ld	xl, a
+                                    998 ;	HAL_CAN.c: 444: CAN->MCR |= CAN_MCR_TTCM;
+      0004E8 C6 54 20         [ 1]  999 	ld	a, 0x5420
+                                   1000 ;	HAL_CAN.c: 441: if (NewState != 0)
+      0004EB 0D 03            [ 1] 1001 	tnz	(0x03, sp)
+      0004ED 27 27            [ 1] 1002 	jreq	00102$
+                                   1003 ;	HAL_CAN.c: 444: CAN->MCR |= CAN_MCR_TTCM;
+      0004EF AA 80            [ 1] 1004 	or	a, #0x80
+      0004F1 C7 54 20         [ 1] 1005 	ld	0x5420, a
+                                   1006 ;	HAL_CAN.c: 446: CAN->PSR = CAN_Page_TxMailBox0;
+      0004F4 35 00 54 27      [ 1] 1007 	mov	0x5427+0, #0x00
+                                   1008 ;	HAL_CAN.c: 447: CAN->Page.TxMailbox.MDLCR |= CAN_MDLCR_TGT;
+      0004F8 72 1E 54 29      [ 1] 1009 	bset	21545, #7
+                                   1010 ;	HAL_CAN.c: 448: CAN->PSR = CAN_Page_TxMailBox1;
+      0004FC 35 01 54 27      [ 1] 1011 	mov	0x5427+0, #0x01
+                                   1012 ;	HAL_CAN.c: 449: CAN->Page.TxMailbox.MDLCR |= CAN_MDLCR_TGT;
+      000500 72 1E 54 29      [ 1] 1013 	bset	21545, #7
+                                   1014 ;	HAL_CAN.c: 450: CAN->PSR = CAN_Page_TxMailBox2;
+      000504 35 05 54 27      [ 1] 1015 	mov	0x5427+0, #0x05
+                                   1016 ;	HAL_CAN.c: 451: CAN->Page.TxMailbox.MDLCR |= CAN_MDLCR_TGT;
+      000508 72 1E 54 29      [ 1] 1017 	bset	21545, #7
+                                   1018 ;	HAL_CAN.c: 452: CAN->PSR = CAN_Page_RxFifo;
+      00050C 35 07 54 27      [ 1] 1019 	mov	0x5427+0, #0x07
+                                   1020 ;	HAL_CAN.c: 453: CAN->Page.RxFIFO.MDLCR |= CAN_MDLCR_TGT;
+      000510 72 1E 54 29      [ 1] 1021 	bset	21545, #7
+      000514 20 25            [ 2] 1022 	jra	00103$
+      000516                       1023 00102$:
+                                   1024 ;	HAL_CAN.c: 458: CAN->MCR &= ((uint8_t)~CAN_MCR_TTCM);
+      000516 A4 7F            [ 1] 1025 	and	a, #0x7f
+      000518 C7 54 20         [ 1] 1026 	ld	0x5420, a
+                                   1027 ;	HAL_CAN.c: 460: CAN->PSR = CAN_Page_TxMailBox0;
+      00051B 35 00 54 27      [ 1] 1028 	mov	0x5427+0, #0x00
+                                   1029 ;	HAL_CAN.c: 461: CAN->Page.TxMailbox.MDLCR &= ((uint8_t)~CAN_MDLCR_TGT);
+      00051F 72 1F 54 29      [ 1] 1030 	bres	21545, #7
+                                   1031 ;	HAL_CAN.c: 462: CAN->PSR = CAN_Page_TxMailBox1;
+      000523 35 01 54 27      [ 1] 1032 	mov	0x5427+0, #0x01
+                                   1033 ;	HAL_CAN.c: 463: CAN->Page.TxMailbox.MDLCR &= ((uint8_t)~CAN_MDLCR_TGT);
+      000527 72 1F 54 29      [ 1] 1034 	bres	21545, #7
+                                   1035 ;	HAL_CAN.c: 464: CAN->PSR = CAN_Page_TxMailBox2;
+      00052B 35 05 54 27      [ 1] 1036 	mov	0x5427+0, #0x05
+                                   1037 ;	HAL_CAN.c: 465: CAN->Page.TxMailbox.MDLCR &= ((uint8_t)~CAN_MDLCR_TGT);
+      00052F 72 1F 54 29      [ 1] 1038 	bres	21545, #7
+                                   1039 ;	HAL_CAN.c: 466: CAN->PSR = CAN_Page_RxFifo;
+      000533 35 07 54 27      [ 1] 1040 	mov	0x5427+0, #0x07
+                                   1041 ;	HAL_CAN.c: 467: CAN->Page.RxFIFO.MDLCR &= ((uint8_t)~CAN_MDLCR_TGT);
+      000537 72 1F 54 29      [ 1] 1042 	bres	21545, #7
+      00053B                       1043 00103$:
+                                   1044 ;	HAL_CAN.c: 470: CAN_SelectPage(can_page);
+      00053B 9F               [ 1] 1045 	ld	a, xl
+      00053C 88               [ 1] 1046 	push	a
+      00053D CDr0Cr4B         [ 4] 1047 	call	_CAN_SelectPage
+      000540 84               [ 1] 1048 	pop	a
+                                   1049 ;	HAL_CAN.c: 471: }
+      000541 81               [ 4] 1050 	ret
+                                   1051 ;	HAL_CAN.c: 473: CAN_TxStatus_TypeDef CAN_Transmit(uint32_t CAN_Id,
+                                   1052 ;	-----------------------------------------
+                                   1053 ;	 function CAN_Transmit
+                                   1054 ;	-----------------------------------------
+      000542                       1055 _CAN_Transmit:
+      000542 52 04            [ 2] 1056 	sub	sp, #4
+                                   1057 ;	HAL_CAN.c: 480: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      000544 CDr0Cr47         [ 4] 1058 	call	_CAN_GetSelectedPage
+      000547 6B 01            [ 1] 1059 	ld	(0x01, sp), a
+                                   1060 ;	HAL_CAN.c: 482: if ((CAN->TPR & CAN_TPR_TME0) == CAN_TPR_TME0)
+      000549 C6 54 23         [ 1] 1061 	ld	a, 0x5423
+      00054C A4 04            [ 1] 1062 	and	a, #0x04
+      00054E A1 04            [ 1] 1063 	cp	a, #0x04
+      000550 26 04            [ 1] 1064 	jrne	00108$
+                                   1065 ;	HAL_CAN.c: 484: CAN_TxStatus = CAN_TxStatus_MailBox0Ok;
+      000552 0F 02            [ 1] 1066 	clr	(0x02, sp)
+      000554 20 21            [ 2] 1067 	jra	00109$
+      000556                       1068 00108$:
+                                   1069 ;	HAL_CAN.c: 486: else if ((CAN->TPR & CAN_TPR_TME1) == CAN_TPR_TME1)
+      000556 C6 54 23         [ 1] 1070 	ld	a, 0x5423
+      000559 A4 08            [ 1] 1071 	and	a, #0x08
+                                   1072 ;	HAL_CAN.c: 488: CAN_TxStatus = CAN_TxStatus_MailBox1Ok;
+      00055B A0 08            [ 1] 1073 	sub	a, #0x08
+      00055D 26 05            [ 1] 1074 	jrne	00105$
+      00055F 4C               [ 1] 1075 	inc	a
+      000560 6B 02            [ 1] 1076 	ld	(0x02, sp), a
+      000562 20 13            [ 2] 1077 	jra	00109$
+      000564                       1078 00105$:
+                                   1079 ;	HAL_CAN.c: 490: else if ((CAN->TPR & CAN_TPR_TME2) == CAN_TPR_TME2)
+      000564 C6 54 23         [ 1] 1080 	ld	a, 0x5423
+      000567 A4 10            [ 1] 1081 	and	a, #0x10
+      000569 A1 10            [ 1] 1082 	cp	a, #0x10
+      00056B 26 06            [ 1] 1083 	jrne	00102$
+                                   1084 ;	HAL_CAN.c: 492: CAN_TxStatus = CAN_TxStatus_MailBox2Ok;
+      00056D A6 05            [ 1] 1085 	ld	a, #0x05
+      00056F 6B 02            [ 1] 1086 	ld	(0x02, sp), a
+      000571 20 04            [ 2] 1087 	jra	00109$
+      000573                       1088 00102$:
+                                   1089 ;	HAL_CAN.c: 496: CAN_TxStatus = CAN_TxStatus_NoMailBox;
+      000573 A6 F4            [ 1] 1090 	ld	a, #0xf4
+      000575 6B 02            [ 1] 1091 	ld	(0x02, sp), a
+      000577                       1092 00109$:
+                                   1093 ;	HAL_CAN.c: 498: if (CAN_TxStatus != CAN_TxStatus_NoMailBox)
+      000577 7B 02            [ 1] 1094 	ld	a, (0x02, sp)
+      000579 A1 F4            [ 1] 1095 	cp	a, #0xf4
+      00057B 26 03            [ 1] 1096 	jrne	00152$
+      00057D CCr06r40         [ 2] 1097 	jp	00114$
+      000580                       1098 00152$:
+                                   1099 ;	HAL_CAN.c: 500: CAN->PSR = (uint8_t)CAN_TxStatus;
+      000580 AE 54 27         [ 2] 1100 	ldw	x, #0x5427
+      000583 7B 02            [ 1] 1101 	ld	a, (0x02, sp)
+      000585 F7               [ 1] 1102 	ld	(x), a
+                                   1103 ;	HAL_CAN.c: 511: CAN->Page.TxMailbox.MIDR1 = (uint8_t)(CAN_Id | CAN_IDE | CAN_RTR);
+      000586 7B 0C            [ 1] 1104 	ld	a, (0x0c, sp)
+      000588 6B 03            [ 1] 1105 	ld	(0x03, sp), a
+                                   1106 ;	HAL_CAN.c: 502: if (CAN_IDE != CAN_Id_Standard)
+      00058A 0D 0B            [ 1] 1107 	tnz	(0x0b, sp)
+      00058C 27 4D            [ 1] 1108 	jreq	00111$
+                                   1109 ;	HAL_CAN.c: 504: CAN_Id &= (uint32_t)CAN_EXTID_SIZE;
+      00058E 16 09            [ 2] 1110 	ldw	y, (0x09, sp)
+      000590 7B 08            [ 1] 1111 	ld	a, (0x08, sp)
+      000592 97               [ 1] 1112 	ld	xl, a
+      000593 7B 07            [ 1] 1113 	ld	a, (0x07, sp)
+      000595 A4 1F            [ 1] 1114 	and	a, #0x1f
+      000597 95               [ 1] 1115 	ld	xh, a
+      000598 17 09            [ 2] 1116 	ldw	(0x09, sp), y
+      00059A 1F 07            [ 2] 1117 	ldw	(0x07, sp), x
+                                   1118 ;	HAL_CAN.c: 505: CAN->Page.TxMailbox.MIDR4 = (uint8_t)(CAN_Id);
+      00059C 7B 0A            [ 1] 1119 	ld	a, (0x0a, sp)
+      00059E C7 54 2D         [ 1] 1120 	ld	0x542d, a
+                                   1121 ;	HAL_CAN.c: 506: CAN_Id = CAN_Id >> 8;
+      0005A1 16 08            [ 2] 1122 	ldw	y, (0x08, sp)
+      0005A3 7B 07            [ 1] 1123 	ld	a, (0x07, sp)
+      0005A5 97               [ 1] 1124 	ld	xl, a
+      0005A6 4F               [ 1] 1125 	clr	a
+      0005A7 95               [ 1] 1126 	ld	xh, a
+      0005A8 17 09            [ 2] 1127 	ldw	(0x09, sp), y
+      0005AA 1F 07            [ 2] 1128 	ldw	(0x07, sp), x
+                                   1129 ;	HAL_CAN.c: 507: CAN->Page.TxMailbox.MIDR3 = (uint8_t)(CAN_Id);
+      0005AC 7B 0A            [ 1] 1130 	ld	a, (0x0a, sp)
+      0005AE C7 54 2C         [ 1] 1131 	ld	0x542c, a
+                                   1132 ;	HAL_CAN.c: 508: CAN_Id = CAN_Id >> 8;
+      0005B1 16 08            [ 2] 1133 	ldw	y, (0x08, sp)
+      0005B3 7B 07            [ 1] 1134 	ld	a, (0x07, sp)
+      0005B5 97               [ 1] 1135 	ld	xl, a
+      0005B6 4F               [ 1] 1136 	clr	a
+      0005B7 95               [ 1] 1137 	ld	xh, a
+      0005B8 17 09            [ 2] 1138 	ldw	(0x09, sp), y
+      0005BA 1F 07            [ 2] 1139 	ldw	(0x07, sp), x
+                                   1140 ;	HAL_CAN.c: 509: CAN->Page.TxMailbox.MIDR2 = (uint8_t)(CAN_Id);
+      0005BC 7B 0A            [ 1] 1141 	ld	a, (0x0a, sp)
+      0005BE C7 54 2B         [ 1] 1142 	ld	0x542b, a
+                                   1143 ;	HAL_CAN.c: 510: CAN_Id = CAN_Id >> 8;
+      0005C1 16 08            [ 2] 1144 	ldw	y, (0x08, sp)
+      0005C3 7B 07            [ 1] 1145 	ld	a, (0x07, sp)
+      0005C5 97               [ 1] 1146 	ld	xl, a
+      0005C6 4F               [ 1] 1147 	clr	a
+      0005C7 95               [ 1] 1148 	ld	xh, a
+      0005C8 17 09            [ 2] 1149 	ldw	(0x09, sp), y
+      0005CA 1F 07            [ 2] 1150 	ldw	(0x07, sp), x
+                                   1151 ;	HAL_CAN.c: 511: CAN->Page.TxMailbox.MIDR1 = (uint8_t)(CAN_Id | CAN_IDE | CAN_RTR);
+      0005CC 7B 0B            [ 1] 1152 	ld	a, (0x0b, sp)
+      0005CE 6B 04            [ 1] 1153 	ld	(0x04, sp), a
+      0005D0 7B 0A            [ 1] 1154 	ld	a, (0x0a, sp)
+      0005D2 1A 04            [ 1] 1155 	or	a, (0x04, sp)
+      0005D4 1A 03            [ 1] 1156 	or	a, (0x03, sp)
+      0005D6 C7 54 2A         [ 1] 1157 	ld	0x542a, a
+      0005D9 20 20            [ 2] 1158 	jra	00112$
+      0005DB                       1159 00111$:
+                                   1160 ;	HAL_CAN.c: 515: CAN_Id &= (uint16_t)CAN_STDID_SIZE;
+      0005DB 7B 0A            [ 1] 1161 	ld	a, (0x0a, sp)
+      0005DD 97               [ 1] 1162 	ld	xl, a
+      0005DE 7B 09            [ 1] 1163 	ld	a, (0x09, sp)
+      0005E0 A4 07            [ 1] 1164 	and	a, #0x07
+      0005E2 95               [ 1] 1165 	ld	xh, a
+      0005E3 90 5F            [ 1] 1166 	clrw	y
+      0005E5 1F 09            [ 2] 1167 	ldw	(0x09, sp), x
+      0005E7 17 07            [ 2] 1168 	ldw	(0x07, sp), y
+                                   1169 ;	HAL_CAN.c: 516: CAN->Page.TxMailbox.MIDR1 = (uint8_t)((CAN_Id >> 6) | (CAN_RTR));
+      0005E9 1E 09            [ 2] 1170 	ldw	x, (0x09, sp)
+      0005EB A6 40            [ 1] 1171 	ld	a, #0x40
+      0005ED 62               [ 2] 1172 	div	x, a
+      0005EE 9F               [ 1] 1173 	ld	a, xl
+      0005EF 1A 03            [ 1] 1174 	or	a, (0x03, sp)
+      0005F1 C7 54 2A         [ 1] 1175 	ld	0x542a, a
+                                   1176 ;	HAL_CAN.c: 517: CAN->Page.TxMailbox.MIDR2 = (uint8_t)(CAN_Id << 2);
+      0005F4 7B 0A            [ 1] 1177 	ld	a, (0x0a, sp)
+      0005F6 48               [ 1] 1178 	sll	a
+      0005F7 48               [ 1] 1179 	sll	a
+      0005F8 C7 54 2B         [ 1] 1180 	ld	0x542b, a
+      0005FB                       1181 00112$:
+                                   1182 ;	HAL_CAN.c: 521: CAN->Page.TxMailbox.MDLCR &= (uint8_t)0xF0;
+      0005FB C6 54 29         [ 1] 1183 	ld	a, 0x5429
+      0005FE A4 F0            [ 1] 1184 	and	a, #0xf0
+      000600 C7 54 29         [ 1] 1185 	ld	0x5429, a
+                                   1186 ;	HAL_CAN.c: 523: CAN->Page.TxMailbox.MDLCR |= CAN_DLC;
+      000603 C6 54 29         [ 1] 1187 	ld	a, 0x5429
+      000606 1A 0D            [ 1] 1188 	or	a, (0x0d, sp)
+      000608 C7 54 29         [ 1] 1189 	ld	0x5429, a
+                                   1190 ;	HAL_CAN.c: 525: CAN->Page.TxMailbox.MDAR1 = CAN_Data[0];
+      00060B 16 0E            [ 2] 1191 	ldw	y, (0x0e, sp)
+      00060D 90 F6            [ 1] 1192 	ld	a, (y)
+      00060F C7 54 2E         [ 1] 1193 	ld	0x542e, a
+                                   1194 ;	HAL_CAN.c: 526: CAN->Page.TxMailbox.MDAR2 = CAN_Data[1];
+      000612 93               [ 1] 1195 	ldw	x, y
+      000613 E6 01            [ 1] 1196 	ld	a, (0x1, x)
+      000615 C7 54 2F         [ 1] 1197 	ld	0x542f, a
+                                   1198 ;	HAL_CAN.c: 527: CAN->Page.TxMailbox.MDAR3 = CAN_Data[2];
+      000618 93               [ 1] 1199 	ldw	x, y
+      000619 E6 02            [ 1] 1200 	ld	a, (0x2, x)
+      00061B C7 54 30         [ 1] 1201 	ld	0x5430, a
+                                   1202 ;	HAL_CAN.c: 528: CAN->Page.TxMailbox.MDAR4 = CAN_Data[3];
+      00061E 93               [ 1] 1203 	ldw	x, y
+      00061F E6 03            [ 1] 1204 	ld	a, (0x3, x)
+      000621 C7 54 31         [ 1] 1205 	ld	0x5431, a
+                                   1206 ;	HAL_CAN.c: 529: CAN->Page.TxMailbox.MDAR5 = CAN_Data[4];
+      000624 93               [ 1] 1207 	ldw	x, y
+      000625 E6 04            [ 1] 1208 	ld	a, (0x4, x)
+      000627 C7 54 32         [ 1] 1209 	ld	0x5432, a
+                                   1210 ;	HAL_CAN.c: 530: CAN->Page.TxMailbox.MDAR6 = CAN_Data[5];
+      00062A 93               [ 1] 1211 	ldw	x, y
+      00062B E6 05            [ 1] 1212 	ld	a, (0x5, x)
+      00062D C7 54 33         [ 1] 1213 	ld	0x5433, a
+                                   1214 ;	HAL_CAN.c: 531: CAN->Page.TxMailbox.MDAR7 = CAN_Data[6];
+      000630 93               [ 1] 1215 	ldw	x, y
+      000631 E6 06            [ 1] 1216 	ld	a, (0x6, x)
+      000633 C7 54 34         [ 1] 1217 	ld	0x5434, a
+                                   1218 ;	HAL_CAN.c: 532: CAN->Page.TxMailbox.MDAR8 = CAN_Data[7];
+      000636 90 E6 07         [ 1] 1219 	ld	a, (0x7, y)
+      000639 C7 54 35         [ 1] 1220 	ld	0x5435, a
+                                   1221 ;	HAL_CAN.c: 534: CAN->Page.TxMailbox.MCSR |= CAN_MCSR_TXRQ;
+      00063C 72 10 54 28      [ 1] 1222 	bset	21544, #0
+      000640                       1223 00114$:
+                                   1224 ;	HAL_CAN.c: 537: CAN_SelectPage(can_page);
+      000640 7B 01            [ 1] 1225 	ld	a, (0x01, sp)
+      000642 88               [ 1] 1226 	push	a
+      000643 CDr0Cr4B         [ 4] 1227 	call	_CAN_SelectPage
+      000646 84               [ 1] 1228 	pop	a
+                                   1229 ;	HAL_CAN.c: 538: return (CAN_TxStatus_TypeDef)CAN_TxStatus;
+      000647 7B 02            [ 1] 1230 	ld	a, (0x02, sp)
+                                   1231 ;	HAL_CAN.c: 539: }
+      000649 5B 04            [ 2] 1232 	addw	sp, #4
+      00064B 81               [ 4] 1233 	ret
+                                   1234 ;	HAL_CAN.c: 541: CAN_TxStatus_TypeDef CAN_TransmitStatus(CAN_TransmitMailBox_TypeDef CAN_TransmitMailbox)
+                                   1235 ;	-----------------------------------------
+                                   1236 ;	 function CAN_TransmitStatus
+                                   1237 ;	-----------------------------------------
+      00064C                       1238 _CAN_TransmitStatus:
+      00064C 88               [ 1] 1239 	push	a
+                                   1240 ;	HAL_CAN.c: 545: uint8_t tmpstate = 0;
+      00064D 4F               [ 1] 1241 	clr	a
+                                   1242 ;	HAL_CAN.c: 547: switch (CAN_TransmitMailbox)
+      00064E 88               [ 1] 1243 	push	a
+      00064F 7B 05            [ 1] 1244 	ld	a, (0x05, sp)
+      000651 A1 00            [ 1] 1245 	cp	a, #0x00
+      000653 84               [ 1] 1246 	pop	a
+      000654 27 11            [ 1] 1247 	jreq	00101$
+      000656 88               [ 1] 1248 	push	a
+      000657 7B 05            [ 1] 1249 	ld	a, (0x05, sp)
+      000659 4A               [ 1] 1250 	dec	a
+      00065A 84               [ 1] 1251 	pop	a
+      00065B 27 1A            [ 1] 1252 	jreq	00102$
+      00065D 88               [ 1] 1253 	push	a
+      00065E 7B 05            [ 1] 1254 	ld	a, (0x05, sp)
+      000660 A1 05            [ 1] 1255 	cp	a, #0x05
+      000662 84               [ 1] 1256 	pop	a
+      000663 27 24            [ 1] 1257 	jreq	00103$
+      000665 20 34            [ 2] 1258 	jra	00105$
+                                   1259 ;	HAL_CAN.c: 549: case (CAN_TransmitMailBox_0): tmpstate = (uint8_t)((CAN->TSR & (uint8_t)(CAN_TSR_RQCP0 | CAN_TSR_TXOK0)));
+      000667                       1260 00101$:
+      000667 C6 54 22         [ 1] 1261 	ld	a, 0x5422
+      00066A A4 11            [ 1] 1262 	and	a, #0x11
+      00066C 6B 01            [ 1] 1263 	ld	(0x01, sp), a
+                                   1264 ;	HAL_CAN.c: 550: tmpstate |= (uint8_t)((CAN->TPR & CAN_TPR_TME0));
+      00066E C6 54 23         [ 1] 1265 	ld	a, 0x5423
+      000671 A4 04            [ 1] 1266 	and	a, #0x04
+      000673 1A 01            [ 1] 1267 	or	a, (0x01, sp)
+                                   1268 ;	HAL_CAN.c: 551: break;
+      000675 20 24            [ 2] 1269 	jra	00105$
+                                   1270 ;	HAL_CAN.c: 552: case (CAN_TransmitMailBox_1): tmpstate = (uint8_t)((uint8_t)(CAN->TSR & (uint8_t)(CAN_TSR_RQCP1 | CAN_TSR_TXOK1)) >> 1);
+      000677                       1271 00102$:
+      000677 C6 54 22         [ 1] 1272 	ld	a, 0x5422
+      00067A A4 22            [ 1] 1273 	and	a, #0x22
+      00067C 44               [ 1] 1274 	srl	a
+      00067D 6B 01            [ 1] 1275 	ld	(0x01, sp), a
+                                   1276 ;	HAL_CAN.c: 553: tmpstate |= (uint8_t)((uint8_t)(CAN->TPR & CAN_TPR_TME1) >> 1);
+      00067F C6 54 23         [ 1] 1277 	ld	a, 0x5423
+      000682 A4 08            [ 1] 1278 	and	a, #0x08
+      000684 44               [ 1] 1279 	srl	a
+      000685 1A 01            [ 1] 1280 	or	a, (0x01, sp)
+                                   1281 ;	HAL_CAN.c: 554: break;
+      000687 20 12            [ 2] 1282 	jra	00105$
+                                   1283 ;	HAL_CAN.c: 555: case (CAN_TransmitMailBox_2): tmpstate = (uint8_t)((uint8_t)(CAN->TSR & (uint8_t)(CAN_TSR_RQCP2 | CAN_TSR_TXOK2)) >> 2);
+      000689                       1284 00103$:
+      000689 C6 54 22         [ 1] 1285 	ld	a, 0x5422
+      00068C A4 44            [ 1] 1286 	and	a, #0x44
+      00068E 44               [ 1] 1287 	srl	a
+      00068F 44               [ 1] 1288 	srl	a
+      000690 6B 01            [ 1] 1289 	ld	(0x01, sp), a
+                                   1290 ;	HAL_CAN.c: 556: tmpstate |= (uint8_t)((uint8_t)(CAN->TPR & CAN_TPR_TME2) >> 2);
+      000692 C6 54 23         [ 1] 1291 	ld	a, 0x5423
+      000695 A4 10            [ 1] 1292 	and	a, #0x10
+      000697 44               [ 1] 1293 	srl	a
+      000698 44               [ 1] 1294 	srl	a
+      000699 1A 01            [ 1] 1295 	or	a, (0x01, sp)
+                                   1296 ;	HAL_CAN.c: 561: }
+      00069B                       1297 00105$:
+                                   1298 ;	HAL_CAN.c: 563: switch (tmpstate)
+      00069B A1 00            [ 1] 1299 	cp	a, #0x00
+      00069D 27 0E            [ 1] 1300 	jreq	00106$
+      00069F A1 04            [ 1] 1301 	cp	a, #0x04
+      0006A1 27 16            [ 1] 1302 	jreq	00109$
+      0006A3 A1 05            [ 1] 1303 	cp	a, #0x05
+      0006A5 27 0A            [ 1] 1304 	jreq	00107$
+      0006A7 A1 15            [ 1] 1305 	cp	a, #0x15
+      0006A9 27 0A            [ 1] 1306 	jreq	00108$
+      0006AB 20 0F            [ 2] 1307 	jra	00110$
+                                   1308 ;	HAL_CAN.c: 566: case (0x00): tstate = CAN_TxStatus_Pending;
+      0006AD                       1309 00106$:
+      0006AD A6 F2            [ 1] 1310 	ld	a, #0xf2
+                                   1311 ;	HAL_CAN.c: 567: break;
+      0006AF 20 0D            [ 2] 1312 	jra	00111$
+                                   1313 ;	HAL_CAN.c: 569: case (0x05): tstate = CAN_TxStatus_Failed;
+      0006B1                       1314 00107$:
+      0006B1 A6 F0            [ 1] 1315 	ld	a, #0xf0
+                                   1316 ;	HAL_CAN.c: 570: break;
+      0006B3 20 09            [ 2] 1317 	jra	00111$
+                                   1318 ;	HAL_CAN.c: 572: case (0x15): tstate = CAN_TxStatus_Ok;
+      0006B5                       1319 00108$:
+      0006B5 A6 F1            [ 1] 1320 	ld	a, #0xf1
+                                   1321 ;	HAL_CAN.c: 573: break;
+      0006B7 20 05            [ 2] 1322 	jra	00111$
+                                   1323 ;	HAL_CAN.c: 575: case (0x04): tstate = CAN_TxStatus_MailBoxEmpty;
+      0006B9                       1324 00109$:
+      0006B9 A6 F5            [ 1] 1325 	ld	a, #0xf5
+                                   1326 ;	HAL_CAN.c: 576: break;
+                                   1327 ;	HAL_CAN.c: 577: default:
+                                   1328 ;	HAL_CAN.c: 578: tstate = CAN_TxStatus_Failed;
+                                   1329 ;	HAL_CAN.c: 580: }
+      0006BB C5                    1330 	.byte 0xc5
+      0006BC                       1331 00110$:
+      0006BC A6 F0            [ 1] 1332 	ld	a, #0xf0
+      0006BE                       1333 00111$:
+                                   1334 ;	HAL_CAN.c: 582: return (CAN_TxStatus_TypeDef)tstate;
+                                   1335 ;	HAL_CAN.c: 583: }
+      0006BE 5B 01            [ 2] 1336 	addw	sp, #1
+      0006C0 81               [ 4] 1337 	ret
+                                   1338 ;	HAL_CAN.c: 585: void CAN_CancelTransmit(CAN_TransmitMailBox_TypeDef CAN_TransmitMailbox)
+                                   1339 ;	-----------------------------------------
+                                   1340 ;	 function CAN_CancelTransmit
+                                   1341 ;	-----------------------------------------
+      0006C1                       1342 _CAN_CancelTransmit:
+      0006C1 88               [ 1] 1343 	push	a
+                                   1344 ;	HAL_CAN.c: 587: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      0006C2 CDr0Cr47         [ 4] 1345 	call	_CAN_GetSelectedPage
+      0006C5 6B 01            [ 1] 1346 	ld	(0x01, sp), a
+                                   1347 ;	HAL_CAN.c: 589: CAN->PSR = (uint8_t)CAN_TransmitMailbox;
+      0006C7 AE 54 27         [ 2] 1348 	ldw	x, #0x5427
+      0006CA 7B 04            [ 1] 1349 	ld	a, (0x04, sp)
+      0006CC F7               [ 1] 1350 	ld	(x), a
+                                   1351 ;	HAL_CAN.c: 591: CAN->Page.TxMailbox.MCSR |= CAN_MCSR_ABRQ;
+      0006CD 72 12 54 28      [ 1] 1352 	bset	21544, #1
+                                   1353 ;	HAL_CAN.c: 593: CAN_SelectPage(can_page);
+      0006D1 7B 01            [ 1] 1354 	ld	a, (0x01, sp)
+      0006D3 88               [ 1] 1355 	push	a
+      0006D4 CDr0Cr4B         [ 4] 1356 	call	_CAN_SelectPage
+                                   1357 ;	HAL_CAN.c: 594: }
+      0006D7 85               [ 2] 1358 	popw	x
+      0006D8 81               [ 4] 1359 	ret
+                                   1360 ;	HAL_CAN.c: 596: void CAN_FIFORelease(void)
+                                   1361 ;	-----------------------------------------
+                                   1362 ;	 function CAN_FIFORelease
+                                   1363 ;	-----------------------------------------
+      0006D9                       1364 _CAN_FIFORelease:
+                                   1365 ;	HAL_CAN.c: 599: CAN->RFR = CAN_RFR_RFOM; /*rc-w1*/
+      0006D9 35 20 54 24      [ 1] 1366 	mov	0x5424+0, #0x20
+                                   1367 ;	HAL_CAN.c: 600: }
+      0006DD 81               [ 4] 1368 	ret
+                                   1369 ;	HAL_CAN.c: 602: CAN_NbrPendingMessage_TypeDef CAN_MessagePending(void)
+                                   1370 ;	-----------------------------------------
+                                   1371 ;	 function CAN_MessagePending
+                                   1372 ;	-----------------------------------------
+      0006DE                       1373 _CAN_MessagePending:
+                                   1374 ;	HAL_CAN.c: 605: msgpending = (CAN_NbrPendingMessage_TypeDef)(CAN->RFR & CAN_RFR_FMP01);
+      0006DE C6 54 24         [ 1] 1375 	ld	a, 0x5424
+      0006E1 A4 03            [ 1] 1376 	and	a, #0x03
+                                   1377 ;	HAL_CAN.c: 606: return (CAN_NbrPendingMessage_TypeDef)msgpending;
+                                   1378 ;	HAL_CAN.c: 607: }
+      0006E3 81               [ 4] 1379 	ret
+                                   1380 ;	HAL_CAN.c: 609: void CAN_Receive(void)
+                                   1381 ;	-----------------------------------------
+                                   1382 ;	 function CAN_Receive
+                                   1383 ;	-----------------------------------------
+      0006E4                       1384 _CAN_Receive:
+      0006E4 52 15            [ 2] 1385 	sub	sp, #21
+                                   1386 ;	HAL_CAN.c: 611: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      0006E6 CDr0Cr47         [ 4] 1387 	call	_CAN_GetSelectedPage
+      0006E9 6B 01            [ 1] 1388 	ld	(0x01, sp), a
+                                   1389 ;	HAL_CAN.c: 615: CAN->PSR = CAN_Page_RxFifo;
+      0006EB 35 07 54 27      [ 1] 1390 	mov	0x5427+0, #0x07
+                                   1391 ;	HAL_CAN.c: 618: _IDE = (uint8_t)(CAN->Page.RxFIFO.MIDR1 & CAN_Id_Extended);
+      0006EF C6 54 2A         [ 1] 1392 	ld	a, 0x542a
+      0006F2 A4 40            [ 1] 1393 	and	a, #0x40
+      0006F4 C7u00u04         [ 1] 1394 	ld	__IDE+0, a
+                                   1395 ;	HAL_CAN.c: 619: if (_IDE != CAN_Id_Standard)
+      0006F7 72 5Du00u04      [ 1] 1396 	tnz	__IDE+0
+      0006FB 26 03            [ 1] 1397 	jrne	00111$
+      0006FD CCr07rCD         [ 2] 1398 	jp	00102$
+      000700                       1399 00111$:
+                                   1400 ;	HAL_CAN.c: 621: temp1 = ((uint32_t)((uint32_t)CAN->Page.RxFIFO.MIDR3) << 8);
+      000700 C6 54 2C         [ 1] 1401 	ld	a, 0x542c
+      000703 6B 15            [ 1] 1402 	ld	(0x15, sp), a
+      000705 0F 14            [ 1] 1403 	clr	(0x14, sp)
+      000707 0F 13            [ 1] 1404 	clr	(0x13, sp)
+      000709 0F 12            [ 1] 1405 	clr	(0x12, sp)
+      00070B 16 14            [ 2] 1406 	ldw	y, (0x14, sp)
+      00070D 17 13            [ 2] 1407 	ldw	(0x13, sp), y
+      00070F 7B 13            [ 1] 1408 	ld	a, (0x13, sp)
+      000711 6B 12            [ 1] 1409 	ld	(0x12, sp), a
+      000713 0F 15            [ 1] 1410 	clr	(0x15, sp)
+      000715 16 14            [ 2] 1411 	ldw	y, (0x14, sp)
+      000717 17 04            [ 2] 1412 	ldw	(0x04, sp), y
+      000719 16 12            [ 2] 1413 	ldw	y, (0x12, sp)
+      00071B 17 02            [ 2] 1414 	ldw	(0x02, sp), y
+                                   1415 ;	HAL_CAN.c: 622: temp2 = ((uint32_t)((uint32_t)CAN->Page.RxFIFO.MIDR2) << 16);
+      00071D C6 54 2B         [ 1] 1416 	ld	a, 0x542b
+      000720 6B 15            [ 1] 1417 	ld	(0x15, sp), a
+      000722 0F 14            [ 1] 1418 	clr	(0x14, sp)
+      000724 0F 13            [ 1] 1419 	clr	(0x13, sp)
+      000726 0F 12            [ 1] 1420 	clr	(0x12, sp)
+      000728 16 14            [ 2] 1421 	ldw	y, (0x14, sp)
+      00072A 17 12            [ 2] 1422 	ldw	(0x12, sp), y
+      00072C 5F               [ 1] 1423 	clrw	x
+      00072D 1F 14            [ 2] 1424 	ldw	(0x14, sp), x
+      00072F 1F 08            [ 2] 1425 	ldw	(0x08, sp), x
+      000731 16 12            [ 2] 1426 	ldw	y, (0x12, sp)
+      000733 17 06            [ 2] 1427 	ldw	(0x06, sp), y
+                                   1428 ;	HAL_CAN.c: 623: temp3 = ((uint32_t)((uint32_t)CAN->Page.RxFIFO.MIDR1 & 0x1F) << 24);
+      000735 C6 54 2A         [ 1] 1429 	ld	a, 0x542a
+      000738 6B 15            [ 1] 1430 	ld	(0x15, sp), a
+      00073A 6B 11            [ 1] 1431 	ld	(0x11, sp), a
+      00073C 0F 10            [ 1] 1432 	clr	(0x10, sp)
+      00073E 0F 0F            [ 1] 1433 	clr	(0x0f, sp)
+      000740 0F 0E            [ 1] 1434 	clr	(0x0e, sp)
+      000742 7B 11            [ 1] 1435 	ld	a, (0x11, sp)
+      000744 A4 1F            [ 1] 1436 	and	a, #0x1f
+      000746 6B 15            [ 1] 1437 	ld	(0x15, sp), a
+      000748 5F               [ 1] 1438 	clrw	x
+      000749 1F 13            [ 2] 1439 	ldw	(0x13, sp), x
+      00074B 0F 12            [ 1] 1440 	clr	(0x12, sp)
+      00074D 7B 15            [ 1] 1441 	ld	a, (0x15, sp)
+      00074F 6B 12            [ 1] 1442 	ld	(0x12, sp), a
+      000751 5F               [ 1] 1443 	clrw	x
+      000752 1F 14            [ 2] 1444 	ldw	(0x14, sp), x
+      000754 0F 13            [ 1] 1445 	clr	(0x13, sp)
+      000756 16 14            [ 2] 1446 	ldw	y, (0x14, sp)
+      000758 17 0C            [ 2] 1447 	ldw	(0x0c, sp), y
+      00075A 16 12            [ 2] 1448 	ldw	y, (0x12, sp)
+      00075C 17 0A            [ 2] 1449 	ldw	(0x0a, sp), y
+                                   1450 ;	HAL_CAN.c: 625: _Id = (uint32_t)CAN_EXTID_SIZE & ((CAN->Page.RxFIFO.MIDR4) | temp1 | temp2 | temp3);
+      00075E C6 54 2D         [ 1] 1451 	ld	a, 0x542d
+      000761 6B 15            [ 1] 1452 	ld	(0x15, sp), a
+      000763 6B 11            [ 1] 1453 	ld	(0x11, sp), a
+      000765 0F 10            [ 1] 1454 	clr	(0x10, sp)
+      000767 0F 0F            [ 1] 1455 	clr	(0x0f, sp)
+      000769 0F 0E            [ 1] 1456 	clr	(0x0e, sp)
+      00076B 7B 11            [ 1] 1457 	ld	a, (0x11, sp)
+      00076D 1A 05            [ 1] 1458 	or	a, (0x05, sp)
+      00076F 6B 15            [ 1] 1459 	ld	(0x15, sp), a
+      000771 7B 10            [ 1] 1460 	ld	a, (0x10, sp)
+      000773 1A 04            [ 1] 1461 	or	a, (0x04, sp)
+      000775 6B 14            [ 1] 1462 	ld	(0x14, sp), a
+      000777 7B 0F            [ 1] 1463 	ld	a, (0x0f, sp)
+      000779 1A 03            [ 1] 1464 	or	a, (0x03, sp)
+      00077B 6B 13            [ 1] 1465 	ld	(0x13, sp), a
+      00077D 7B 0E            [ 1] 1466 	ld	a, (0x0e, sp)
+      00077F 1A 02            [ 1] 1467 	or	a, (0x02, sp)
+      000781 6B 12            [ 1] 1468 	ld	(0x12, sp), a
+      000783 7B 15            [ 1] 1469 	ld	a, (0x15, sp)
+      000785 1A 09            [ 1] 1470 	or	a, (0x09, sp)
+      000787 6B 11            [ 1] 1471 	ld	(0x11, sp), a
+      000789 7B 14            [ 1] 1472 	ld	a, (0x14, sp)
+      00078B 1A 08            [ 1] 1473 	or	a, (0x08, sp)
+      00078D 6B 10            [ 1] 1474 	ld	(0x10, sp), a
+      00078F 7B 13            [ 1] 1475 	ld	a, (0x13, sp)
+      000791 1A 07            [ 1] 1476 	or	a, (0x07, sp)
+      000793 6B 0F            [ 1] 1477 	ld	(0x0f, sp), a
+      000795 7B 12            [ 1] 1478 	ld	a, (0x12, sp)
+      000797 1A 06            [ 1] 1479 	or	a, (0x06, sp)
+      000799 6B 0E            [ 1] 1480 	ld	(0x0e, sp), a
+      00079B 7B 11            [ 1] 1481 	ld	a, (0x11, sp)
+      00079D 1A 0D            [ 1] 1482 	or	a, (0x0d, sp)
+      00079F 6B 15            [ 1] 1483 	ld	(0x15, sp), a
+      0007A1 7B 10            [ 1] 1484 	ld	a, (0x10, sp)
+      0007A3 1A 0C            [ 1] 1485 	or	a, (0x0c, sp)
+      0007A5 6B 14            [ 1] 1486 	ld	(0x14, sp), a
+      0007A7 7B 0F            [ 1] 1487 	ld	a, (0x0f, sp)
+      0007A9 1A 0B            [ 1] 1488 	or	a, (0x0b, sp)
+      0007AB 6B 13            [ 1] 1489 	ld	(0x13, sp), a
+      0007AD 7B 0E            [ 1] 1490 	ld	a, (0x0e, sp)
+      0007AF 1A 0A            [ 1] 1491 	or	a, (0x0a, sp)
+      0007B1 6B 12            [ 1] 1492 	ld	(0x12, sp), a
+      0007B3 16 14            [ 2] 1493 	ldw	y, (0x14, sp)
+      0007B5 17 10            [ 2] 1494 	ldw	(0x10, sp), y
+      0007B7 7B 13            [ 1] 1495 	ld	a, (0x13, sp)
+      0007B9 6B 0F            [ 1] 1496 	ld	(0x0f, sp), a
+      0007BB 7B 12            [ 1] 1497 	ld	a, (0x12, sp)
+      0007BD A4 1F            [ 1] 1498 	and	a, #0x1f
+      0007BF 6B 0E            [ 1] 1499 	ld	(0x0e, sp), a
+      0007C1 1E 10            [ 2] 1500 	ldw	x, (0x10, sp)
+      0007C3 CFu00u02         [ 2] 1501 	ldw	__Id+2, x
+      0007C6 1E 0E            [ 2] 1502 	ldw	x, (0x0e, sp)
+      0007C8 CFu00u00         [ 2] 1503 	ldw	__Id+0, x
+      0007CB 20 46            [ 2] 1504 	jra	00103$
+      0007CD                       1505 00102$:
+                                   1506 ;	HAL_CAN.c: 629: temp1 = (uint16_t)((uint16_t)((uint16_t)((uint16_t)CAN->Page.RxFIFO.MIDR1 & 0x1F) << 6));
+      0007CD C6 54 2A         [ 1] 1507 	ld	a, 0x542a
+      0007D0 A4 1F            [ 1] 1508 	and	a, #0x1f
+      0007D2 97               [ 1] 1509 	ld	xl, a
+      0007D3 4F               [ 1] 1510 	clr	a
+      0007D4 95               [ 1] 1511 	ld	xh, a
+      0007D5 58               [ 2] 1512 	sllw	x
+      0007D6 58               [ 2] 1513 	sllw	x
+      0007D7 58               [ 2] 1514 	sllw	x
+      0007D8 58               [ 2] 1515 	sllw	x
+      0007D9 58               [ 2] 1516 	sllw	x
+      0007DA 58               [ 2] 1517 	sllw	x
+      0007DB 90 5F            [ 1] 1518 	clrw	y
+      0007DD 1F 10            [ 2] 1519 	ldw	(0x10, sp), x
+      0007DF 17 0E            [ 2] 1520 	ldw	(0x0e, sp), y
+                                   1521 ;	HAL_CAN.c: 630: temp2 = (uint16_t)((uint16_t)((uint16_t)CAN->Page.RxFIFO.MIDR2 >> 2) & 0x3F);
+      0007E1 C6 54 2B         [ 1] 1522 	ld	a, 0x542b
+      0007E4 5F               [ 1] 1523 	clrw	x
+      0007E5 97               [ 1] 1524 	ld	xl, a
+      0007E6 54               [ 2] 1525 	srlw	x
+      0007E7 54               [ 2] 1526 	srlw	x
+      0007E8 9F               [ 1] 1527 	ld	a, xl
+      0007E9 A4 3F            [ 1] 1528 	and	a, #0x3f
+      0007EB 97               [ 1] 1529 	ld	xl, a
+      0007EC 4F               [ 1] 1530 	clr	a
+      0007ED 90 5F            [ 1] 1531 	clrw	y
+      0007EF 41               [ 1] 1532 	exg	a, xl
+      0007F0 6B 15            [ 1] 1533 	ld	(0x15, sp), a
+      0007F2 41               [ 1] 1534 	exg	a, xl
+      0007F3 17 12            [ 2] 1535 	ldw	(0x12, sp), y
+                                   1536 ;	HAL_CAN.c: 632: _Id = (uint16_t)CAN_STDID_SIZE & (temp1 | temp2);
+      0007F5 1A 10            [ 1] 1537 	or	a, (0x10, sp)
+      0007F7 88               [ 1] 1538 	push	a
+      0007F8 7B 12            [ 1] 1539 	ld	a, (0x12, sp)
+      0007FA 1A 16            [ 1] 1540 	or	a, (0x16, sp)
+      0007FC 90 97            [ 1] 1541 	ld	yl, a
+      0007FE 7B 10            [ 1] 1542 	ld	a, (0x10, sp)
+      000800 1A 14            [ 1] 1543 	or	a, (0x14, sp)
+      000802 7B 0F            [ 1] 1544 	ld	a, (0x0f, sp)
+      000804 1A 13            [ 1] 1545 	or	a, (0x13, sp)
+      000806 84               [ 1] 1546 	pop	a
+      000807 A4 07            [ 1] 1547 	and	a, #0x07
+      000809 90 95            [ 1] 1548 	ld	yh, a
+      00080B 5F               [ 1] 1549 	clrw	x
+      00080C 90 CFu00u02      [ 2] 1550 	ldw	__Id+2, y
+      000810 CFu00u00         [ 2] 1551 	ldw	__Id+0, x
+      000813                       1552 00103$:
+                                   1553 ;	HAL_CAN.c: 635: _RTR = (uint8_t)((uint8_t)0x20 & CAN->Page.RxFIFO.MIDR1);
+      000813 C6 54 2A         [ 1] 1554 	ld	a, 0x542a
+      000816 A4 20            [ 1] 1555 	and	a, #0x20
+      000818 C7u00u05         [ 1] 1556 	ld	__RTR+0, a
+                                   1557 ;	HAL_CAN.c: 638: _DLC = (uint8_t)(CAN->Page.RxFIFO.MDLCR & (uint8_t)0x0F);
+      00081B C6 54 29         [ 1] 1558 	ld	a, 0x5429
+      00081E A4 0F            [ 1] 1559 	and	a, #0x0f
+      000820 C7u00u06         [ 1] 1560 	ld	__DLC+0, a
+                                   1561 ;	HAL_CAN.c: 641: _FMI = CAN->Page.RxFIFO.MFMI;
+      000823 C6 54 28         [ 1] 1562 	ld	a, 0x5428
+      000826 C7u00u0F         [ 1] 1563 	ld	__FMI+0, a
+                                   1564 ;	HAL_CAN.c: 644: _Data[0] = CAN->Page.RxFIFO.MDAR1;
+      000829 C6 54 2E         [ 1] 1565 	ld	a, 0x542e
+      00082C C7u00u07         [ 1] 1566 	ld	__Data+0, a
+                                   1567 ;	HAL_CAN.c: 645: _Data[1] = CAN->Page.RxFIFO.MDAR2;
+      00082F C6 54 2F         [ 1] 1568 	ld	a, 0x542f
+      000832 C7u00u08         [ 1] 1569 	ld	__Data+1, a
+                                   1570 ;	HAL_CAN.c: 646: _Data[2] = CAN->Page.RxFIFO.MDAR3;
+      000835 C6 54 30         [ 1] 1571 	ld	a, 0x5430
+      000838 C7u00u09         [ 1] 1572 	ld	__Data+2, a
+                                   1573 ;	HAL_CAN.c: 647: _Data[3] = CAN->Page.RxFIFO.MDAR4;
+      00083B C6 54 31         [ 1] 1574 	ld	a, 0x5431
+      00083E C7u00u0A         [ 1] 1575 	ld	__Data+3, a
+                                   1576 ;	HAL_CAN.c: 648: _Data[4] = CAN->Page.RxFIFO.MDAR5;
+      000841 C6 54 32         [ 1] 1577 	ld	a, 0x5432
+      000844 C7u00u0B         [ 1] 1578 	ld	__Data+4, a
+                                   1579 ;	HAL_CAN.c: 649: _Data[5] = CAN->Page.RxFIFO.MDAR6;
+      000847 C6 54 33         [ 1] 1580 	ld	a, 0x5433
+      00084A C7u00u0C         [ 1] 1581 	ld	__Data+5, a
+                                   1582 ;	HAL_CAN.c: 650: _Data[6] = CAN->Page.RxFIFO.MDAR7;
+      00084D C6 54 34         [ 1] 1583 	ld	a, 0x5434
+      000850 C7u00u0D         [ 1] 1584 	ld	__Data+6, a
+                                   1585 ;	HAL_CAN.c: 651: _Data[7] = CAN->Page.RxFIFO.MDAR8;
+      000853 C6 54 35         [ 1] 1586 	ld	a, 0x5435
+      000856 C7u00u0E         [ 1] 1587 	ld	__Data+7, a
+                                   1588 ;	HAL_CAN.c: 654: CAN_FIFORelease();
+      000859 CDr06rD9         [ 4] 1589 	call	_CAN_FIFORelease
+                                   1590 ;	HAL_CAN.c: 656: CAN_SelectPage(can_page);
+      00085C 7B 01            [ 1] 1591 	ld	a, (0x01, sp)
+      00085E 88               [ 1] 1592 	push	a
+      00085F CDr0Cr4B         [ 4] 1593 	call	_CAN_SelectPage
+                                   1594 ;	HAL_CAN.c: 657: }
+      000862 5B 16            [ 2] 1595 	addw	sp, #22
+      000864 81               [ 4] 1596 	ret
+                                   1597 ;	HAL_CAN.c: 659: uint32_t CAN_GetReceivedId(void)
+                                   1598 ;	-----------------------------------------
+                                   1599 ;	 function CAN_GetReceivedId
+                                   1600 ;	-----------------------------------------
+      000865                       1601 _CAN_GetReceivedId:
+                                   1602 ;	HAL_CAN.c: 661: return (_Id);
+      000865 CEu00u02         [ 2] 1603 	ldw	x, __Id+2
+      000868 90 CEu00u00      [ 2] 1604 	ldw	y, __Id+0
+                                   1605 ;	HAL_CAN.c: 662: }
+      00086C 81               [ 4] 1606 	ret
+                                   1607 ;	HAL_CAN.c: 664: CAN_Id_TypeDef CAN_GetReceivedIDE(void)
+                                   1608 ;	-----------------------------------------
+                                   1609 ;	 function CAN_GetReceivedIDE
+                                   1610 ;	-----------------------------------------
+      00086D                       1611 _CAN_GetReceivedIDE:
+                                   1612 ;	HAL_CAN.c: 666: return (CAN_Id_TypeDef)(_IDE);
+      00086D C6u00u04         [ 1] 1613 	ld	a, __IDE+0
+                                   1614 ;	HAL_CAN.c: 667: }
+      000870 81               [ 4] 1615 	ret
+                                   1616 ;	HAL_CAN.c: 669: CAN_RTR_TypeDef CAN_GetReceivedRTR(void)
+                                   1617 ;	-----------------------------------------
+                                   1618 ;	 function CAN_GetReceivedRTR
+                                   1619 ;	-----------------------------------------
+      000871                       1620 _CAN_GetReceivedRTR:
+                                   1621 ;	HAL_CAN.c: 671: return (CAN_RTR_TypeDef)(_RTR);
+      000871 C6u00u05         [ 1] 1622 	ld	a, __RTR+0
+                                   1623 ;	HAL_CAN.c: 672: }
+      000874 81               [ 4] 1624 	ret
+                                   1625 ;	HAL_CAN.c: 674: uint8_t CAN_GetReceivedDLC(void)
+                                   1626 ;	-----------------------------------------
+                                   1627 ;	 function CAN_GetReceivedDLC
+                                   1628 ;	-----------------------------------------
+      000875                       1629 _CAN_GetReceivedDLC:
+                                   1630 ;	HAL_CAN.c: 676: return (_DLC);
+      000875 C6u00u06         [ 1] 1631 	ld	a, __DLC+0
+                                   1632 ;	HAL_CAN.c: 677: }
+      000878 81               [ 4] 1633 	ret
+                                   1634 ;	HAL_CAN.c: 679: uint8_t CAN_GetReceivedData(uint8_t CAN_DataIndex)
+                                   1635 ;	-----------------------------------------
+                                   1636 ;	 function CAN_GetReceivedData
+                                   1637 ;	-----------------------------------------
+      000879                       1638 _CAN_GetReceivedData:
+                                   1639 ;	HAL_CAN.c: 681: return (_Data[CAN_DataIndex]);
+      000879 5F               [ 1] 1640 	clrw	x
+      00087A 7B 03            [ 1] 1641 	ld	a, (0x03, sp)
+      00087C 97               [ 1] 1642 	ld	xl, a
+      00087D 1Cr00r07         [ 2] 1643 	addw	x, #(__Data + 0)
+      000880 F6               [ 1] 1644 	ld	a, (x)
+                                   1645 ;	HAL_CAN.c: 682: }
+      000881 81               [ 4] 1646 	ret
+                                   1647 ;	HAL_CAN.c: 684: uint8_t CAN_GetReceivedFMI(void)
+                                   1648 ;	-----------------------------------------
+                                   1649 ;	 function CAN_GetReceivedFMI
+                                   1650 ;	-----------------------------------------
+      000882                       1651 _CAN_GetReceivedFMI:
+                                   1652 ;	HAL_CAN.c: 686: return (_FMI);
+      000882 C6u00u0F         [ 1] 1653 	ld	a, __FMI+0
+                                   1654 ;	HAL_CAN.c: 687: }
+      000885 81               [ 4] 1655 	ret
+                                   1656 ;	HAL_CAN.c: 689: uint16_t CAN_GetMessageTimeStamp(void)
+                                   1657 ;	-----------------------------------------
+                                   1658 ;	 function CAN_GetMessageTimeStamp
+                                   1659 ;	-----------------------------------------
+      000886                       1660 _CAN_GetMessageTimeStamp:
+      000886 52 02            [ 2] 1661 	sub	sp, #2
+                                   1662 ;	HAL_CAN.c: 692: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      000888 CDr0Cr47         [ 4] 1663 	call	_CAN_GetSelectedPage
+      00088B 90 97            [ 1] 1664 	ld	yl, a
+                                   1665 ;	HAL_CAN.c: 695: CAN->PSR = CAN_Page_RxFifo;
+      00088D 35 07 54 27      [ 1] 1666 	mov	0x5427+0, #0x07
+                                   1667 ;	HAL_CAN.c: 697: timestamp = CAN->Page.RxFIFO.MTSRL;
+      000891 C6 54 36         [ 1] 1668 	ld	a, 0x5436
+      000894 5F               [ 1] 1669 	clrw	x
+      000895 97               [ 1] 1670 	ld	xl, a
+                                   1671 ;	HAL_CAN.c: 698: timestamp |= (uint16_t)(((uint16_t)CAN->Page.RxFIFO.MTSRH) << 8);
+      000896 C6 54 37         [ 1] 1672 	ld	a, 0x5437
+      000899 0F 01            [ 1] 1673 	clr	(0x01, sp)
+      00089B 0F 02            [ 1] 1674 	clr	(0x02, sp)
+      00089D 89               [ 2] 1675 	pushw	x
+      00089E 1A 01            [ 1] 1676 	or	a, (1, sp)
+      0008A0 85               [ 2] 1677 	popw	x
+      0008A1 01               [ 1] 1678 	rrwa	x
+      0008A2 1A 02            [ 1] 1679 	or	a, (0x02, sp)
+      0008A4 97               [ 1] 1680 	ld	xl, a
+                                   1681 ;	HAL_CAN.c: 701: CAN_SelectPage(can_page);
+      0008A5 89               [ 2] 1682 	pushw	x
+      0008A6 90 9F            [ 1] 1683 	ld	a, yl
+      0008A8 88               [ 1] 1684 	push	a
+      0008A9 CDr0Cr4B         [ 4] 1685 	call	_CAN_SelectPage
+      0008AC 84               [ 1] 1686 	pop	a
+      0008AD 85               [ 2] 1687 	popw	x
+                                   1688 ;	HAL_CAN.c: 703: return (uint16_t)(timestamp);
+                                   1689 ;	HAL_CAN.c: 704: }
+      0008AE 5B 02            [ 2] 1690 	addw	sp, #2
+      0008B0 81               [ 4] 1691 	ret
+                                   1692 ;	HAL_CAN.c: 706: CAN_Sleep_TypeDef CAN_Sleep(void)
+                                   1693 ;	-----------------------------------------
+                                   1694 ;	 function CAN_Sleep
+                                   1695 ;	-----------------------------------------
+      0008B1                       1696 _CAN_Sleep:
+                                   1697 ;	HAL_CAN.c: 709: CAN_Sleep_TypeDef sleepstatus = CAN_Sleep_Failed;
+      0008B1 5F               [ 1] 1698 	clrw	x
+                                   1699 ;	HAL_CAN.c: 712: CAN->MCR = (uint8_t)((uint8_t)(CAN->MCR & (uint8_t)(~CAN_MCR_INRQ)) | CAN_MCR_SLEEP);
+      0008B2 C6 54 20         [ 1] 1700 	ld	a, 0x5420
+      0008B5 A4 FE            [ 1] 1701 	and	a, #0xfe
+      0008B7 AA 02            [ 1] 1702 	or	a, #0x02
+      0008B9 C7 54 20         [ 1] 1703 	ld	0x5420, a
+                                   1704 ;	HAL_CAN.c: 715: if ((CAN->MSR & (CAN_MSR_SLAK | CAN_MSR_INAK)) == CAN_MSR_SLAK)
+      0008BC C6 54 21         [ 1] 1705 	ld	a, 0x5421
+      0008BF A4 03            [ 1] 1706 	and	a, #0x03
+                                   1707 ;	HAL_CAN.c: 718: sleepstatus = CAN_Sleep_Ok;
+      0008C1 A0 02            [ 1] 1708 	sub	a, #0x02
+      0008C3 26 02            [ 1] 1709 	jrne	00102$
+      0008C5 4C               [ 1] 1710 	inc	a
+      0008C6 97               [ 1] 1711 	ld	xl, a
+      0008C7                       1712 00102$:
+                                   1713 ;	HAL_CAN.c: 722: return (CAN_Sleep_TypeDef)sleepstatus;
+      0008C7 9F               [ 1] 1714 	ld	a, xl
+                                   1715 ;	HAL_CAN.c: 723: }
+      0008C8 81               [ 4] 1716 	ret
+                                   1717 ;	HAL_CAN.c: 730: CAN_WakeUp_TypeDef CAN_WakeUp(void)
+                                   1718 ;	-----------------------------------------
+                                   1719 ;	 function CAN_WakeUp
+                                   1720 ;	-----------------------------------------
+      0008C9                       1721 _CAN_WakeUp:
+                                   1722 ;	HAL_CAN.c: 732: CAN_WakeUp_TypeDef wakeupstatus = CAN_WakeUp_Failed;
+      0008C9 5F               [ 1] 1723 	clrw	x
+                                   1724 ;	HAL_CAN.c: 735: CAN->MCR &= (uint8_t)(~CAN_MCR_SLEEP);
+      0008CA 72 13 54 20      [ 1] 1725 	bres	21536, #1
+                                   1726 ;	HAL_CAN.c: 738: if ((CAN->MSR & CAN_MSR_SLAK) != CAN_MSR_SLAK)
+      0008CE C6 54 21         [ 1] 1727 	ld	a, 0x5421
+      0008D1 A4 02            [ 1] 1728 	and	a, #0x02
+      0008D3 A1 02            [ 1] 1729 	cp	a, #0x02
+      0008D5 27 03            [ 1] 1730 	jreq	00102$
+                                   1731 ;	HAL_CAN.c: 741: wakeupstatus = CAN_WakeUp_Ok;
+      0008D7 A6 01            [ 1] 1732 	ld	a, #0x01
+      0008D9 97               [ 1] 1733 	ld	xl, a
+      0008DA                       1734 00102$:
+                                   1735 ;	HAL_CAN.c: 745: return (CAN_WakeUp_TypeDef)wakeupstatus;
+      0008DA 9F               [ 1] 1736 	ld	a, xl
+                                   1737 ;	HAL_CAN.c: 746: }
+      0008DB 81               [ 4] 1738 	ret
+                                   1739 ;	HAL_CAN.c: 748: CAN_ModeStatus_TypeDef CAN_OperatingModeRequest(CAN_OperatingMode_TypeDef CAN_OperatingMode)
+                                   1740 ;	-----------------------------------------
+                                   1741 ;	 function CAN_OperatingModeRequest
+                                   1742 ;	-----------------------------------------
+      0008DC                       1743 _CAN_OperatingModeRequest:
+                                   1744 ;	HAL_CAN.c: 754: if (CAN_OperatingMode == CAN_OperatingMode_Initialization)
+      0008DC 0D 03            [ 1] 1745 	tnz	(0x03, sp)
+      0008DE 26 27            [ 1] 1746 	jrne	00129$
+                                   1747 ;	HAL_CAN.c: 757: CAN->MCR = (uint8_t)((uint8_t)(CAN->MCR & (uint8_t)(~CAN_MCR_SLEEP)) | CAN_MCR_INRQ);
+      0008E0 C6 54 20         [ 1] 1748 	ld	a, 0x5420
+      0008E3 A4 FD            [ 1] 1749 	and	a, #0xfd
+      0008E5 AA 01            [ 1] 1750 	or	a, #0x01
+      0008E7 C7 54 20         [ 1] 1751 	ld	0x5420, a
+                                   1752 ;	HAL_CAN.c: 760: while (((CAN->MSR & CAN_MODE_MASK) != CAN_MSR_INAK) && (timeout != 0))
+      0008EA 5F               [ 1] 1753 	clrw	x
+      0008EB 5A               [ 2] 1754 	decw	x
+      0008EC                       1755 00102$:
+      0008EC C6 54 21         [ 1] 1756 	ld	a, 0x5421
+      0008EF A4 03            [ 1] 1757 	and	a, #0x03
+      0008F1 4A               [ 1] 1758 	dec	a
+      0008F2 27 06            [ 1] 1759 	jreq	00104$
+      0008F4 5D               [ 2] 1760 	tnzw	x
+      0008F5 27 03            [ 1] 1761 	jreq	00104$
+                                   1762 ;	HAL_CAN.c: 762: timeout--;
+      0008F7 5A               [ 2] 1763 	decw	x
+      0008F8 20 F2            [ 2] 1764 	jra	00102$
+      0008FA                       1765 00104$:
+                                   1766 ;	HAL_CAN.c: 764: if ((CAN->MSR & CAN_MODE_MASK) != CAN_MSR_INAK)
+      0008FA C6 54 21         [ 1] 1767 	ld	a, 0x5421
+      0008FD A4 03            [ 1] 1768 	and	a, #0x03
+      0008FF 4A               [ 1] 1769 	dec	a
+      000900 27 02            [ 1] 1770 	jreq	00106$
+                                   1771 ;	HAL_CAN.c: 766: modestatus = CAN_ModeStatus_Failed;
+      000902 4F               [ 1] 1772 	clr	a
+      000903 81               [ 4] 1773 	ret
+      000904                       1774 00106$:
+                                   1775 ;	HAL_CAN.c: 770: modestatus = CAN_ModeStatus_Success;
+      000904 A6 01            [ 1] 1776 	ld	a, #0x01
+      000906 81               [ 4] 1777 	ret
+      000907                       1778 00129$:
+                                   1779 ;	HAL_CAN.c: 774: else  if (CAN_OperatingMode == CAN_OperatingMode_Normal)
+      000907 7B 03            [ 1] 1780 	ld	a, (0x03, sp)
+      000909 4A               [ 1] 1781 	dec	a
+      00090A 26 23            [ 1] 1782 	jrne	00126$
+                                   1783 ;	HAL_CAN.c: 777: CAN->MCR &= (uint8_t)(~(CAN_MCR_SLEEP | CAN_MCR_INRQ));
+      00090C C6 54 20         [ 1] 1784 	ld	a, 0x5420
+      00090F A4 FC            [ 1] 1785 	and	a, #0xfc
+      000911 C7 54 20         [ 1] 1786 	ld	0x5420, a
+                                   1787 ;	HAL_CAN.c: 780: while (((CAN->MSR & CAN_MODE_MASK) != 0) && (timeout != 0))
+      000914 5F               [ 1] 1788 	clrw	x
+      000915 5A               [ 2] 1789 	decw	x
+      000916                       1790 00109$:
+      000916 C6 54 21         [ 1] 1791 	ld	a, 0x5421
+      000919 A5 03            [ 1] 1792 	bcp	a, #0x03
+      00091B 27 06            [ 1] 1793 	jreq	00111$
+      00091D 5D               [ 2] 1794 	tnzw	x
+      00091E 27 03            [ 1] 1795 	jreq	00111$
+                                   1796 ;	HAL_CAN.c: 782: timeout--;
+      000920 5A               [ 2] 1797 	decw	x
+      000921 20 F3            [ 2] 1798 	jra	00109$
+      000923                       1799 00111$:
+                                   1800 ;	HAL_CAN.c: 784: if ((CAN->MSR & CAN_MODE_MASK) != 0)
+      000923 C6 54 21         [ 1] 1801 	ld	a, 0x5421
+      000926 A5 03            [ 1] 1802 	bcp	a, #0x03
+      000928 27 02            [ 1] 1803 	jreq	00113$
+                                   1804 ;	HAL_CAN.c: 786: modestatus = CAN_ModeStatus_Failed;
+      00092A 4F               [ 1] 1805 	clr	a
+      00092B 81               [ 4] 1806 	ret
+      00092C                       1807 00113$:
+                                   1808 ;	HAL_CAN.c: 790: modestatus = CAN_ModeStatus_Success;
+      00092C A6 01            [ 1] 1809 	ld	a, #0x01
+      00092E 81               [ 4] 1810 	ret
+      00092F                       1811 00126$:
+                                   1812 ;	HAL_CAN.c: 793: else  if (CAN_OperatingMode == CAN_OperatingMode_Sleep)
+      00092F 7B 03            [ 1] 1813 	ld	a, (0x03, sp)
+      000931 A1 02            [ 1] 1814 	cp	a, #0x02
+      000933 26 29            [ 1] 1815 	jrne	00123$
+                                   1816 ;	HAL_CAN.c: 796: CAN->MCR = (uint8_t)((uint8_t)(CAN->MCR & (uint8_t)(~CAN_MCR_INRQ)) | CAN_MCR_SLEEP);
+      000935 C6 54 20         [ 1] 1817 	ld	a, 0x5420
+      000938 A4 FE            [ 1] 1818 	and	a, #0xfe
+      00093A AA 02            [ 1] 1819 	or	a, #0x02
+      00093C C7 54 20         [ 1] 1820 	ld	0x5420, a
+                                   1821 ;	HAL_CAN.c: 799: while (((CAN->MSR & CAN_MODE_MASK) != CAN_MSR_SLAK) && (timeout != 0))
+      00093F 5F               [ 1] 1822 	clrw	x
+      000940 5A               [ 2] 1823 	decw	x
+      000941                       1824 00116$:
+      000941 C6 54 21         [ 1] 1825 	ld	a, 0x5421
+      000944 A4 03            [ 1] 1826 	and	a, #0x03
+      000946 A1 02            [ 1] 1827 	cp	a, #0x02
+      000948 27 06            [ 1] 1828 	jreq	00118$
+      00094A 5D               [ 2] 1829 	tnzw	x
+      00094B 27 03            [ 1] 1830 	jreq	00118$
+                                   1831 ;	HAL_CAN.c: 801: timeout--;
+      00094D 5A               [ 2] 1832 	decw	x
+      00094E 20 F1            [ 2] 1833 	jra	00116$
+      000950                       1834 00118$:
+                                   1835 ;	HAL_CAN.c: 803: if ((CAN->MSR & CAN_MODE_MASK) != CAN_MSR_SLAK)
+      000950 C6 54 21         [ 1] 1836 	ld	a, 0x5421
+      000953 A4 03            [ 1] 1837 	and	a, #0x03
+      000955 A1 02            [ 1] 1838 	cp	a, #0x02
+      000957 27 02            [ 1] 1839 	jreq	00120$
+                                   1840 ;	HAL_CAN.c: 805: modestatus = CAN_ModeStatus_Failed;
+      000959 4F               [ 1] 1841 	clr	a
+      00095A 81               [ 4] 1842 	ret
+      00095B                       1843 00120$:
+                                   1844 ;	HAL_CAN.c: 809: modestatus = CAN_ModeStatus_Success;
+      00095B A6 01            [ 1] 1845 	ld	a, #0x01
+      00095D 81               [ 4] 1846 	ret
+      00095E                       1847 00123$:
+                                   1848 ;	HAL_CAN.c: 814: modestatus = CAN_ModeStatus_Failed;
+      00095E 4F               [ 1] 1849 	clr	a
+                                   1850 ;	HAL_CAN.c: 816: return (CAN_ModeStatus_TypeDef)(modestatus);
+                                   1851 ;	HAL_CAN.c: 817: }
+      00095F 81               [ 4] 1852 	ret
+                                   1853 ;	HAL_CAN.c: 819: CAN_ErrorCode_TypeDef CAN_GetLastErrorCode(void)
+                                   1854 ;	-----------------------------------------
+                                   1855 ;	 function CAN_GetLastErrorCode
+                                   1856 ;	-----------------------------------------
+      000960                       1857 _CAN_GetLastErrorCode:
+                                   1858 ;	HAL_CAN.c: 822: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      000960 CDr0Cr47         [ 4] 1859 	call	_CAN_GetSelectedPage
+      000963 97               [ 1] 1860 	ld	xl, a
+                                   1861 ;	HAL_CAN.c: 824: CAN->PSR = CAN_Page_Config;
+      000964 35 06 54 27      [ 1] 1862 	mov	0x5427+0, #0x06
+                                   1863 ;	HAL_CAN.c: 825: errcode = (CAN_ErrorCode_TypeDef)((CAN->Page.Config.ESR) & (CAN_ESR_LEC));
+      000968 C6 54 28         [ 1] 1864 	ld	a, 0x5428
+      00096B A4 70            [ 1] 1865 	and	a, #0x70
+                                   1866 ;	HAL_CAN.c: 828: CAN_SelectPage(can_page);
+      00096D 88               [ 1] 1867 	push	a
+      00096E 89               [ 2] 1868 	pushw	x
+      00096F 5B 01            [ 2] 1869 	addw	sp, #1
+      000971 CDr0Cr4B         [ 4] 1870 	call	_CAN_SelectPage
+      000974 84               [ 1] 1871 	pop	a
+      000975 84               [ 1] 1872 	pop	a
+                                   1873 ;	HAL_CAN.c: 830: return (CAN_ErrorCode_TypeDef)(errcode);
+                                   1874 ;	HAL_CAN.c: 831: }
+      000976 81               [ 4] 1875 	ret
+                                   1876 ;	HAL_CAN.c: 833: void CAN_ClearFlag(CAN_FLAG_TypeDef CAN_Flag)
+                                   1877 ;	-----------------------------------------
+                                   1878 ;	 function CAN_ClearFlag
+                                   1879 ;	-----------------------------------------
+      000977                       1880 _CAN_ClearFlag:
+      000977 52 02            [ 2] 1881 	sub	sp, #2
+                                   1882 ;	HAL_CAN.c: 836: if (((uint16_t)CAN_Flag & 0x0700) != 0)
+      000979 1E 05            [ 2] 1883 	ldw	x, (0x05, sp)
+      00097B 9E               [ 1] 1884 	ld	a, xh
+      00097C A5 07            [ 1] 1885 	bcp	a, #0x07
+      00097E 27 2C            [ 1] 1886 	jreq	00108$
+                                   1887 ;	HAL_CAN.c: 841: CAN->RFR = (uint8_t)(CAN_Flag);
+      000980 9F               [ 1] 1888 	ld	a, xl
+                                   1889 ;	HAL_CAN.c: 838: if (((uint16_t)CAN_Flag & 0x020B) != 0)
+      000981 88               [ 1] 1890 	push	a
+      000982 9F               [ 1] 1891 	ld	a, xl
+      000983 A4 0B            [ 1] 1892 	and	a, #0x0b
+      000985 6B 03            [ 1] 1893 	ld	(0x03, sp), a
+      000987 9E               [ 1] 1894 	ld	a, xh
+      000988 A4 02            [ 1] 1895 	and	a, #0x02
+      00098A 6B 02            [ 1] 1896 	ld	(0x02, sp), a
+      00098C 84               [ 1] 1897 	pop	a
+      00098D 16 01            [ 2] 1898 	ldw	y, (0x01, sp)
+      00098F 27 05            [ 1] 1899 	jreq	00105$
+                                   1900 ;	HAL_CAN.c: 841: CAN->RFR = (uint8_t)(CAN_Flag);
+      000991 C7 54 24         [ 1] 1901 	ld	0x5424, a
+      000994 20 26            [ 2] 1902 	jra	00110$
+      000996                       1903 00105$:
+                                   1904 ;	HAL_CAN.c: 843: else if (((uint16_t)CAN_Flag & 0x0403) != 0)
+      000996 88               [ 1] 1905 	push	a
+      000997 9F               [ 1] 1906 	ld	a, xl
+      000998 A4 03            [ 1] 1907 	and	a, #0x03
+      00099A 02               [ 1] 1908 	rlwa	x
+      00099B A4 04            [ 1] 1909 	and	a, #0x04
+      00099D 95               [ 1] 1910 	ld	xh, a
+      00099E 84               [ 1] 1911 	pop	a
+      00099F 5D               [ 2] 1912 	tnzw	x
+      0009A0 27 05            [ 1] 1913 	jreq	00102$
+                                   1914 ;	HAL_CAN.c: 846: CAN->TSR = (uint8_t)(CAN_Flag);
+      0009A2 C7 54 22         [ 1] 1915 	ld	0x5422, a
+      0009A5 20 15            [ 2] 1916 	jra	00110$
+      0009A7                       1917 00102$:
+                                   1918 ;	HAL_CAN.c: 851: CAN->MSR = (uint8_t)(CAN_Flag);
+      0009A7 C7 54 21         [ 1] 1919 	ld	0x5421, a
+      0009AA 20 10            [ 2] 1920 	jra	00110$
+      0009AC                       1921 00108$:
+                                   1922 ;	HAL_CAN.c: 857: can_page = CAN_GetSelectedPage();
+      0009AC CDr0Cr47         [ 4] 1923 	call	_CAN_GetSelectedPage
+                                   1924 ;	HAL_CAN.c: 860: CAN->PSR = CAN_Page_Config;
+      0009AF 35 06 54 27      [ 1] 1925 	mov	0x5427+0, #0x06
+                                   1926 ;	HAL_CAN.c: 861: CAN->Page.Config.ESR = (uint8_t)0;
+      0009B3 35 00 54 28      [ 1] 1927 	mov	0x5428+0, #0x00
+                                   1928 ;	HAL_CAN.c: 864: CAN_SelectPage(can_page);
+      0009B7 88               [ 1] 1929 	push	a
+      0009B8 CDr0Cr4B         [ 4] 1930 	call	_CAN_SelectPage
+      0009BB 84               [ 1] 1931 	pop	a
+      0009BC                       1932 00110$:
+                                   1933 ;	HAL_CAN.c: 866: }
+      0009BC 5B 02            [ 2] 1934 	addw	sp, #2
+      0009BE 81               [ 4] 1935 	ret
+                                   1936 ;	HAL_CAN.c: 868: uint8_t CAN_GetFlagStatus(CAN_FLAG_TypeDef CAN_Flag)
+                                   1937 ;	-----------------------------------------
+                                   1938 ;	 function CAN_GetFlagStatus
+                                   1939 ;	-----------------------------------------
+      0009BF                       1940 _CAN_GetFlagStatus:
+      0009BF 52 05            [ 2] 1941 	sub	sp, #5
+                                   1942 ;	HAL_CAN.c: 873: if (((uint16_t)CAN_Flag & 0x0700) != 0)
+      0009C1 16 08            [ 2] 1943 	ldw	y, (0x08, sp)
+                                   1944 ;	HAL_CAN.c: 878: if ((CAN->RFR & (uint16_t)CAN_Flag) != 0)
+      0009C3 17 04            [ 2] 1945 	ldw	(0x04, sp), y
+      0009C5 17 01            [ 2] 1946 	ldw	(0x01, sp), y
+                                   1947 ;	HAL_CAN.c: 873: if (((uint16_t)CAN_Flag & 0x0700) != 0)
+      0009C7 7B 04            [ 1] 1948 	ld	a, (0x04, sp)
+      0009C9 A5 07            [ 1] 1949 	bcp	a, #0x07
+      0009CB 27 5F            [ 1] 1950 	jreq	00120$
+                                   1951 ;	HAL_CAN.c: 875: if (((uint16_t)CAN_Flag & 0x020B) != 0)
+      0009CD 7B 05            [ 1] 1952 	ld	a, (0x05, sp)
+      0009CF A4 0B            [ 1] 1953 	and	a, #0x0b
+      0009D1 97               [ 1] 1954 	ld	xl, a
+      0009D2 7B 04            [ 1] 1955 	ld	a, (0x04, sp)
+      0009D4 A4 02            [ 1] 1956 	and	a, #0x02
+      0009D6 95               [ 1] 1957 	ld	xh, a
+      0009D7 5D               [ 2] 1958 	tnzw	x
+      0009D8 27 17            [ 1] 1959 	jreq	00114$
+                                   1960 ;	HAL_CAN.c: 878: if ((CAN->RFR & (uint16_t)CAN_Flag) != 0)
+      0009DA C6 54 24         [ 1] 1961 	ld	a, 0x5424
+      0009DD 5F               [ 1] 1962 	clrw	x
+      0009DE 14 02            [ 1] 1963 	and	a, (0x02, sp)
+      0009E0 02               [ 1] 1964 	rlwa	x
+      0009E1 14 01            [ 1] 1965 	and	a, (0x01, sp)
+      0009E3 95               [ 1] 1966 	ld	xh, a
+      0009E4 5D               [ 2] 1967 	tnzw	x
+      0009E5 27 06            [ 1] 1968 	jreq	00102$
+                                   1969 ;	HAL_CAN.c: 881: bitstatus = 1;
+      0009E7 A6 01            [ 1] 1970 	ld	a, #0x01
+      0009E9 6B 05            [ 1] 1971 	ld	(0x05, sp), a
+      0009EB 20 67            [ 2] 1972 	jra	00121$
+      0009ED                       1973 00102$:
+                                   1974 ;	HAL_CAN.c: 886: bitstatus = 0;
+      0009ED 0F 05            [ 1] 1975 	clr	(0x05, sp)
+      0009EF 20 63            [ 2] 1976 	jra	00121$
+      0009F1                       1977 00114$:
+                                   1978 ;	HAL_CAN.c: 890: else if (((uint16_t)CAN_Flag & 0x0403) != 0)
+      0009F1 7B 05            [ 1] 1979 	ld	a, (0x05, sp)
+      0009F3 A4 03            [ 1] 1980 	and	a, #0x03
+      0009F5 97               [ 1] 1981 	ld	xl, a
+      0009F6 7B 04            [ 1] 1982 	ld	a, (0x04, sp)
+      0009F8 A4 04            [ 1] 1983 	and	a, #0x04
+      0009FA 95               [ 1] 1984 	ld	xh, a
+      0009FB 5D               [ 2] 1985 	tnzw	x
+      0009FC 27 17            [ 1] 1986 	jreq	00111$
+                                   1987 ;	HAL_CAN.c: 893: if ((CAN->TSR & (uint16_t)CAN_Flag) != 0)
+      0009FE C6 54 22         [ 1] 1988 	ld	a, 0x5422
+      000A01 5F               [ 1] 1989 	clrw	x
+      000A02 14 02            [ 1] 1990 	and	a, (0x02, sp)
+      000A04 02               [ 1] 1991 	rlwa	x
+      000A05 14 01            [ 1] 1992 	and	a, (0x01, sp)
+      000A07 95               [ 1] 1993 	ld	xh, a
+      000A08 5D               [ 2] 1994 	tnzw	x
+      000A09 27 06            [ 1] 1995 	jreq	00105$
+                                   1996 ;	HAL_CAN.c: 896: bitstatus = 1;
+      000A0B A6 01            [ 1] 1997 	ld	a, #0x01
+      000A0D 6B 05            [ 1] 1998 	ld	(0x05, sp), a
+      000A0F 20 43            [ 2] 1999 	jra	00121$
+      000A11                       2000 00105$:
+                                   2001 ;	HAL_CAN.c: 901: bitstatus = 0;
+      000A11 0F 05            [ 1] 2002 	clr	(0x05, sp)
+      000A13 20 3F            [ 2] 2003 	jra	00121$
+      000A15                       2004 00111$:
+                                   2005 ;	HAL_CAN.c: 907: if ((CAN->MSR & (uint16_t)CAN_Flag) != 0)
+      000A15 C6 54 21         [ 1] 2006 	ld	a, 0x5421
+      000A18 5F               [ 1] 2007 	clrw	x
+      000A19 14 02            [ 1] 2008 	and	a, (0x02, sp)
+      000A1B 02               [ 1] 2009 	rlwa	x
+      000A1C 14 01            [ 1] 2010 	and	a, (0x01, sp)
+      000A1E 95               [ 1] 2011 	ld	xh, a
+      000A1F 5D               [ 2] 2012 	tnzw	x
+      000A20 27 06            [ 1] 2013 	jreq	00108$
+                                   2014 ;	HAL_CAN.c: 910: bitstatus = 1;
+      000A22 A6 01            [ 1] 2015 	ld	a, #0x01
+      000A24 6B 05            [ 1] 2016 	ld	(0x05, sp), a
+      000A26 20 2C            [ 2] 2017 	jra	00121$
+      000A28                       2018 00108$:
+                                   2019 ;	HAL_CAN.c: 915: bitstatus = 0;
+      000A28 0F 05            [ 1] 2020 	clr	(0x05, sp)
+      000A2A 20 28            [ 2] 2021 	jra	00121$
+      000A2C                       2022 00120$:
+                                   2023 ;	HAL_CAN.c: 922: can_page = CAN_GetSelectedPage();
+      000A2C CDr0Cr47         [ 4] 2024 	call	_CAN_GetSelectedPage
+      000A2F 6B 03            [ 1] 2025 	ld	(0x03, sp), a
+                                   2026 ;	HAL_CAN.c: 924: CAN->PSR = CAN_Page_Config;
+      000A31 35 06 54 27      [ 1] 2027 	mov	0x5427+0, #0x06
+                                   2028 ;	HAL_CAN.c: 925: if ((CAN->Page.Config.ESR & (uint16_t)CAN_Flag) != 0)
+      000A35 C6 54 28         [ 1] 2029 	ld	a, 0x5428
+      000A38 5F               [ 1] 2030 	clrw	x
+      000A39 14 02            [ 1] 2031 	and	a, (0x02, sp)
+      000A3B 6B 05            [ 1] 2032 	ld	(0x05, sp), a
+      000A3D 9F               [ 1] 2033 	ld	a, xl
+      000A3E 14 01            [ 1] 2034 	and	a, (0x01, sp)
+      000A40 6B 04            [ 1] 2035 	ld	(0x04, sp), a
+      000A42 1E 04            [ 2] 2036 	ldw	x, (0x04, sp)
+      000A44 27 05            [ 1] 2037 	jreq	00117$
+                                   2038 ;	HAL_CAN.c: 928: bitstatus = 1;
+      000A46 A6 01            [ 1] 2039 	ld	a, #0x01
+      000A48 6B 05            [ 1] 2040 	ld	(0x05, sp), a
+                                   2041 ;	HAL_CAN.c: 933: bitstatus = 0;
+      000A4A C5                    2042 	.byte 0xc5
+      000A4B                       2043 00117$:
+      000A4B 0F 05            [ 1] 2044 	clr	(0x05, sp)
+      000A4D                       2045 00118$:
+                                   2046 ;	HAL_CAN.c: 936: CAN_SelectPage(can_page);
+      000A4D 7B 03            [ 1] 2047 	ld	a, (0x03, sp)
+      000A4F 88               [ 1] 2048 	push	a
+      000A50 CDr0Cr4B         [ 4] 2049 	call	_CAN_SelectPage
+      000A53 84               [ 1] 2050 	pop	a
+      000A54                       2051 00121$:
+                                   2052 ;	HAL_CAN.c: 941: return  (uint8_t)bitstatus;
+      000A54 7B 05            [ 1] 2053 	ld	a, (0x05, sp)
+                                   2054 ;	HAL_CAN.c: 942: }
+      000A56 5B 05            [ 2] 2055 	addw	sp, #5
+      000A58 81               [ 4] 2056 	ret
+                                   2057 ;	HAL_CAN.c: 944: uint8_t CAN_GetITStatus(CAN_IT_TypeDef CAN_IT)
+                                   2058 ;	-----------------------------------------
+                                   2059 ;	 function CAN_GetITStatus
+                                   2060 ;	-----------------------------------------
+      000A59                       2061 _CAN_GetITStatus:
+      000A59 52 03            [ 2] 2062 	sub	sp, #3
+                                   2063 ;	HAL_CAN.c: 947: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      000A5B CDr0Cr47         [ 4] 2064 	call	_CAN_GetSelectedPage
+      000A5E 6B 01            [ 1] 2065 	ld	(0x01, sp), a
+                                   2066 ;	HAL_CAN.c: 949: switch (CAN_IT)
+      000A60 16 06            [ 2] 2067 	ldw	y, (0x06, sp)
+      000A62 17 02            [ 2] 2068 	ldw	(0x02, sp), y
+      000A64 93               [ 1] 2069 	ldw	x, y
+      000A65 5A               [ 2] 2070 	decw	x
+      000A66 27 57            [ 1] 2071 	jreq	00101$
+      000A68 1E 02            [ 2] 2072 	ldw	x, (0x02, sp)
+      000A6A A3 00 02         [ 2] 2073 	cpw	x, #0x0002
+      000A6D 27 68            [ 1] 2074 	jreq	00105$
+      000A6F 1E 02            [ 2] 2075 	ldw	x, (0x02, sp)
+      000A71 A3 00 04         [ 2] 2076 	cpw	x, #0x0004
+      000A74 27 7A            [ 1] 2077 	jreq	00109$
+      000A76 1E 02            [ 2] 2078 	ldw	x, (0x02, sp)
+      000A78 A3 00 08         [ 2] 2079 	cpw	x, #0x0008
+      000A7B 26 03            [ 1] 2080 	jrne	00255$
+      000A7D CCr0Br09         [ 2] 2081 	jp	00113$
+      000A80                       2082 00255$:
+      000A80 1E 02            [ 2] 2083 	ldw	x, (0x02, sp)
+      000A82 A3 00 80         [ 2] 2084 	cpw	x, #0x0080
+      000A85 26 03            [ 1] 2085 	jrne	00258$
+      000A87 CCr0Br22         [ 2] 2086 	jp	00117$
+      000A8A                       2087 00258$:
+      000A8A 1E 02            [ 2] 2088 	ldw	x, (0x02, sp)
+      000A8C A3 01 00         [ 2] 2089 	cpw	x, #0x0100
+      000A8F 26 03            [ 1] 2090 	jrne	00261$
+      000A91 CCr0Br52         [ 2] 2091 	jp	00125$
+      000A94                       2092 00261$:
+      000A94 1E 02            [ 2] 2093 	ldw	x, (0x02, sp)
+      000A96 A3 02 00         [ 2] 2094 	cpw	x, #0x0200
+      000A99 26 03            [ 1] 2095 	jrne	00264$
+      000A9B CCr0Br6C         [ 2] 2096 	jp	00129$
+      000A9E                       2097 00264$:
+      000A9E 1E 02            [ 2] 2098 	ldw	x, (0x02, sp)
+      000AA0 A3 04 00         [ 2] 2099 	cpw	x, #0x0400
+      000AA3 26 03            [ 1] 2100 	jrne	00267$
+      000AA5 CCr0Br87         [ 2] 2101 	jp	00133$
+      000AA8                       2102 00267$:
+      000AA8 1E 02            [ 2] 2103 	ldw	x, (0x02, sp)
+      000AAA A3 08 00         [ 2] 2104 	cpw	x, #0x0800
+      000AAD 26 03            [ 1] 2105 	jrne	00270$
+      000AAF CCr0BrA2         [ 2] 2106 	jp	00137$
+      000AB2                       2107 00270$:
+      000AB2 1E 02            [ 2] 2108 	ldw	x, (0x02, sp)
+      000AB4 A3 40 00         [ 2] 2109 	cpw	x, #0x4000
+      000AB7 26 03            [ 1] 2110 	jrne	00273$
+      000AB9 CCr0Br39         [ 2] 2111 	jp	00121$
+      000ABC                       2112 00273$:
+      000ABC CCr0BrBC         [ 2] 2113 	jp	00141$
+                                   2114 ;	HAL_CAN.c: 951: case CAN_IT_TME:
+      000ABF                       2115 00101$:
+                                   2116 ;	HAL_CAN.c: 952: if ((CAN->IER & CAN_IER_TMEIE) != 0)
+      000ABF C6 54 25         [ 1] 2117 	ld	a, 0x5425
+      000AC2 44               [ 1] 2118 	srl	a
+      000AC3 24 0E            [ 1] 2119 	jrnc	00103$
+                                   2120 ;	HAL_CAN.c: 954: pendingbitstatus = CheckITStatus(CAN->TSR, CAN_TSR_RQCP012);
+      000AC5 C6 54 22         [ 1] 2121 	ld	a, 0x5422
+      000AC8 4B 07            [ 1] 2122 	push	#0x07
+      000ACA 88               [ 1] 2123 	push	a
+      000ACB CDr0Cr52         [ 4] 2124 	call	_CheckITStatus
+      000ACE 5B 02            [ 2] 2125 	addw	sp, #2
+      000AD0 CCr0BrBD         [ 2] 2126 	jp	00142$
+      000AD3                       2127 00103$:
+                                   2128 ;	HAL_CAN.c: 958: pendingbitstatus = 0;
+      000AD3 4F               [ 1] 2129 	clr	a
+                                   2130 ;	HAL_CAN.c: 960: break;
+      000AD4 CCr0BrBD         [ 2] 2131 	jp	00142$
+                                   2132 ;	HAL_CAN.c: 962: case CAN_IT_FMP:
+      000AD7                       2133 00105$:
+                                   2134 ;	HAL_CAN.c: 963: if ((CAN->IER & CAN_IER_FMPIE) != 0)
+      000AD7 C6 54 25         [ 1] 2135 	ld	a, 0x5425
+      000ADA A5 02            [ 1] 2136 	bcp	a, #0x02
+      000ADC 27 0E            [ 1] 2137 	jreq	00107$
+                                   2138 ;	HAL_CAN.c: 965: pendingbitstatus = CheckITStatus(CAN->RFR, CAN_RFR_FMP01);
+      000ADE C6 54 24         [ 1] 2139 	ld	a, 0x5424
+      000AE1 4B 03            [ 1] 2140 	push	#0x03
+      000AE3 88               [ 1] 2141 	push	a
+      000AE4 CDr0Cr52         [ 4] 2142 	call	_CheckITStatus
+      000AE7 5B 02            [ 2] 2143 	addw	sp, #2
+      000AE9 CCr0BrBD         [ 2] 2144 	jp	00142$
+      000AEC                       2145 00107$:
+                                   2146 ;	HAL_CAN.c: 969: pendingbitstatus = 0;
+      000AEC 4F               [ 1] 2147 	clr	a
+                                   2148 ;	HAL_CAN.c: 971: break;
+      000AED CCr0BrBD         [ 2] 2149 	jp	00142$
+                                   2150 ;	HAL_CAN.c: 972: case CAN_IT_FF:
+      000AF0                       2151 00109$:
+                                   2152 ;	HAL_CAN.c: 973: if ((CAN->IER & CAN_IER_FFIE) != 0)
+      000AF0 C6 54 25         [ 1] 2153 	ld	a, 0x5425
+      000AF3 A5 04            [ 1] 2154 	bcp	a, #0x04
+      000AF5 27 0E            [ 1] 2155 	jreq	00111$
+                                   2156 ;	HAL_CAN.c: 975: pendingbitstatus = CheckITStatus(CAN->RFR, CAN_RFR_FULL);
+      000AF7 C6 54 24         [ 1] 2157 	ld	a, 0x5424
+      000AFA 4B 08            [ 1] 2158 	push	#0x08
+      000AFC 88               [ 1] 2159 	push	a
+      000AFD CDr0Cr52         [ 4] 2160 	call	_CheckITStatus
+      000B00 5B 02            [ 2] 2161 	addw	sp, #2
+      000B02 CCr0BrBD         [ 2] 2162 	jp	00142$
+      000B05                       2163 00111$:
+                                   2164 ;	HAL_CAN.c: 979: pendingbitstatus = 0;
+      000B05 4F               [ 1] 2165 	clr	a
+                                   2166 ;	HAL_CAN.c: 981: break;
+      000B06 CCr0BrBD         [ 2] 2167 	jp	00142$
+                                   2168 ;	HAL_CAN.c: 982: case CAN_IT_FOV:
+      000B09                       2169 00113$:
+                                   2170 ;	HAL_CAN.c: 983: if ((CAN->IER & CAN_IER_FOVIE) != 0)
+      000B09 C6 54 25         [ 1] 2171 	ld	a, 0x5425
+      000B0C A5 08            [ 1] 2172 	bcp	a, #0x08
+      000B0E 27 0E            [ 1] 2173 	jreq	00115$
+                                   2174 ;	HAL_CAN.c: 985: pendingbitstatus = CheckITStatus(CAN->RFR, CAN_RFR_FOVR);
+      000B10 C6 54 24         [ 1] 2175 	ld	a, 0x5424
+      000B13 4B 10            [ 1] 2176 	push	#0x10
+      000B15 88               [ 1] 2177 	push	a
+      000B16 CDr0Cr52         [ 4] 2178 	call	_CheckITStatus
+      000B19 5B 02            [ 2] 2179 	addw	sp, #2
+      000B1B CCr0BrBD         [ 2] 2180 	jp	00142$
+      000B1E                       2181 00115$:
+                                   2182 ;	HAL_CAN.c: 989: pendingbitstatus = 0;
+      000B1E 4F               [ 1] 2183 	clr	a
+                                   2184 ;	HAL_CAN.c: 991: break;
+      000B1F CCr0BrBD         [ 2] 2185 	jp	00142$
+                                   2186 ;	HAL_CAN.c: 992: case CAN_IT_WKU:
+      000B22                       2187 00117$:
+                                   2188 ;	HAL_CAN.c: 993: if ((CAN->IER & CAN_IER_WKUIE) != 0)
+      000B22 C6 54 25         [ 1] 2189 	ld	a, 0x5425
+      000B25 2A 0E            [ 1] 2190 	jrpl	00119$
+                                   2191 ;	HAL_CAN.c: 995: pendingbitstatus = CheckITStatus(CAN->MSR, CAN_MSR_WKUI);
+      000B27 C6 54 21         [ 1] 2192 	ld	a, 0x5421
+      000B2A 4B 08            [ 1] 2193 	push	#0x08
+      000B2C 88               [ 1] 2194 	push	a
+      000B2D CDr0Cr52         [ 4] 2195 	call	_CheckITStatus
+      000B30 5B 02            [ 2] 2196 	addw	sp, #2
+      000B32 CCr0BrBD         [ 2] 2197 	jp	00142$
+      000B35                       2198 00119$:
+                                   2199 ;	HAL_CAN.c: 999: pendingbitstatus = 0;
+      000B35 4F               [ 1] 2200 	clr	a
+                                   2201 ;	HAL_CAN.c: 1001: break;
+      000B36 CCr0BrBD         [ 2] 2202 	jp	00142$
+                                   2203 ;	HAL_CAN.c: 1003: case CAN_IT_ERR:
+      000B39                       2204 00121$:
+                                   2205 ;	HAL_CAN.c: 1004: CAN->PSR = CAN_Page_Config;
+      000B39 35 06 54 27      [ 1] 2206 	mov	0x5427+0, #0x06
+                                   2207 ;	HAL_CAN.c: 1005: if ((CAN->Page.Config.EIER & CAN_EIER_ERRIE) != 0)
+      000B3D C6 54 29         [ 1] 2208 	ld	a, 0x5429
+      000B40 2A 0D            [ 1] 2209 	jrpl	00123$
+                                   2210 ;	HAL_CAN.c: 1007: pendingbitstatus = CheckITStatus(CAN->Page.Config.ESR, CAN_ESR_EWGF | CAN_ESR_EPVF | CAN_ESR_BOFF | CAN_ESR_LEC);
+      000B42 C6 54 28         [ 1] 2211 	ld	a, 0x5428
+      000B45 4B 77            [ 1] 2212 	push	#0x77
+      000B47 88               [ 1] 2213 	push	a
+      000B48 CDr0Cr52         [ 4] 2214 	call	_CheckITStatus
+      000B4B 5B 02            [ 2] 2215 	addw	sp, #2
+      000B4D 20 6E            [ 2] 2216 	jra	00142$
+      000B4F                       2217 00123$:
+                                   2218 ;	HAL_CAN.c: 1011: pendingbitstatus = 0;
+      000B4F 4F               [ 1] 2219 	clr	a
+                                   2220 ;	HAL_CAN.c: 1013: break;
+      000B50 20 6B            [ 2] 2221 	jra	00142$
+                                   2222 ;	HAL_CAN.c: 1015: case CAN_IT_EWG:
+      000B52                       2223 00125$:
+                                   2224 ;	HAL_CAN.c: 1016: CAN->PSR = CAN_Page_Config;
+      000B52 35 06 54 27      [ 1] 2225 	mov	0x5427+0, #0x06
+                                   2226 ;	HAL_CAN.c: 1017: if ((CAN->Page.Config.EIER & CAN_EIER_EWGIE) != 0)
+      000B56 C6 54 29         [ 1] 2227 	ld	a, 0x5429
+      000B59 44               [ 1] 2228 	srl	a
+      000B5A 24 0D            [ 1] 2229 	jrnc	00127$
+                                   2230 ;	HAL_CAN.c: 1019: pendingbitstatus = CheckITStatus(CAN->Page.Config.ESR, CAN_ESR_EWGF);
+      000B5C C6 54 28         [ 1] 2231 	ld	a, 0x5428
+      000B5F 4B 01            [ 1] 2232 	push	#0x01
+      000B61 88               [ 1] 2233 	push	a
+      000B62 CDr0Cr52         [ 4] 2234 	call	_CheckITStatus
+      000B65 5B 02            [ 2] 2235 	addw	sp, #2
+      000B67 20 54            [ 2] 2236 	jra	00142$
+      000B69                       2237 00127$:
+                                   2238 ;	HAL_CAN.c: 1023: pendingbitstatus = 0;
+      000B69 4F               [ 1] 2239 	clr	a
+                                   2240 ;	HAL_CAN.c: 1025: break;
+      000B6A 20 51            [ 2] 2241 	jra	00142$
+                                   2242 ;	HAL_CAN.c: 1027: case CAN_IT_EPV:
+      000B6C                       2243 00129$:
+                                   2244 ;	HAL_CAN.c: 1028: CAN->PSR = CAN_Page_Config;
+      000B6C 35 06 54 27      [ 1] 2245 	mov	0x5427+0, #0x06
+                                   2246 ;	HAL_CAN.c: 1029: if ((CAN->Page.Config.EIER & CAN_EIER_EPVIE) != 0)
+      000B70 C6 54 29         [ 1] 2247 	ld	a, 0x5429
+      000B73 A5 02            [ 1] 2248 	bcp	a, #0x02
+      000B75 27 0D            [ 1] 2249 	jreq	00131$
+                                   2250 ;	HAL_CAN.c: 1031: pendingbitstatus = CheckITStatus(CAN->Page.Config.ESR, CAN_ESR_EPVF);
+      000B77 C6 54 28         [ 1] 2251 	ld	a, 0x5428
+      000B7A 4B 02            [ 1] 2252 	push	#0x02
+      000B7C 88               [ 1] 2253 	push	a
+      000B7D CDr0Cr52         [ 4] 2254 	call	_CheckITStatus
+      000B80 5B 02            [ 2] 2255 	addw	sp, #2
+      000B82 20 39            [ 2] 2256 	jra	00142$
+      000B84                       2257 00131$:
+                                   2258 ;	HAL_CAN.c: 1035: pendingbitstatus = 0;
+      000B84 4F               [ 1] 2259 	clr	a
+                                   2260 ;	HAL_CAN.c: 1037: break;
+      000B85 20 36            [ 2] 2261 	jra	00142$
+                                   2262 ;	HAL_CAN.c: 1038: case CAN_IT_BOF:
+      000B87                       2263 00133$:
+                                   2264 ;	HAL_CAN.c: 1039: CAN->PSR = CAN_Page_Config;
+      000B87 35 06 54 27      [ 1] 2265 	mov	0x5427+0, #0x06
+                                   2266 ;	HAL_CAN.c: 1040: if ((CAN->Page.Config.EIER & CAN_EIER_BOFIE) != 0)
+      000B8B C6 54 29         [ 1] 2267 	ld	a, 0x5429
+      000B8E A5 04            [ 1] 2268 	bcp	a, #0x04
+      000B90 27 0D            [ 1] 2269 	jreq	00135$
+                                   2270 ;	HAL_CAN.c: 1042: pendingbitstatus = CheckITStatus(CAN->Page.Config.ESR, CAN_ESR_BOFF);
+      000B92 C6 54 28         [ 1] 2271 	ld	a, 0x5428
+      000B95 4B 04            [ 1] 2272 	push	#0x04
+      000B97 88               [ 1] 2273 	push	a
+      000B98 CDr0Cr52         [ 4] 2274 	call	_CheckITStatus
+      000B9B 5B 02            [ 2] 2275 	addw	sp, #2
+      000B9D 20 1E            [ 2] 2276 	jra	00142$
+      000B9F                       2277 00135$:
+                                   2278 ;	HAL_CAN.c: 1046: pendingbitstatus = 0;
+      000B9F 4F               [ 1] 2279 	clr	a
+                                   2280 ;	HAL_CAN.c: 1048: break;
+      000BA0 20 1B            [ 2] 2281 	jra	00142$
+                                   2282 ;	HAL_CAN.c: 1049: case CAN_IT_LEC:
+      000BA2                       2283 00137$:
+                                   2284 ;	HAL_CAN.c: 1050: CAN->PSR = CAN_Page_Config;
+      000BA2 35 06 54 27      [ 1] 2285 	mov	0x5427+0, #0x06
+                                   2286 ;	HAL_CAN.c: 1051: if ((CAN->Page.Config.EIER & CAN_EIER_LECIE) != 0)
+      000BA6 C6 54 29         [ 1] 2287 	ld	a, 0x5429
+      000BA9 A5 10            [ 1] 2288 	bcp	a, #0x10
+      000BAB 27 0D            [ 1] 2289 	jreq	00139$
+                                   2290 ;	HAL_CAN.c: 1053: pendingbitstatus = CheckITStatus(CAN->Page.Config.ESR, CAN_ESR_LEC);
+      000BAD C6 54 28         [ 1] 2291 	ld	a, 0x5428
+      000BB0 4B 70            [ 1] 2292 	push	#0x70
+      000BB2 88               [ 1] 2293 	push	a
+      000BB3 CDr0Cr52         [ 4] 2294 	call	_CheckITStatus
+      000BB6 5B 02            [ 2] 2295 	addw	sp, #2
+      000BB8 20 03            [ 2] 2296 	jra	00142$
+      000BBA                       2297 00139$:
+                                   2298 ;	HAL_CAN.c: 1057: pendingbitstatus = 0;
+      000BBA 4F               [ 1] 2299 	clr	a
+                                   2300 ;	HAL_CAN.c: 1059: break;
+                                   2301 ;	HAL_CAN.c: 1060: default:
+                                   2302 ;	HAL_CAN.c: 1061: pendingbitstatus = 0;
+                                   2303 ;	HAL_CAN.c: 1063: }
+      000BBB 21                    2304 	.byte 0x21
+      000BBC                       2305 00141$:
+      000BBC 4F               [ 1] 2306 	clr	a
+      000BBD                       2307 00142$:
+                                   2308 ;	HAL_CAN.c: 1065: CAN_SelectPage(can_page);
+      000BBD 88               [ 1] 2309 	push	a
+      000BBE 41               [ 1] 2310 	exg	a, xl
+      000BBF 7B 02            [ 1] 2311 	ld	a, (0x02, sp)
+      000BC1 41               [ 1] 2312 	exg	a, xl
+      000BC2 89               [ 2] 2313 	pushw	x
+      000BC3 5B 01            [ 2] 2314 	addw	sp, #1
+      000BC5 CDr0Cr4B         [ 4] 2315 	call	_CAN_SelectPage
+      000BC8 84               [ 1] 2316 	pop	a
+      000BC9 84               [ 1] 2317 	pop	a
+                                   2318 ;	HAL_CAN.c: 1067: return  (uint8_t)pendingbitstatus;
+                                   2319 ;	HAL_CAN.c: 1068: }
+      000BCA 5B 03            [ 2] 2320 	addw	sp, #3
+      000BCC 81               [ 4] 2321 	ret
+                                   2322 ;	HAL_CAN.c: 1070: void CAN_ClearITPendingBit(CAN_IT_TypeDef CAN_IT)
+                                   2323 ;	-----------------------------------------
+                                   2324 ;	 function CAN_ClearITPendingBit
+                                   2325 ;	-----------------------------------------
+      000BCD                       2326 _CAN_ClearITPendingBit:
+                                   2327 ;	HAL_CAN.c: 1072: CAN_Page_TypeDef can_page = CAN_GetSelectedPage();
+      000BCD CDr0Cr47         [ 4] 2328 	call	_CAN_GetSelectedPage
+                                   2329 ;	HAL_CAN.c: 1074: switch (CAN_IT)
+      000BD0 1E 03            [ 2] 2330 	ldw	x, (0x03, sp)
+      000BD2 A3 00 01         [ 2] 2331 	cpw	x, #0x0001
+      000BD5 27 2A            [ 1] 2332 	jreq	00101$
+      000BD7 A3 00 04         [ 2] 2333 	cpw	x, #0x0004
+      000BDA 27 2B            [ 1] 2334 	jreq	00102$
+      000BDC A3 00 08         [ 2] 2335 	cpw	x, #0x0008
+      000BDF 27 2C            [ 1] 2336 	jreq	00103$
+      000BE1 A3 00 80         [ 2] 2337 	cpw	x, #0x0080
+      000BE4 27 2D            [ 1] 2338 	jreq	00104$
+      000BE6 A3 01 00         [ 2] 2339 	cpw	x, #0x0100
+      000BE9 27 3C            [ 1] 2340 	jreq	00106$
+      000BEB A3 02 00         [ 2] 2341 	cpw	x, #0x0200
+      000BEE 27 3D            [ 1] 2342 	jreq	00107$
+      000BF0 A3 04 00         [ 2] 2343 	cpw	x, #0x0400
+      000BF3 27 3E            [ 1] 2344 	jreq	00108$
+      000BF5 A3 08 00         [ 2] 2345 	cpw	x, #0x0800
+      000BF8 27 3F            [ 1] 2346 	jreq	00109$
+      000BFA A3 40 00         [ 2] 2347 	cpw	x, #0x4000
+      000BFD 27 1A            [ 1] 2348 	jreq	00105$
+      000BFF 20 40            [ 2] 2349 	jra	00111$
+                                   2350 ;	HAL_CAN.c: 1076: case CAN_IT_TME:
+      000C01                       2351 00101$:
+                                   2352 ;	HAL_CAN.c: 1077: CAN->TSR = CAN_TSR_RQCP012;/* rc_w1*/
+      000C01 35 07 54 22      [ 1] 2353 	mov	0x5422+0, #0x07
+                                   2354 ;	HAL_CAN.c: 1078: break;
+      000C05 20 3A            [ 2] 2355 	jra	00111$
+                                   2356 ;	HAL_CAN.c: 1080: case CAN_IT_FF:
+      000C07                       2357 00102$:
+                                   2358 ;	HAL_CAN.c: 1081: CAN->RFR = CAN_RFR_FULL; /* rc_w1*/
+      000C07 35 08 54 24      [ 1] 2359 	mov	0x5424+0, #0x08
+                                   2360 ;	HAL_CAN.c: 1082: break;
+      000C0B 20 34            [ 2] 2361 	jra	00111$
+                                   2362 ;	HAL_CAN.c: 1084: case CAN_IT_FOV:
+      000C0D                       2363 00103$:
+                                   2364 ;	HAL_CAN.c: 1085: CAN->RFR = CAN_RFR_FOVR; /* rc_w1*/
+      000C0D 35 10 54 24      [ 1] 2365 	mov	0x5424+0, #0x10
+                                   2366 ;	HAL_CAN.c: 1086: break;
+      000C11 20 2E            [ 2] 2367 	jra	00111$
+                                   2368 ;	HAL_CAN.c: 1088: case CAN_IT_WKU:
+      000C13                       2369 00104$:
+                                   2370 ;	HAL_CAN.c: 1089: CAN->MSR = CAN_MSR_WKUI;  /* rc_w1*/
+      000C13 35 08 54 21      [ 1] 2371 	mov	0x5421+0, #0x08
+                                   2372 ;	HAL_CAN.c: 1090: break;
+      000C17 20 28            [ 2] 2373 	jra	00111$
+                                   2374 ;	HAL_CAN.c: 1092: case CAN_IT_ERR:
+      000C19                       2375 00105$:
+                                   2376 ;	HAL_CAN.c: 1093: CAN->PSR = CAN_Page_Config;
+      000C19 35 06 54 27      [ 1] 2377 	mov	0x5427+0, #0x06
+                                   2378 ;	HAL_CAN.c: 1094: CAN->Page.Config.ESR = (uint8_t)CAN_ESR_RESET_VALUE;
+      000C1D 35 00 54 28      [ 1] 2379 	mov	0x5428+0, #0x00
+                                   2380 ;	HAL_CAN.c: 1095: CAN->MSR = CAN_MSR_ERRI;
+      000C21 35 04 54 21      [ 1] 2381 	mov	0x5421+0, #0x04
+                                   2382 ;	HAL_CAN.c: 1096: break;
+      000C25 20 1A            [ 2] 2383 	jra	00111$
+                                   2384 ;	HAL_CAN.c: 1098: case CAN_IT_EWG:
+      000C27                       2385 00106$:
+                                   2386 ;	HAL_CAN.c: 1099: CAN->MSR = CAN_MSR_ERRI;
+      000C27 35 04 54 21      [ 1] 2387 	mov	0x5421+0, #0x04
+                                   2388 ;	HAL_CAN.c: 1100: break;
+      000C2B 20 14            [ 2] 2389 	jra	00111$
+                                   2390 ;	HAL_CAN.c: 1102: case CAN_IT_EPV:
+      000C2D                       2391 00107$:
+                                   2392 ;	HAL_CAN.c: 1103: CAN->MSR = CAN_MSR_ERRI;
+      000C2D 35 04 54 21      [ 1] 2393 	mov	0x5421+0, #0x04
+                                   2394 ;	HAL_CAN.c: 1104: break;
+      000C31 20 0E            [ 2] 2395 	jra	00111$
+                                   2396 ;	HAL_CAN.c: 1106: case CAN_IT_BOF:
+      000C33                       2397 00108$:
+                                   2398 ;	HAL_CAN.c: 1107: CAN->MSR = CAN_MSR_ERRI;
+      000C33 35 04 54 21      [ 1] 2399 	mov	0x5421+0, #0x04
+                                   2400 ;	HAL_CAN.c: 1108: break;
+      000C37 20 08            [ 2] 2401 	jra	00111$
+                                   2402 ;	HAL_CAN.c: 1110: case CAN_IT_LEC:
+      000C39                       2403 00109$:
+                                   2404 ;	HAL_CAN.c: 1111: CAN->PSR = CAN_Page_Config;
+      000C39 35 06 54 27      [ 1] 2405 	mov	0x5427+0, #0x06
+                                   2406 ;	HAL_CAN.c: 1112: CAN->Page.Config.ESR = (uint8_t)CAN_ESR_RESET_VALUE;
+      000C3D 35 00 54 28      [ 1] 2407 	mov	0x5428+0, #0x00
+                                   2408 ;	HAL_CAN.c: 1119: }
+      000C41                       2409 00111$:
+                                   2410 ;	HAL_CAN.c: 1121: CAN_SelectPage(can_page);
+      000C41 88               [ 1] 2411 	push	a
+      000C42 CDr0Cr4B         [ 4] 2412 	call	_CAN_SelectPage
+      000C45 84               [ 1] 2413 	pop	a
+                                   2414 ;	HAL_CAN.c: 1122: }
+      000C46 81               [ 4] 2415 	ret
+                                   2416 ;	HAL_CAN.c: 1124: CAN_Page_TypeDef CAN_GetSelectedPage(void)
+                                   2417 ;	-----------------------------------------
+                                   2418 ;	 function CAN_GetSelectedPage
+                                   2419 ;	-----------------------------------------
+      000C47                       2420 _CAN_GetSelectedPage:
+                                   2421 ;	HAL_CAN.c: 1126: return (CAN_Page_TypeDef)(CAN->PSR);
+      000C47 C6 54 27         [ 1] 2422 	ld	a, 0x5427
+                                   2423 ;	HAL_CAN.c: 1127: }
+      000C4A 81               [ 4] 2424 	ret
+                                   2425 ;	HAL_CAN.c: 1129: void CAN_SelectPage(CAN_Page_TypeDef CAN_Page)
+                                   2426 ;	-----------------------------------------
+                                   2427 ;	 function CAN_SelectPage
+                                   2428 ;	-----------------------------------------
+      000C4B                       2429 _CAN_SelectPage:
+                                   2430 ;	HAL_CAN.c: 1131: CAN->PSR = (uint8_t)CAN_Page;
+      000C4B AE 54 27         [ 2] 2431 	ldw	x, #0x5427
+      000C4E 7B 03            [ 1] 2432 	ld	a, (0x03, sp)
+      000C50 F7               [ 1] 2433 	ld	(x), a
+                                   2434 ;	HAL_CAN.c: 1132: }
+      000C51 81               [ 4] 2435 	ret
+                                   2436 ;	HAL_CAN.c: 1134: static uint8_t CheckITStatus(uint8_t CAN_Reg, uint8_t It_Bit)
+                                   2437 ;	-----------------------------------------
+                                   2438 ;	 function CheckITStatus
+                                   2439 ;	-----------------------------------------
+      000C52                       2440 _CheckITStatus:
+                                   2441 ;	HAL_CAN.c: 1137: if ((CAN_Reg & It_Bit) != (uint8_t)0)
+      000C52 7B 03            [ 1] 2442 	ld	a, (0x03, sp)
+      000C54 14 04            [ 1] 2443 	and	a, (0x04, sp)
+      000C56 27 03            [ 1] 2444 	jreq	00102$
+                                   2445 ;	HAL_CAN.c: 1140: pendingbitstatus = 1;
+      000C58 A6 01            [ 1] 2446 	ld	a, #0x01
+      000C5A 81               [ 4] 2447 	ret
+      000C5B                       2448 00102$:
+                                   2449 ;	HAL_CAN.c: 1145: pendingbitstatus = 0;
+      000C5B 4F               [ 1] 2450 	clr	a
+                                   2451 ;	HAL_CAN.c: 1147: return (uint8_t)pendingbitstatus;
+                                   2452 ;	HAL_CAN.c: 1148: }
+      000C5C 81               [ 4] 2453 	ret
+                                   2454 	.area CODE
+                                   2455 	.area CONST
+                                   2456 	.area INITIALIZER
+      000000                       2457 __xinit___Id:
+      000000 00 00 00 00           2458 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+      000004                       2459 __xinit___IDE:
+      000004 00                    2460 	.db #0x00	; 0
+      000005                       2461 __xinit___RTR:
+      000005 00                    2462 	.db #0x00	; 0
+      000006                       2463 __xinit___DLC:
+      000006 00                    2464 	.db #0x00	; 0
+      000007                       2465 __xinit___Data:
+      000007 00                    2466 	.db #0x00	; 0
+      000008 00                    2467 	.db 0x00
+      000009 00                    2468 	.db 0x00
+      00000A 00                    2469 	.db 0x00
+      00000B 00                    2470 	.db 0x00
+      00000C 00                    2471 	.db 0x00
+      00000D 00                    2472 	.db 0x00
+      00000E 00                    2473 	.db 0x00
+      00000F                       2474 __xinit___FMI:
+      00000F 00                    2475 	.db #0x00	; 0
+                                   2476 	.area CABS (ABS)
